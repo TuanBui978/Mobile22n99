@@ -24,4 +24,8 @@ class MainActivity : AppCompatActivity() {
             navController.popBackStack()
         }
     }
+
+    fun a() {
+
+    }
 }
