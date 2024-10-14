@@ -10,5 +10,23 @@
     <string name="remember_me">Remember me</string>
     <string name="sign_in">Sign in</string>
     <string name="or">Or</string>
-    <string name="you_don_t_have_an_account_sign_up">You don\'t have an account? <font color = "#A0615F">Sign up</font></string>
+    <string name="you_don_t_have_an_account_sign_up">You don\'t have an account? <font color="#A0615F">Sign up</font></string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="retype_password">Retype password</string>
+    <string name="create_your_account">CREATE YOUR ACCOUNT</string>
+    <string name="you_have_a_account_sign_in">You have a account? <font color="#A0615F">Sign in</font></string>
+    <string name="email_is_empty">Email đang trống</string>
+    <string name="password_is_empty">Mật khẩu đang trống</string>
+    <string name="retype_password_is_empty">Xác nhận mật khẩu đang trống</string>
+    <string name="retype_not_equal_to_password">Mật khẩu không khớp</string>
+    <string name="please_wait_this_may_take_a_moment">Please wait! This may take a moment.</string>
+    <string name="register_false">Đăng kí thất bại</string>
+    <string name="password_is_too_short">Mật khẩu quá ngắn</string>
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="email_already_in_used">Email đã được sử dụng</string>
+    <string name="sign_in_false">Đăng nhập thất bại</string>
+    <string name="email_not_found">Email không tồn tại</string>
+    <string name="account_is_disable">Tài khoản đã bị vô hiệu hoá</string>
+    <string name="email_or_password_is_wrong">Sai tài khoản hoặc mật khẩu</string>
 </resources>

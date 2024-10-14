@@ -22,6 +22,7 @@
         android:gravity="center"
         android:lineHeight="38.4dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         />
     <ImageView
         android:layout_width="144dp"
@@ -46,7 +47,7 @@
         android:layout_marginTop="16dp"
         />
     <EditText
-        android:id="@+id/emailEditTextView"
+        android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
@@ -99,6 +100,7 @@
         />
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineHeight="16.8dp"
