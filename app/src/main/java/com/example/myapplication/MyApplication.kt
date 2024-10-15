@@ -15,6 +15,4 @@ class MyApplication : Application() {
         _userRepository = UserRepositoryImp.getInstance()
     }
 
-
-
 }

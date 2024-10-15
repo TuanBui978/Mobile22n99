@@ -1,6 +1,8 @@
 package com.example.myapplication.presentation.login
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -38,12 +40,19 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels { LoginViewModel.Factory }
 
+    private var email: String? = null
+    private var password: String? = null
+    private var isCheckedRemember = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        val sharedPreferences = requireContext().getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE)
+        email = sharedPreferences.getString("email", "")
+        password = sharedPreferences.getString("password", "")
+        isCheckedRemember = sharedPreferences.getBoolean("rememberMe", false)
     }
 
     override fun onCreateView(
@@ -53,10 +62,25 @@ class LoginFragment : Fragment() {
         val navController = findNavController()
         var passIsNull = true
         var emailIsNull = true
+
         // Inflate the layout for this fragment
         fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
         fragmentLoginBinding.signInButton.isEnabled = false
+
+        fragmentLoginBinding.rememberChecked.isChecked = isCheckedRemember
+
+        if (email!!.isNotEmpty()) {
+            fragmentLoginBinding.emailEditText.setText(email)
+        }
+
+        if (password!!.isNotEmpty()) {
+            fragmentLoginBinding.passwordEditText.setText(password)
+
+            fragmentLoginBinding.signInButton.isEnabled = true
+            fragmentLoginBinding.signInButton.setBackgroundColor(Color.parseColor("#753532"))
+            fragmentLoginBinding.signInButton.setTextColor(Color.parseColor("#F4D6D5"))
+        }
 
         fragmentLoginBinding.registerTextView.setOnClickListener {
             navController.navigate(R.id.login_to_sign_up)
@@ -97,6 +121,8 @@ class LoginFragment : Fragment() {
             val email = fragmentLoginBinding.emailEditText.text.toString()
             val password = fragmentLoginBinding.passwordEditText.text.toString()
             loginViewModel.signIn(email, password)
+
+
         }
         val builder = AlertDialog.Builder(context)
         builder.setView(R.layout.loading_dialog)
@@ -104,13 +130,28 @@ class LoginFragment : Fragment() {
         val progress = builder.create()
         val statusObserver = Observer<InternetResult<User>> {
             status->
+            val isChecked = fragmentLoginBinding.rememberChecked.isChecked
+            val edit = requireContext().getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE).edit()
+            val email = fragmentLoginBinding.emailEditText.text.toString()
+            val password = fragmentLoginBinding.passwordEditText.text.toString()
             when (status) {
                 is InternetResult.Loading -> {
                     progress.show()
                 }
                 is InternetResult.Success -> {
+                    if (isChecked) {
+                        edit.putBoolean("rememberMe", true)
+                        edit.putString("email", email);
+                        edit.putString("password", password);
+                        edit.apply()
+                    }
+                    else {
+                        edit.clear()
+                        edit.commit()
+                    }
                     navController.navigate(R.id.login_to_home)
                     progress.dismiss()
+
                 }
                 is InternetResult.Failed -> {
                     progress.dismiss()
@@ -119,9 +160,10 @@ class LoginFragment : Fragment() {
             }
         }
         loginViewModel.status.observe(viewLifecycleOwner, statusObserver)
-
         return fragmentLoginBinding.root
     }
+
+
 
     companion object {
         /**

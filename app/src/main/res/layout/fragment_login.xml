@@ -119,6 +119,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="13dp">
         <CheckBox
+            android:id="@+id/remember_checked"
             android:layout_width="24dp"
             android:layout_height="24dp"
             />

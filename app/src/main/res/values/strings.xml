@@ -29,4 +29,21 @@
     <string name="email_not_found">Email không tồn tại</string>
     <string name="account_is_disable">Tài khoản đã bị vô hiệu hoá</string>
     <string name="email_or_password_is_wrong">Sai tài khoản hoặc mật khẩu</string>
+    <string name="men_s_clothes">Men\'s Clothes</string>
+    <string name="top">Top</string>
+    <string name="t_shirt">T-Shirt</string>
+    <string name="shirt">Shirt</string>
+    <string name="hoodie">Hoodie</string>
+    <string name="sweater">Sweater</string>
+    <string name="bottom">Bottom</string>
+    <string name="shorts">Shorts</string>
+    <string name="pans">Pans</string>
+    <string name="woman_s_clothes">Woman\'s Clothes</string>
+    <string name="skirts">Skirt</string>
+    <string name="accessory">Accessory</string>
+    <string name="hat">Hat</string>
+    <string name="socks">Socks</string>
+    <string name="tsuki">Tsuki</string>
+    <string name="search_anything">search anything</string>
+    <string name="my_account">My Account</string>
 </resources>
