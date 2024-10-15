@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/men_s_clothes">
+        <menu>
+            <item android:title="@string/top">
+                <menu>
+                    <item android:id="@+id/man_tShirt"
+                        android:title="@string/t_shirt"/>
+                    <item android:id="@+id/man_shirt"
+                        android:title="@string/shirt"/>
+                    <item android:id="@+id/man_hoodie"
+                        android:title="@string/hoodie"/>
+                    <item android:id="@+id/man_sweater"
+                        android:title="@string/sweater"/>
+                </menu>
+            </item>
+            <item android:title="@string/bottom">
+                <menu>
+                    <item android:id="@+id/man_short"
+                        android:title="@string/shorts"/>
+                    <item android:id="@+id/man_pants"
+                        android:title="@string/pans"/>
+                </menu>
+            </item>
+        </menu>
+    </item>
+
+
+    <item android:title="@string/woman_s_clothes">
+        <menu>
+            <item android:title="@string/top">
+                <menu>
+                    <item android:id="@+id/woman_tShirt"
+                        android:title="@string/t_shirt"/>
+                    <item android:id="@+id/woman_shirt"
+                        android:title="@string/shirt"/>
+                    <item android:id="@+id/woman_hoodie"
+                        android:title="@string/hoodie"/>
+                    <item android:id="@+id/woman_sweater"
+                        android:title="@string/sweater"/>
+                </menu>
+            </item>
+            <item android:title="@string/bottom">
+                <menu>
+                    <item android:id="@+id/woman_short"
+                        android:title="@string/shorts"/>
+                    <item android:id="@+id/woman_pants"
+                        android:title="@string/pans"/>
+                    <item android:id="@+id/woman_skirt"
+                        android:title="@string/skirts"/>
+                </menu>
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="@string/accessory">
+        <menu>
+            <item android:id="@+id/hat" android:title="@string/hat"/>
+            <item android:id="@+id/socks" android:title="@string/socks"/>
+
+        </menu>
+    </item>
+
+    <item android:title="@string/my_account" android:icon="@drawable/person" android:iconTint="#753532"/>
+
+</menu>

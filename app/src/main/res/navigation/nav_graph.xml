@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_login"
         >
         <action android:id="@+id/login_to_home"
-            app:destination="@id/homeFragment"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToSaveState="true"/>
 
@@ -23,10 +23,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.myapplication.presentation.home.HomeFragment"
+        android:id="@+id/mainFragment"
+        android:name="com.example.myapplication.presentation.MainFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home"
+        tools:layout="@layout/fragment_main"
         >
 
     </fragment>
@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_sign_up">
 
         <action android:id="@+id/sign_up_to_home"
-            app:destination="@id/homeFragment"
+            app:destination="@id/mainFragment"
             app:popUpToSaveState="true"
             app:popUpTo="@id/homeFragment"/>
 
