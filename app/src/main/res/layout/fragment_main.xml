@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.MainFragment"
+    tools:context=".presentation.mainfragment.MainFragment"
     android:orientation="vertical">
 
     <Toolbar
@@ -92,13 +92,16 @@
         android:layout_height="match_parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
+            android:id="@+id/nav_host_fragment_in_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:navGraph = "@navigation/nav_main_graph"
+            android:name="com.example.myapplication.presentation.home.HomeFragment"
+            app:defaultNavHost="true"
             />
 
+
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:menu="@menu/drawer_menu"

@@ -46,4 +46,5 @@
     <string name="tsuki">Tsuki</string>
     <string name="search_anything">search anything</string>
     <string name="my_account">My Account</string>
+    <string name="log_out">Log out</string>
 </resources>
