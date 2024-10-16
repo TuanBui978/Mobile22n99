@@ -16,6 +16,12 @@ import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImp: UserRepository {
     private val auth = Firebase.auth
+    override suspend fun getCurrentUser(): InternetResult<User> {
+        return when (val result = auth.currentUser) {
+            null -> InternetResult.Failed(Exception())
+            else -> InternetResult.Success(User(result))
+        }
+    }
 
     override suspend fun signIn(context: Context, email: String, password: String): InternetResult<User> {
         return try {
@@ -64,6 +70,10 @@ class UserRepositoryImp: UserRepository {
             InternetResult.Failed(e)
         }
 
+    }
+
+    override fun signOut() {
+        auth.signOut()
     }
 
     companion object {
