@@ -62,5 +62,5 @@
     </item>
 
     <item android:title="@string/my_account" android:icon="@drawable/person" android:iconTint="#753532"/>
-
+    <item android:title="@string/log_out" android:id="@+id/log_out" />
 </menu>
