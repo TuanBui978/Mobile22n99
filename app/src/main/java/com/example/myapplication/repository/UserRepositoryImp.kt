@@ -12,10 +12,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImp: UserRepository {
     private val auth = Firebase.auth
+    private val dataBase = Firebase.firestore
     override suspend fun getCurrentUser(): InternetResult<User> {
         return when (val result = auth.currentUser) {
             null -> InternetResult.Failed(Exception())
@@ -74,6 +78,46 @@ class UserRepositoryImp: UserRepository {
 
     override fun signOut() {
         auth.signOut()
+    }
+
+    override suspend fun addUser(context: Context, user: User): InternetResult<Void> {
+        val uid = user.uid
+        return try {
+            val result = dataBase.collection("users").document(uid!!).set(user).await()
+            InternetResult.Success(null)
+        } catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun removeUser(context: Context, uid: String): InternetResult<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateUser(context: Context, user: User): InternetResult<Void> {
+        val uid = user.uid
+        return try {
+            val result = dataBase.collection("users").document(uid!!).set(user, SetOptions.merge()).await()
+            InternetResult.Success(null)
+        } catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun getUser(context: Context, uid: String): InternetResult<User> {
+        return try {
+            val result = dataBase.collection("users").document(uid).get().await()
+            if (result.exists()) {
+                val data = result.toObject(User::class.java)
+                return InternetResult.Success(data)
+            }
+            else {
+                return InternetResult.Failed(Exception(context.getString(R.string.empty_user_info)))
+            }
+        }
+        catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
     }
 
     companion object {

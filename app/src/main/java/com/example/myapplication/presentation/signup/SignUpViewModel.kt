@@ -12,14 +12,14 @@ import com.example.myapplication.MyApplication
 import com.example.myapplication.R
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
+import com.example.myapplication.repository.UserRepository
 import com.example.myapplication.repository.UserRepositoryImp
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(private val application: MyApplication) : ViewModel() {
+class SignUpViewModel(private val application: MyApplication, private val repository: UserRepository) : ViewModel() {
 
     private var _status = MutableLiveData<InternetResult<User>>()
 
-    private val repository = application.userRepository
     val status
         get() = _status
     fun signUp(email: String, password: String, retypePassword: String)  {
@@ -53,7 +53,8 @@ class SignUpViewModel(private val application: MyApplication) : ViewModel() {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                return SignUpViewModel(application) as T
+                val userRepository = checkNotNull(application.userRepository)
+                return SignUpViewModel(application, userRepository) as T
             }
         }
     }
