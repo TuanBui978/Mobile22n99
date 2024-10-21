@@ -14,5 +14,4 @@ class MyApplication : Application() {
         super.onCreate()
         _userRepository = UserRepositoryImp.getInstance()
     }
-
 }

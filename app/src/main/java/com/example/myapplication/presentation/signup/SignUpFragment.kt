@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSignUpBinding
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
+import com.example.myapplication.presentation.mainfragment.MainFragment
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.auth
@@ -35,8 +37,6 @@ class SignUpFragment : Fragment() {
     private var param2: String? = null
 
     private var fragmentSignUpBinding: FragmentSignUpBinding? = null
-
-    private var auth = Firebase.auth
 
     private val viewModel: SignUpViewModel by viewModels { SignUpViewModel.Factory }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,8 @@ class SignUpFragment : Fragment() {
                     progress.show()
                 }
                 is InternetResult.Success -> {
-                    navController.navigate(R.id.sign_up_to_home)
+                    val bundle = bundleOf(MainFragment.USER_PARAM to status.data!!.uid)
+                    navController.navigate(R.id.sign_up_to_home, bundle)
                     progress.dismiss()
                 }
                 is InternetResult.Failed -> {
@@ -79,9 +80,7 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
-
         viewModel.status.observe(viewLifecycleOwner, statusObserver)
-
         fragmentSignUpBinding!!.signUpButton.setOnClickListener{
             val email = fragmentSignUpBinding!!.emailEditTextView.text.toString()
             val password = fragmentSignUpBinding!!.passwordEditText.text.toString()

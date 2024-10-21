@@ -3,6 +3,7 @@ package com.example.myapplication.presentation.mainactivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,6 +12,8 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
+import com.example.myapplication.presentation.home.HomeFragment
+import com.example.myapplication.presentation.mainfragment.MainFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +36,9 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 is InternetResult.Success-> {
-                    navController!!.navigate(R.id.loading_to_home)
+                    val user = status.data
+                    val bundle = bundleOf(MainFragment.USER_PARAM to user!!.uid)
+                    navController!!.navigate(R.id.loading_to_home, bundle)
                 }
                 is InternetResult.Failed-> {
                     navController!!.navigate(R.id.loading_to_sign_in)

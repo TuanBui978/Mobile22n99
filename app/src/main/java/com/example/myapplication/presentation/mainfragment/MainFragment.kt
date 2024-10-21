@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -15,6 +16,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.model.User
+import com.example.myapplication.presentation.home.HomeFragment
 import com.google.android.material.navigation.NavigationView
 
 /**
@@ -24,7 +27,7 @@ import com.google.android.material.navigation.NavigationView
  */
 class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
+    private var userUid: String? = null
     private var mParam2: String? = null
     private var fragmentMainBinding: FragmentMainBinding? = null
     private val mainFragmentViewModel: MainFragmentViewModel by viewModels { MainFragmentViewModel.Factory }
@@ -33,7 +36,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mParam1 = requireArguments().getString(ARG_PARAM1)
+            userUid = requireArguments().getString(USER_PARAM)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
     }
@@ -45,18 +48,16 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         // Inflate the layout for this fragment
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
         val fragmentTransaction = childFragmentManager.beginTransaction()
-        navHostFragment = NavHostFragment.create(R.navigation.nav_main_graph)
+        val bundle = bundleOf(USER_PARAM to userUid)
+        navHostFragment = NavHostFragment.create(R.navigation.nav_main_graph, bundle)
         fragmentTransaction.replace(R.id.nav_host_fragment_in_fragment, navHostFragment!!)
         fragmentTransaction.setPrimaryNavigationFragment(navHostFragment)
         fragmentTransaction.commit()
         val navigationView = fragmentMainBinding!!.navigationView
         navigationView.setNavigationItemSelectedListener(this)
         fragmentMainBinding!!.cartButton.setOnClickListener {
-            if (navController!!.currentDestination?.id != R.id.cartFragment) {
                 navController!!.navigate(R.id.cartFragment)
-            }
         }
-
         return fragmentMainBinding!!.root
     }
 
@@ -65,6 +66,10 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         if (id == R.id.log_out) {
             mainFragmentViewModel.signOut()
             NavHostFragment.findNavController(this).navigate(R.id.sign_out)
+        }
+        if (id == R.id.my_account) {
+            val bundle = bundleOf(USER_PARAM to userUid)
+            navController!!.navigate(R.id.myAccountFragment, bundle)
         }
         return false
     }
@@ -78,7 +83,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private const val ARG_PARAM1 = "param1"
+        const val USER_PARAM = "UserUid"
         private const val ARG_PARAM2 = "param2"
 
         /**
@@ -93,7 +98,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         fun newInstance(param1: String?, param2: String?): MainFragment {
             val fragment = MainFragment()
             val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
+            args.putString(USER_PARAM, param1)
             args.putString(ARG_PARAM2, param2)
             fragment.arguments = args
             return fragment

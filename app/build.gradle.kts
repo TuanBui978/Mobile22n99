@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization")
+
 }
 
 
@@ -72,4 +74,18 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
+    // Add the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-database")
+    // Declare the dependency for the Cloud Firestore library
+    implementation("com.google.firebase:firebase-firestore")
+
+    //extension view
+    //circle image view
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //Kotlin Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+//    classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
 }

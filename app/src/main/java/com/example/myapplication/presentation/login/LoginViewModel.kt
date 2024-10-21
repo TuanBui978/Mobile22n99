@@ -14,9 +14,8 @@ import com.example.myapplication.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val application: MyApplication): ViewModel() {
+class LoginViewModel(private val application: MyApplication, private val userRepository: UserRepository): ViewModel() {
 
-    private val userRepository: UserRepository = application.userRepository
 
     private var _status = MutableLiveData<InternetResult<User>>()
     val status
@@ -34,7 +33,8 @@ class LoginViewModel(private val application: MyApplication): ViewModel() {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                return LoginViewModel(application) as T
+                val userRepository = checkNotNull(application.userRepository)
+                return LoginViewModel(application, userRepository) as T
             }
         }
     }

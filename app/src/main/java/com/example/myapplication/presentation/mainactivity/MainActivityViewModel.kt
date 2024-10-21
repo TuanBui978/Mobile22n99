@@ -9,13 +9,14 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
+import com.example.myapplication.repository.UserRepository
 import com.example.myapplication.repository.UserRepositoryImp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel(private val application: MyApplication): ViewModel() {
+class MainActivityViewModel(private val application: MyApplication, private val userRepository: UserRepository): ViewModel() {
 
-    private val userRepository = UserRepositoryImp.getInstance()
+
 
     private var _currentUser = MutableLiveData<User>()
     val currentUser
@@ -38,7 +39,8 @@ class MainActivityViewModel(private val application: MyApplication): ViewModel()
         val Factory: ViewModelProvider.Factory = object :  ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                return MainActivityViewModel(application) as T
+                val userRepository = checkNotNull(application.userRepository)
+                return MainActivityViewModel(application, userRepository) as T
             }
         }
     }

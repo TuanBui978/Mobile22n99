@@ -47,4 +47,35 @@
     <string name="search_anything">search anything</string>
     <string name="my_account">My Account</string>
     <string name="log_out">Log out</string>
+    <string name="empty_user_info">Người dùng không tồn tại</string>
+    <string name="my_profile">My profile</string>
+    <string name="your_order">Your order</string>
+    <string name="confirming">Confirming</string>
+    <string name="packing">Packing</string>
+    <string name="delivering">Delivering</string>
+    <string name="your_information">Your information</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="unknown">UnKnown</string>
+    <string name="explore_more">Explore more</string>
+    <string name="woman_s_clothers">Woman\'s Clothers</string>
+    <string name="men_s_clothers">Men\'s Clothers</string>
+    <string name="client_services">CLIENT SERVICES</string>
+    <string name="faq">FAQ</string>
+    <string name="contact">Contact</string>
+    <string name="the_house_of_tsuki">THE HOUSE OF Tsuki</string>
+    <string name="legal_terms">Legal Terms</string>
+    <string name="ethics_compliance"><![CDATA[Ethics & compliance]]></string>
+    <string name="follow_us">Follow Us</string>
+    <string name="sitemap">Sitemap</string>
+    <string name="careers">Careers</string>
+    <string name="dior_sustainability">Dior Sustainability</string>
+    <string name="country_region">Country / Region</string>
+    <string name="language">Language</string>
+    <string name="you_have_not_created_a_profile_yet">We can\'t find your profile maybe it not have created or something wrong.</string>
+    <string name="gender">Gender</string>
+    <string name="address">Address</string>
+    <string name="your_address">Your Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="your_phone_number">Your phone number</string>
+
 </resources>

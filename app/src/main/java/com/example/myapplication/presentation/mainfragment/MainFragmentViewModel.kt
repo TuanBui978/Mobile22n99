@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
+import com.example.myapplication.repository.UserRepository
 
-class MainFragmentViewModel(private val application: MyApplication) : ViewModel() {
-
-    private val userRepository = application.userRepository
-
+class MainFragmentViewModel(private val application: MyApplication, private val userRepository: UserRepository) : ViewModel() {
 
     fun signOut() {
         userRepository.signOut()
@@ -20,7 +18,8 @@ class MainFragmentViewModel(private val application: MyApplication) : ViewModel(
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                return MainFragmentViewModel(application) as T
+                val userRepository = checkNotNull(application.userRepository)
+                return MainFragmentViewModel(application, userRepository) as T
             }
         }
 
