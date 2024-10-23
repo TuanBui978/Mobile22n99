@@ -10,10 +10,9 @@
     tools:context=".presentation.login.LoginFragment"
     android:orientation="vertical">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".presentation.home.HomeFragment">
         <FrameLayout
             android:layout_width="match_parent"
@@ -31,14 +30,14 @@
                 android:layout_height="50dp"
                 android:src="@drawable/moon_stars"
                 android:layout_gravity="center_vertical|start"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="-30dp"/>
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/umbrella"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="50dp"/>
         </FrameLayout>
         <FrameLayout
@@ -202,87 +201,8 @@
                 android:layout_height="1dp"
                 android:background="#753532"/>
         </FrameLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:layout_marginTop="1151dp"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
-            <!-- FrameLayout 1 với width = 1/2 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1.2">
-                <!-- FrameLayout 1 với width = 1/2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1.2"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Explore more"
 
-                        android:textStyle="bold"/>
-                </LinearLayout>
 
-                <!-- FrameLayout 2 với width = 1/2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Men's Clothes"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- FrameLayout 2 với width = 1/2 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1">
-                <!-- FrameLayout 1 với width = 1/2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1.4"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Men's Clothes"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <!-- FrameLayout 2 với width = 1/2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Accessory"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1180dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#753532"/>
-        </FrameLayout>
     </FrameLayout>
 
 </ScrollView>
