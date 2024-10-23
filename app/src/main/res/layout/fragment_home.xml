@@ -1,14 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    android:id="@+id/loginFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.home.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.login.LoginFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".presentation.home.HomeFragment">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_marginTop="30dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:src="@drawable/home_1_img"/>
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/moon_stars"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-30dp"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/umbrella"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="50dp"/>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_height="75dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AUTUNN COLLEC"
+                android:layout_gravity="center_horizontal|top"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/hachicro"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="35dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OUT NOW"
+                    android:textSize="40dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:fontFamily="@font/pixelify_sans"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/eco_leaf"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="30dp"/>
+            </FrameLayout>
+        </FrameLayout>
+        <ImageButton
+            android:layout_width="185dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="340dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/check_out_button_img"
+            android:scaleType="fitCenter"
+            android:background="?android:attr/selectableItemBackground"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="360dp"
+                android:layout_marginLeft="220dp"
+                android:src="@drawable/mouse" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="350dp"
+                android:layout_marginLeft="215dp"
+                android:src="@drawable/mouse_click_animate"
+                android:layout_gravity="top"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="430dp"
+            android:background="#F4D6D5">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TODAY’S DISCOUNTS FOR YOU"
+                    android:fontFamily="@font/hachicro"
+                    android:textSize="25dp"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UP TO"
+                    android:fontFamily="@font/hachicro"
+                    android:textSize="35dp"
+                    android:layout_gravity="center_horizontal|bottom"/>
+            </FrameLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/discount_cloud"
+                android:layout_marginTop="55dp"
+                android:layout_gravity="center_horizontal"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="491dp"
+                android:layout_marginTop="180dp"
+                android:padding="20dp">
+                <ImageView
+                    android:layout_width="179dp"
+                    android:layout_height="225dp"
+                    android:src="@drawable/first_img"
+                    android:layout_gravity="top|center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="-90.5dp"/>
+                <ImageView
+                    android:layout_width="179dp"
+                    android:layout_height="225dp"
+                    android:src="@drawable/second_img"
+                    android:layout_gravity="top|center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="90.5dp"/>
+                <ImageView
+                    android:layout_width="179dp"
+                    android:layout_height="225dp"
+                    android:src="@drawable/thirt_img"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="90.5dp"/>
+                <FrameLayout
+                    android:layout_width="170dp"
+                    android:layout_height="225dp"
+                    android:src="@drawable/second_img"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginLeft="-80.5dp">
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="It’s your last chance to\nsave up to 30% off our\nBasics Collection pre-order!"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/pixelify_sans"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="15dp"
+                        android:paddingStart="10dp"/>
 
-</FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click ‘CHECK OUT’ to shop 月.\nSale ends:\nNov. 1st at 11:30pm EST"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/pixelify_sans"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="15dp"
+                        android:paddingStart="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="20dp"/>
+                    <ImageButton
+                        android:layout_width="150dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="340dp"
+                        android:layout_marginLeft="50dp"
+                        android:src="@drawable/second_check_out_button_img"
+                        android:scaleType="fitCenter"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginBottom="25dp"
+                        android:paddingEnd="-5dp"/>
+                </FrameLayout>
+            </FrameLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1150dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#753532"/>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_marginTop="1151dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <!-- FrameLayout 1 với width = 1/2 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1.2">
+                <!-- FrameLayout 1 với width = 1/2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1.2"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Explore more"
+
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- FrameLayout 2 với width = 1/2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Men's Clothes"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- FrameLayout 2 với width = 1/2 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1">
+                <!-- FrameLayout 1 với width = 1/2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1.4"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Men's Clothes"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- FrameLayout 2 với width = 1/2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accessory"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1180dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#753532"/>
+        </FrameLayout>
+    </FrameLayout>
+
+</ScrollView>
