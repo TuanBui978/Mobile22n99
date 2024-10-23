@@ -27,5 +27,12 @@
             android:name="UserUid"
             app:argType="string"
             app:nullable="true" />
+        <action android:id="@+id/add_shop"
+            app:destination="@id/addShopFragment"
+            />
     </fragment>
+    <fragment android:id="@+id/addShopFragment"
+        android:label="fragment_add_shop"
+        android:name="com.example.myapplication.presentation.addshop.AddShopFragment"
+        tools:layout="@layout/fragment_add_shop"/>
 </navigation>
