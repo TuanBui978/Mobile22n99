@@ -88,4 +88,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
 //    classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

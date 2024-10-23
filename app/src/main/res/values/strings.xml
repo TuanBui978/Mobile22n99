@@ -77,5 +77,10 @@
     <string name="your_address">Your Address</string>
     <string name="phone_number">Phone Number</string>
     <string name="your_phone_number">Your phone number</string>
+    <string name="my_shop">My shop</string>
+    <string name="add_your_shop">Add your shop</string>
+    <string name="test_text">Tuan\'s shop</string>
+    <string name="long_test_text">Đây là dòng chữ dài và nó sẽ chạy khi không đủ không gian hiển thị.</string>
+    <string name="something_was_wrong_when_we_try_loading_your_created_shop_please_try_again_now_or_late">Something was wrong when we try loading your created shop. Please try again now or late</string>
 
 </resources>

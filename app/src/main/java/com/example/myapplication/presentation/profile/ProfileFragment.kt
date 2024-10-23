@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.profile
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,12 +11,17 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
+import androidx.core.view.marginBottom
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.adapter.ShopRecycleViewAdapter
 import com.example.myapplication.databinding.EditProfileDialogBinding
 import com.example.myapplication.databinding.FragmentProfilesBinding
 import com.example.myapplication.model.InternetResult
+import com.example.myapplication.model.Shop
 import com.example.myapplication.model.User
 import java.util.zip.Inflater
 import kotlin.math.log
@@ -61,6 +67,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentProfilesBinding = FragmentProfilesBinding.inflate(inflater, container, false)
+        val navController = findNavController()
         profileViewModel.getCurrentUser()
         profileViewModel.currentUserStatus.observe(this.viewLifecycleOwner) {
             status->
@@ -103,10 +110,51 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
         profileViewModel.profileStatus.observe(this.viewLifecycleOwner, observer)
 
         fragmentProfilesBinding.editProfileTextView.setOnClickListener{
             showEditProfileDialog()
+        }
+
+        profileViewModel.shopStatus.observe(this.viewLifecycleOwner) {
+            status->
+            when(status) {
+                is InternetResult.Loading-> {
+                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.VISIBLE
+                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
+                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
+                }
+                is InternetResult.Success-> {
+                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
+                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
+                    fragmentProfilesBinding.shopListLayout.visibility = View.VISIBLE
+                    val shops = status.data!!
+                    val recyclerViewAdapter = ShopRecycleViewAdapter(shops)
+                    val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    fragmentProfilesBinding.shopList.adapter = recyclerViewAdapter
+                    fragmentProfilesBinding.shopList.layoutManager = layoutManager
+                    val param = fragmentProfilesBinding.shopList.layoutParams as ViewGroup.MarginLayoutParams
+                    if (shops.isEmpty()) {
+                        param.bottomMargin = 0
+                    }
+                    else {
+                        param.bottomMargin = 20
+                    }
+                    recyclerViewAdapter.onItemClickListener {
+                        Toast.makeText(requireContext(), "Click", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is InternetResult.Failed->{
+                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
+                    fragmentProfilesBinding.shopWarningTextView.visibility = View.VISIBLE
+                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        fragmentProfilesBinding.addShopButton.setOnClickListener {
+            navController.navigate(R.id.add_shop)
         }
 
         return fragmentProfilesBinding.root
@@ -182,11 +230,13 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         profileViewModel.getProfile(userUid!!)
+        profileViewModel.getShopListByUserId(userUid!!)
     }
 
     override fun onStart() {
         super.onStart()
         profileViewModel.getProfile(userUid!!)
+        profileViewModel.getShopListByUserId(userUid!!)
     }
 
     companion object {
