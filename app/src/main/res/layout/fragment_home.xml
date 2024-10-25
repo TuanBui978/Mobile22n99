@@ -47,9 +47,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AUTUNN COLLEC"
+                android:text="AUTUNN COLLECT"
                 android:layout_gravity="center_horizontal|top"
-                android:textSize="30dp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/hachicro"/>
             <FrameLayout
@@ -62,7 +62,7 @@
                     android:text="OUT NOW"
                     android:textSize="40dp"
                     android:layout_gravity="center_horizontal|bottom"
-                    android:fontFamily="@font/pixelify_sans"/>
+                    />
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -105,8 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TODAY’S DISCOUNTS FOR YOU"
-                    android:fontFamily="@font/hachicro"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:layout_gravity="center_horizontal"/>
                 <TextView
                     android:layout_width="wrap_content"

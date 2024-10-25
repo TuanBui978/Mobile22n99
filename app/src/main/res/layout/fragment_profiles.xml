@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="55dp">
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,8 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="53dp"
-            android:paddingEnd="53dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:gravity="center"
@@ -210,81 +210,81 @@
 
         </FrameLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/my_shop"
-            android:textSize="14sp"
-            android:textFontWeight="600"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="12dp"/>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/my_shop"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textFontWeight="600"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:layout_marginBottom="12dp"/>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:background="#F4D6D5"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:orientation="vertical"
-            >
-            <LinearLayout
-                android:id="@+id/shopLoadingLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:visibility="gone"
-            >
-                <ProgressBar
-                    android:id="@+id/shopProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/please_wait_this_may_take_a_moment"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"/>
-            </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingStart="30dp"-->
+<!--            android:paddingEnd="30dp"-->
+<!--            android:background="#F4D6D5"-->
+<!--            android:paddingTop="6dp"-->
+<!--            android:paddingBottom="6dp"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/shopLoadingLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:visibility="gone"-->
+<!--            >-->
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/shopProgressBar"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/please_wait_this_may_take_a_moment"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_margin="10dp"/>-->
+<!--            </LinearLayout>-->
 
-            <TextView
-                android:id="@+id/shopWarningTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:drawableStartCompat="@drawable/baseline_warning_24"
-                android:paddingStart="40dp"
-                android:paddingEnd="40dp"
-                android:text="@string/something_was_wrong_when_we_try_loading_your_created_shop_please_try_again_now_or_late"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                />
+<!--            <TextView-->
+<!--                android:id="@+id/shopWarningTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:drawableStartCompat="@drawable/baseline_warning_24"-->
+<!--                android:paddingStart="40dp"-->
+<!--                android:paddingEnd="40dp"-->
+<!--                android:text="@string/something_was_wrong_when_we_try_loading_your_created_shop_please_try_again_now_or_late"-->
+<!--                android:gravity="center"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
 
-            <LinearLayout
-                android:id="@+id/shopListLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/shopList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"/>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/addShopButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/dash_button_conner"
-                    android:text="@string/add_your_shop"/>
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/shopListLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/shopList"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="20dp"/>-->
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:id="@+id/addShopButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/dash_button_conner"-->
+<!--                    android:text="@string/add_your_shop"/>-->
+<!--            </LinearLayout>-->
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
 
     </LinearLayout>

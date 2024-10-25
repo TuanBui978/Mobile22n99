@@ -1,11 +1,13 @@
 package com.example.myapplication.presentation.mainfragment
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -58,6 +60,12 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         fragmentMainBinding!!.cartButton.setOnClickListener {
                 navController!!.navigate(R.id.cartFragment)
         }
+        fragmentMainBinding!!.appLabel.setOnClickListener {
+            navController!!.navigate(R.id.homeFragment)
+        }
+        fragmentMainBinding!!.menuButton.setOnClickListener {
+            fragmentMainBinding!!.drawerLayout.openDrawer(GravityCompat.START)
+        }
         return fragmentMainBinding!!.root
     }
 
@@ -71,6 +79,10 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             val bundle = bundleOf(USER_PARAM to userUid)
             navController!!.navigate(R.id.myAccountFragment, bundle)
         }
+        if (id == R.id.admin) {
+            navController!!.navigate(R.id.adminFragment)
+        }
+        fragmentMainBinding!!.drawerLayout.closeDrawer(GravityCompat.START)
         return false
     }
 

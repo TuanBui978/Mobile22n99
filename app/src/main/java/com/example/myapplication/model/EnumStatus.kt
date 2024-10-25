@@ -4,5 +4,6 @@ enum class EnumStatus {
     Confirming,
     Packing,
     Delivering,
-    Done
+    Done,
+    Cancel
 }

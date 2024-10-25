@@ -35,4 +35,9 @@
         android:label="fragment_add_shop"
         android:name="com.example.myapplication.presentation.addshop.AddShopFragment"
         tools:layout="@layout/fragment_add_shop"/>
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.example.myapplication.presentation.admin.AdminFragment"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_admin" />
 </navigation>

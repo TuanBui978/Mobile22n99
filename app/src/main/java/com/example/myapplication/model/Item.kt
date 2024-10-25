@@ -10,8 +10,6 @@ data class Item(var id: String? = null,
                 var size: EnumSize? = null,
                 var count: Int? = null,
                 var price: Long? = null,
-                var shopId: String? = null,
-                var shopName: String? = null,
                 var image: List<String>? = null,
                 var gender: EnumGenderType? = null) {
     companion object {
