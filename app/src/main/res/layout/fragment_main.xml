@@ -98,253 +98,256 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
+
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/nav_host_fragment_in_fragment"
+                android:layout_height="match_parent">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:name="com.example.myapplication.presentation.home.HomeFragment"
-                    app:navGraph="@navigation/nav_main_graph"
-                    app:defaultNavHost="true"
-                    />
+                    android:orientation="vertical">
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    app:dividerColor="#753532"/>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/nav_host_fragment_in_fragment"
+                        android:name="com.example.myapplication.presentation.home.HomeFragment"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
+                        app:defaultNavHost="true"
+                        app:navGraph="@navigation/nav_main_graph" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        app:dividerColor="#753532"/>
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         >
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/explore_more"
-                        android:textSize="14sp"
-                        android:textFontWeight="600"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/men_s_clothers"
-                        android:textSize="11sp"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginEnd="14dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/woman_s_clothers"
-                        android:textSize="11sp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/accessory"
-                        android:textSize="11sp"
-                        android:layout_marginStart="14dp"
-                        />
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-
-
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    app:dividerColor="#753532"
-                    android:layout_marginBottom="16dp"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="30dp">
-                    <ImageView
-                        android:id="@+id/bottom_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bottom_image"
-                        android:contentDescription="@null"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginEnd="32dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/client_service"
-                        tools:viewBindingIgnore="true"
-                        />
-                    <LinearLayout
-                        android:id="@+id/client_service"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        tools:viewBindingIgnore="true"
-                        app:layout_constraintStart_toEndOf="@id/bottom_image"
-                        app:layout_constraintTop_toTopOf="parent"
-
-                        app:layout_constraintEnd_toStartOf="@id/the_house_tsuki">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/client_services"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            android:layout_marginBottom="13dp"
-                            android:textFontWeight="600"/>
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="horizontal"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            >
+
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/contact"
-                                android:textSize="7sp"
-                                tools:ignore="SmallSp"
+                                android:text="@string/explore_more"
+                                android:textSize="14sp"
+                                android:textFontWeight="600"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/men_s_clothers"
+                                android:textSize="11sp"
+                                android:layout_marginStart="14dp"
+                                android:layout_marginEnd="14dp"
                                 />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/faq"
-                                android:textSize="7sp"
-                                tools:ignore="SmallSp"
+                                android:text="@string/woman_s_clothers"
+                                android:textSize="11sp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/accessory"
+                                android:textSize="11sp"
+                                android:layout_marginStart="14dp"
                                 />
                         </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/the_house_tsuki"
-                        android:layout_width="wrap_content"
+                    </HorizontalScrollView>
+
+
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        app:dividerColor="#753532"
+                        android:layout_marginBottom="16dp"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginEnd="13dp"
-                        tools:viewBindingIgnore="true"
-                        app:layout_constraintStart_toEndOf="@id/client_service"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/country_region"
-                        >
-                        <TextView
+                        android:orientation="horizontal"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp">
+                        <ImageView
+                            android:id="@+id/bottom_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/the_house_of_tsuki"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            android:layout_marginBottom="13dp"
-                            android:textFontWeight="600"
-                            android:layout_gravity="center"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/legal_terms"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ethics_compliance"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
+                            android:src="@drawable/bottom_image"
+                            android:contentDescription="@null"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginEnd="32dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/client_service"
+                            tools:viewBindingIgnore="true"
                             />
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/client_service"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/follow_us"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            />
-                        <TextView
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            tools:viewBindingIgnore="true"
+                            app:layout_constraintStart_toEndOf="@id/bottom_image"
+                            app:layout_constraintTop_toTopOf="parent"
+
+                            app:layout_constraintEnd_toStartOf="@id/the_house_tsuki">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/client_services"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                android:layout_marginBottom="13dp"
+                                android:textFontWeight="600"/>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/contact"
+                                    android:textSize="7sp"
+                                    tools:ignore="SmallSp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/faq"
+                                    android:textSize="7sp"
+                                    tools:ignore="SmallSp"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/the_house_tsuki"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dior_sustainability"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            />
-                        <TextView
+                            android:orientation="vertical"
+                            android:layout_marginStart="13dp"
+                            android:layout_marginEnd="13dp"
+                            tools:viewBindingIgnore="true"
+                            app:layout_constraintStart_toEndOf="@id/client_service"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/country_region"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/the_house_of_tsuki"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                android:layout_marginBottom="13dp"
+                                android:textFontWeight="600"
+                                android:layout_gravity="center"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/legal_terms"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ethics_compliance"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/follow_us"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dior_sustainability"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/careers"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sitemap"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/country_region"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/careers"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sitemap"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            />
+                            android:orientation="vertical"
+                            tools:viewBindingIgnore="true"
+                            app:layout_constraintStart_toEndOf="@id/the_house_tsuki"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/country_region"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                android:textFontWeight="600"/>
 
-                    </LinearLayout>
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:layout_width="84dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="14dp"/>
 
-                    <LinearLayout
-                        android:id="@+id/country_region"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        tools:viewBindingIgnore="true"
-                        app:layout_constraintStart_toEndOf="@id/the_house_tsuki"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/country_region"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            android:textFontWeight="600"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/language"
+                                android:textSize="7sp"
+                                tools:ignore="SmallSp"
+                                android:textFontWeight="600"/>
 
-                        <androidx.appcompat.widget.AppCompatSpinner
-                            android:layout_width="84dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="14dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/language"
-                            android:textSize="7sp"
-                            tools:ignore="SmallSp"
-                            android:textFontWeight="600"/>
-
-                        <androidx.appcompat.widget.AppCompatSpinner
-                            android:layout_width="84dp"
-                            android:layout_height="wrap_content"
-                            />
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:layout_width="84dp"
+                                android:layout_height="wrap_content"
+                                />
 
 
 
-                    </LinearLayout>
+                        </LinearLayout>
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
-        </ScrollView>
+            </androidx.core.widget.NestedScrollView>
+
 
 
 

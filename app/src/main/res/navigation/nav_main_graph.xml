@@ -10,7 +10,9 @@
         android:name="com.example.myapplication.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home"
-        />
+
+        >
+    </fragment>
 
     <fragment
         android:id="@+id/cartFragment"
@@ -27,17 +29,31 @@
             android:name="UserUid"
             app:argType="string"
             app:nullable="true" />
-        <action android:id="@+id/add_shop"
-            app:destination="@id/addShopFragment"
-            />
     </fragment>
-    <fragment android:id="@+id/addShopFragment"
-        android:label="fragment_add_shop"
-        android:name="com.example.myapplication.presentation.addshop.AddShopFragment"
-        tools:layout="@layout/fragment_add_shop"/>
     <fragment
         android:id="@+id/adminFragment"
         android:name="com.example.myapplication.presentation.admin.AdminFragment"
         android:label="fragment_admin"
-        tools:layout="@layout/fragment_admin" />
+        tools:layout="@layout/fragment_admin">
+        <action
+            android:id="@+id/action_adminFragment_to_adAllOrderFragment"
+            app:destination="@id/adAllOrderFragment"
+            app:launchSingleTop="true"
+            />
+        <action
+            android:id="@+id/action_adminFragment_to_adAllItemFragment"
+            app:destination="@id/adAllItemFragment"
+            app:launchSingleTop="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/adAllItemFragment"
+        android:name="com.example.myapplication.presentation.admin.allitem.AdAllItemFragment"
+        android:label="fragment_ad_all_item"
+        tools:layout="@layout/fragment_ad_all_item" />
+    <fragment
+        android:id="@+id/adAllOrderFragment"
+        android:name="com.example.myapplication.presentation.admin.allorder.AdAllOrderFragment"
+        android:label="fragment_ad_all_order"
+        tools:layout="@layout/fragment_ad_all_order" />
 </navigation>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="157dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:background="@drawable/item_conner"
+        android:padding="2dp"
+        android:src="@drawable/test__avatar"
+        android:contentDescription="@null"
+        android:layout_marginBottom="8dp"
+        />
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:id="@+id/colorLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@color/black"
+                />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="@string/test_text"
+        android:textSize="20sp"
+        android:textFontWeight="600"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        />
+
+
+</LinearLayout>

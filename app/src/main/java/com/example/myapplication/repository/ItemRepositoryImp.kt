@@ -71,6 +71,8 @@ class ItemRepositoryImp: ItemRepository {
         }
     }
 
+
+
     override suspend fun updateItem(item: Item): InternetResult<Void> {
         return try {
             database.collection(Item.COLLECTION_PATH).document(item.id!!).set(item, SetOptions.merge()).await()

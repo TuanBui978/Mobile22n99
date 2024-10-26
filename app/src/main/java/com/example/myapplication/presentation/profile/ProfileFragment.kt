@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.profile
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,21 +9,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isInvisible
-import androidx.core.view.marginBottom
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
-import com.example.myapplication.adapter.ShopRecycleViewAdapter
 import com.example.myapplication.databinding.EditProfileDialogBinding
 import com.example.myapplication.databinding.FragmentProfilesBinding
 import com.example.myapplication.model.InternetResult
-import com.example.myapplication.model.Shop
 import com.example.myapplication.model.User
-import java.util.zip.Inflater
-import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

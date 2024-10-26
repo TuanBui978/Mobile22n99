@@ -90,5 +90,13 @@
     <string name="shop_s_order">Shop\'s order</string>
     <string name="your_store_currently_has_no_orders_we_ll_update_the_list_as_soon_as_products_are_purchased">Your store currently has no orders. We’ll update the list as soon as products are purchased.</string>
     <string name="admin">Admin</string>
+    <string name="all_item">All item</string>
+    <string name="add_item">Add item</string>
+    <string name="type">Type:</string>
+    <string name="time_span">TimeSpan:</string>
+    <string name="status">Status:</string>
+    <string name="add_order">Add order</string>
+    <string name="all_order">All order</string>
+    <string name="your_store_currently_has_no_products_available_we_will_notify_you_as_soon_as_new_products_become_available">Your store currently has no products available, we will notify you as soon as new products become available.</string>
 
 </resources>

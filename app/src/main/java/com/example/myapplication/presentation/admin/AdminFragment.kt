@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAdminBinding
 import com.example.myapplication.model.InternetResult
@@ -100,6 +102,16 @@ class AdminFragment : Fragment() {
                     fragmentAdminBinding.itemLayout.visibility = View.GONE
                 }
             }
+        }
+
+        val navController = findNavController()
+
+        fragmentAdminBinding.shopItemTextView.setOnClickListener {
+            navController.navigate(R.id.action_adminFragment_to_adAllItemFragment)
+        }
+
+        fragmentAdminBinding.shopOrderTextView.setOnClickListener {
+            navController.navigate(R.id.action_adminFragment_to_adAllOrderFragment)
         }
 
         return fragmentAdminBinding.root
