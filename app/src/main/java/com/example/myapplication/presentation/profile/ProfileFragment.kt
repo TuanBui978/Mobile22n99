@@ -117,45 +117,45 @@ class ProfileFragment : Fragment() {
             showEditProfileDialog()
         }
 
-        profileViewModel.shopStatus.observe(this.viewLifecycleOwner) {
-            status->
-            when(status) {
-                is InternetResult.Loading-> {
-                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.VISIBLE
-                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
-                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
-                }
-                is InternetResult.Success-> {
-                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
-                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
-                    fragmentProfilesBinding.shopListLayout.visibility = View.VISIBLE
-                    val shops = status.data!!
-                    val recyclerViewAdapter = ShopRecycleViewAdapter(shops)
-                    val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    fragmentProfilesBinding.shopList.adapter = recyclerViewAdapter
-                    fragmentProfilesBinding.shopList.layoutManager = layoutManager
-                    val param = fragmentProfilesBinding.shopList.layoutParams as ViewGroup.MarginLayoutParams
-                    if (shops.isEmpty()) {
-                        param.bottomMargin = 0
-                    }
-                    else {
-                        param.bottomMargin = 20
-                    }
-                    recyclerViewAdapter.onItemClickListener {
-                        Toast.makeText(requireContext(), "Click", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                is InternetResult.Failed->{
-                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
-                    fragmentProfilesBinding.shopWarningTextView.visibility = View.VISIBLE
-                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
-                }
-            }
-        }
-
-        fragmentProfilesBinding.addShopButton.setOnClickListener {
-            navController.navigate(R.id.add_shop)
-        }
+//        profileViewModel.shopStatus.observe(this.viewLifecycleOwner) {
+//            status->
+//            when(status) {
+//                is InternetResult.Loading-> {
+//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.VISIBLE
+//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
+//                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
+//                }
+//                is InternetResult.Success-> {
+//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
+//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
+//                    fragmentProfilesBinding.shopListLayout.visibility = View.VISIBLE
+//                    val shops = status.data!!
+//                    val recyclerViewAdapter = ShopRecycleViewAdapter(shops)
+//                    val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+//                    fragmentProfilesBinding.shopList.adapter = recyclerViewAdapter
+//                    fragmentProfilesBinding.shopList.layoutManager = layoutManager
+//                    val param = fragmentProfilesBinding.shopList.layoutParams as ViewGroup.MarginLayoutParams
+//                    if (shops.isEmpty()) {
+//                        param.bottomMargin = 0
+//                    }
+//                    else {
+//                        param.bottomMargin = 20
+//                    }
+//                    recyclerViewAdapter.onItemClickListener {
+//                        Toast.makeText(requireContext(), "Click", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//                is InternetResult.Failed->{
+//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
+//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.VISIBLE
+//                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
+//                }
+//            }
+//        }
+//
+//        fragmentProfilesBinding.addShopButton.setOnClickListener {
+//            navController.navigate(R.id.add_shop)
+//        }
 
         return fragmentProfilesBinding.root
     }
@@ -168,7 +168,7 @@ class ProfileFragment : Fragment() {
         val spinnerArrayAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.gender_spinner_items, R.layout.simple_spinner_item)
         spinnerArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_drop_down_item)
         dialogBinding.genderSpinner.adapter = spinnerArrayAdapter
-        for (i in 0..spinnerArrayAdapter.count) {
+        for (i in 0 until spinnerArrayAdapter.count) {
             if (spinnerArrayAdapter.getItem(i) == gender) {
                 dialogBinding.genderSpinner.setSelection(i)
                 break

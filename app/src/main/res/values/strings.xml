@@ -82,5 +82,13 @@
     <string name="test_text">Tuan\'s shop</string>
     <string name="long_test_text">Đây là dòng chữ dài và nó sẽ chạy khi không đủ không gian hiển thị.</string>
     <string name="something_was_wrong_when_we_try_loading_your_created_shop_please_try_again_now_or_late">Something was wrong when we try loading your created shop. Please try again now or late</string>
+    <string name="shop_items">Shop\'s items</string>
+    <string name="show_all_item">Show all item</string>
+    <string name="add_item_in_shop">Add item in shop</string>
+    <string name="something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late">Something was wrong when we try to loading your data. Please, try again now or some time late.</string>
+    <string name="show_all_order">Show all order</string>
+    <string name="shop_s_order">Shop\'s order</string>
+    <string name="your_store_currently_has_no_orders_we_ll_update_the_list_as_soon_as_products_are_purchased">Your store currently has no orders. We’ll update the list as soon as products are purchased.</string>
+    <string name="admin">Admin</string>
 
 </resources>

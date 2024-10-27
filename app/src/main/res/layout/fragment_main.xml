@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.mainfragment.MainFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <Toolbar
         android:layout_width="match_parent"
@@ -27,17 +28,19 @@
             >
             <ImageButton
                 android:id="@+id/menuButton"
-                android:layout_width="59dp"
-                android:layout_height="24dp"
-                android:src="@drawable/navigation_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/menu_icon"
                 android:contentDescription="@null"
                 android:background="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 />
             
             <TextView
+
                 tools:ignore="true"
                 android:id="@+id/appLabel"
                 android:layout_width="wrap_content"
@@ -46,10 +49,13 @@
                 android:text="@string/tsuki"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:layout_marginStart="3dp"
+                android:layout_marginStart="15dp"
                 app:layout_constraintStart_toEndOf="@id/menuButton"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:drawableLeftCompat="@drawable/small_tsuki_logo"
+                android:drawablePadding="3dp"
+                />
             
             <EditText
                 android:id="@+id/search_bar"
@@ -88,6 +94,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -111,15 +118,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
                     app:dividerColor="#753532"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
                     >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        >
 
 
                     <TextView
@@ -150,9 +162,11 @@
                         android:textSize="11sp"
                         android:layout_marginStart="14dp"
                         />
+                    </LinearLayout>
+                </HorizontalScrollView>
 
 
-                </LinearLayout>
+
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
@@ -164,7 +178,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="30dp">
                     <ImageView
                         android:id="@+id/bottom_image"
                         android:layout_width="wrap_content"

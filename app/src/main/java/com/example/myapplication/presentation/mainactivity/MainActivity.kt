@@ -38,10 +38,21 @@ class MainActivity : AppCompatActivity() {
                 is InternetResult.Success-> {
                     val user = status.data
                     val bundle = bundleOf(MainFragment.USER_PARAM to user!!.uid)
-                    navController!!.navigate(R.id.loading_to_home, bundle)
+                    try {
+                        navController!!.navigate(R.id.loading_to_home, bundle)
+                    }
+                    catch (_: Exception) {
+
+                    }
+
                 }
                 is InternetResult.Failed-> {
-                    navController!!.navigate(R.id.loading_to_sign_in)
+                    try {
+                        navController!!.navigate(R.id.loading_to_sign_in)
+                    }
+                    catch (_: Exception) {
+
+                    }
                 }
             }
         }

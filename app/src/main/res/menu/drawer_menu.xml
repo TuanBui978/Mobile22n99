@@ -3,25 +3,22 @@
     <item android:title="@string/men_s_clothes">
         <menu>
             <item android:title="@string/top">
-                <menu>
-                    <item android:id="@+id/man_tShirt"
-                        android:title="@string/t_shirt"/>
-                    <item android:id="@+id/man_shirt"
-                        android:title="@string/shirt"/>
-                    <item android:id="@+id/man_hoodie"
-                        android:title="@string/hoodie"/>
-                    <item android:id="@+id/man_sweater"
-                        android:title="@string/sweater"/>
-                </menu>
+                <menu/>
             </item>
+                <item android:id="@+id/man_tShirt"
+                    android:title="@string/t_shirt"/>
+                <item android:id="@+id/man_shirt"
+                    android:title="@string/shirt"/>
+                <item android:id="@+id/man_hoodie"
+                    android:title="@string/hoodie"/>
+                <item android:id="@+id/man_sweater"
+                    android:title="@string/sweater"/>
             <item android:title="@string/bottom">
-                <menu>
-                    <item android:id="@+id/man_short"
-                        android:title="@string/shorts"/>
-                    <item android:id="@+id/man_pants"
-                        android:title="@string/pans"/>
-                </menu>
             </item>
+            <item android:id="@+id/man_short"
+                android:title="@string/shorts"/>
+            <item android:id="@+id/man_pants"
+                android:title="@string/pans"/>
         </menu>
     </item>
 
@@ -30,26 +27,29 @@
         <menu>
             <item android:title="@string/top">
                 <menu>
-                    <item android:id="@+id/woman_tShirt"
-                        android:title="@string/t_shirt"/>
-                    <item android:id="@+id/woman_shirt"
-                        android:title="@string/shirt"/>
-                    <item android:id="@+id/woman_hoodie"
-                        android:title="@string/hoodie"/>
-                    <item android:id="@+id/woman_sweater"
-                        android:title="@string/sweater"/>
+
                 </menu>
             </item>
+            <item android:id="@+id/woman_tShirt"
+                android:title="@string/t_shirt"/>
+            <item android:id="@+id/woman_shirt"
+                android:title="@string/shirt"/>
+            <item android:id="@+id/woman_hoodie"
+                android:title="@string/hoodie"/>
+            <item android:id="@+id/woman_sweater"
+                android:title="@string/sweater"/>
             <item android:title="@string/bottom">
                 <menu>
-                    <item android:id="@+id/woman_short"
-                        android:title="@string/shorts"/>
-                    <item android:id="@+id/woman_pants"
-                        android:title="@string/pans"/>
-                    <item android:id="@+id/woman_skirt"
-                        android:title="@string/skirts"/>
+
                 </menu>
             </item>
+            <item android:id="@+id/woman_short"
+                android:title="@string/shorts"/>
+            <item android:id="@+id/woman_pants"
+                android:title="@string/pans"/>
+            <item android:id="@+id/woman_skirt"
+                android:title="@string/skirts"
+                />
         </menu>
     </item>
 
@@ -61,10 +61,15 @@
         </menu>
     </item>
 
+
     <item
         android:id="@+id/my_account"
         android:title="@string/my_account"
         android:icon="@drawable/person"
         android:iconTint="#753532"/>
+    <item android:title="@string/admin"
+        android:id="@+id/admin"
+        />
+
     <item android:title="@string/log_out" android:id="@+id/log_out" />
 </menu>

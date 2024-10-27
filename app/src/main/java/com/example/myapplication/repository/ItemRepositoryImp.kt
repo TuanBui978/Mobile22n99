@@ -60,6 +60,17 @@ class ItemRepositoryImp: ItemRepository {
         }
     }
 
+    override suspend fun getItemWithLimit(limit: Long): InternetResult<List<Item>> {
+        return try {
+            val result = database.collection(Item.COLLECTION_PATH).limit(limit).get().await()
+            val items = result.toObjects(Item::class.java)
+            InternetResult.Success(items)
+        }
+        catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
     override suspend fun updateItem(item: Item): InternetResult<Void> {
         return try {
             database.collection(Item.COLLECTION_PATH).document(item.id!!).set(item, SetOptions.merge()).await()
@@ -77,6 +88,16 @@ class ItemRepositoryImp: ItemRepository {
         }
         catch (e: Exception) {
             InternetResult.Failed(e)
+        }
+    }
+
+    companion object {
+        private var itemRepository: ItemRepositoryImp? = null
+        fun getInstance(): ItemRepositoryImp {
+            if (itemRepository == null) {
+                itemRepository = ItemRepositoryImp()
+            }
+            return itemRepository!!
         }
     }
 
