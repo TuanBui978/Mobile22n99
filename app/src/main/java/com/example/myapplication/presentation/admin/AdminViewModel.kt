@@ -11,17 +11,19 @@ import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Item
 import com.example.myapplication.model.Order
+import com.example.myapplication.model.Product
 import com.example.myapplication.repository.ItemRepository
 import com.example.myapplication.repository.OrderRepository
+import com.example.myapplication.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class AdminViewModel(private val application: MyApplication, private val itemRepository: ItemRepository, private val orderRepository: OrderRepository): ViewModel() {
+class AdminViewModel(private val application: MyApplication, private val productRepository: ProductRepository, private val orderRepository: OrderRepository): ViewModel() {
 
-    private var _itemStatus = MutableLiveData<InternetResult<List<Item>>>()
+    private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
     private var _orderStatus = MutableLiveData<InternetResult<List<Order>>>()
 
-    val itemStatus
-        get() = _itemStatus
+    val productStatus
+        get() = _productStatus
     val orderStatus
         get() = _orderStatus
 
@@ -33,9 +35,9 @@ class AdminViewModel(private val application: MyApplication, private val itemRep
     }
 
     fun getItemWithLimit(limit: Long) {
-        _itemStatus.postValue(InternetResult.Loading)
+        _productStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _itemStatus.postValue(itemRepository.getItemWithLimit(limit))
+            _productStatus.postValue(productRepository.getProductWithLimit(limit))
         }
     }
 
@@ -44,7 +46,7 @@ class AdminViewModel(private val application: MyApplication, private val itemRep
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                val itemRepository = application.itemRepository
+                val itemRepository = application.productRepository
                 val orderRepository = application.orderRepository
                 return AdminViewModel(application, itemRepository, orderRepository) as T
             }

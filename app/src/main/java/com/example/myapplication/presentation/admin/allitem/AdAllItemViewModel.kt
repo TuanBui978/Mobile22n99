@@ -9,18 +9,20 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Item
+import com.example.myapplication.model.Product
 import com.example.myapplication.presentation.admin.allorder.AdAllOrderViewModel
 import com.example.myapplication.repository.ItemRepository
+import com.example.myapplication.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class AdAllItemViewModel(private val application: MyApplication, private val itemRepository: ItemRepository): ViewModel() {
-    private var _itemStatus = MutableLiveData<InternetResult<List<Item>>>()
-    val itemStatus
-        get() = _itemStatus
+class AdAllItemViewModel(private val application: MyApplication, private val productRepository: ProductRepository): ViewModel() {
+    private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
+    val productStatus
+        get() = _productStatus
     fun getAllItem() {
-        _itemStatus.postValue(InternetResult.Loading)
+        _productStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _itemStatus.postValue(itemRepository.getAllItems())
+            _productStatus.postValue(productRepository.getAllProducts())
         }
     }
     companion object {
@@ -28,8 +30,8 @@ class AdAllItemViewModel(private val application: MyApplication, private val ite
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
-                val itemRepository = application.itemRepository
-                return AdAllItemViewModel(application, itemRepository) as T
+                val productRepository = application.productRepository
+                return AdAllItemViewModel(application, productRepository) as T
             }
         }
     }

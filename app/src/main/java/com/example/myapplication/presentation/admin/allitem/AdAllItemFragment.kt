@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAdAllItemBinding
@@ -46,7 +47,7 @@ class AdAllItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentAdAllItemBinding = FragmentAdAllItemBinding.inflate(layoutInflater, container, false)
-        adAllItemViewModel.itemStatus.observe(viewLifecycleOwner) {
+        adAllItemViewModel.productStatus.observe(viewLifecycleOwner) {
             status->
             when (status) {
                 is InternetResult.Loading->{
@@ -74,6 +75,9 @@ class AdAllItemFragment : Fragment() {
                     }
                 }
             }
+        }
+        fragmentAdAllItemBinding.addItemTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_adAllItemFragment_to_addItemFragment)
         }
         adAllItemViewModel.getAllItem()
         return fragmentAdAllItemBinding.root

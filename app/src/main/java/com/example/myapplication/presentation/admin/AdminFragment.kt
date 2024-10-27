@@ -76,7 +76,7 @@ class AdminFragment : Fragment() {
             }
         }
 
-        adminViewModel.itemStatus.observe(viewLifecycleOwner) {
+        adminViewModel.productStatus.observe(viewLifecycleOwner) {
             status->
             when (status) {
                 is InternetResult.Loading->{
@@ -112,6 +112,10 @@ class AdminFragment : Fragment() {
 
         fragmentAdminBinding.shopOrderTextView.setOnClickListener {
             navController.navigate(R.id.action_adminFragment_to_adAllOrderFragment)
+        }
+
+        fragmentAdminBinding.addItemButton.setOnClickListener {
+            navController.navigate(R.id.action_adminFragment_to_addItemFragment)
         }
 
         return fragmentAdminBinding.root

@@ -27,21 +27,21 @@ class ItemRecycleViewAdapter(private var items: List<Item> = listOf()): Adapter<
         return 10
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val viewBinding = holder.viewBinding
-        val item = items[position]
-        val circularProgressDrawable = CircularProgressDrawable(holder.itemView.context)
-        Glide.with(holder.itemView.context).load(items[position].image).placeholder(circularProgressDrawable).error(R.drawable.error_image_photo_icon).into(viewBinding.itemImage)
-        val view = View(holder.itemView.context)
-        val sizeInDp = 14
-        val sizeInPixels = (sizeInDp * holder.itemView.context.resources.displayMetrics.density).toInt()
-        val layoutParams = ViewGroup.LayoutParams(sizeInPixels, sizeInPixels)
-        view.layoutParams = layoutParams
-        view.setBackgroundColor(Color.GREEN)
-        viewBinding.colorLayout.addView(view)
-        viewBinding.itemName.text = item.name
-        holder.itemView.setOnClickListener {
-            this.onClickListener(item)
-        }
+//        val viewBinding = holder.viewBinding
+//        val item = items[position]
+//        val circularProgressDrawable = CircularProgressDrawable(holder.itemView.context)
+//        Glide.with(holder.itemView.context).load(items[position].image).placeholder(circularProgressDrawable).error(R.drawable.error_image_photo_icon).into(viewBinding.itemImage)
+//        val view = View(holder.itemView.context)
+//        val sizeInDp = 14
+//        val sizeInPixels = (sizeInDp * holder.itemView.context.resources.displayMetrics.density).toInt()
+//        val layoutParams = ViewGroup.LayoutParams(sizeInPixels, sizeInPixels)
+//        view.layoutParams = layoutParams
+//        view.setBackgroundColor(Color.GREEN)
+//        viewBinding.colorLayout.addView(view)
+//        viewBinding.itemName.text = item.name
+//        holder.itemView.setOnClickListener {
+//            this.onClickListener(item)
+//        }
     }
 
     fun onItemClickListener(onClickListener: (Item)->Unit) {

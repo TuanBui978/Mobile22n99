@@ -45,15 +45,27 @@
             app:destination="@id/adAllItemFragment"
             app:launchSingleTop="true"
             />
+        <action
+            android:id="@+id/action_adminFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/adAllItemFragment"
         android:name="com.example.myapplication.presentation.admin.allitem.AdAllItemFragment"
         android:label="fragment_ad_all_item"
-        tools:layout="@layout/fragment_ad_all_item" />
+        tools:layout="@layout/fragment_ad_all_item" >
+        <action
+            android:id="@+id/action_adAllItemFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adAllOrderFragment"
         android:name="com.example.myapplication.presentation.admin.allorder.AdAllOrderFragment"
         android:label="fragment_ad_all_order"
         tools:layout="@layout/fragment_ad_all_order" />
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.myapplication.presentation.admin.additem.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" />
 </navigation>

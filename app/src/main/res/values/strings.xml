@@ -98,5 +98,20 @@
     <string name="add_order">Add order</string>
     <string name="all_order">All order</string>
     <string name="your_store_currently_has_no_products_available_we_will_notify_you_as_soon_as_new_products_become_available">Your store currently has no products available, we will notify you as soon as new products become available.</string>
+    <string name="product_name">Product name</string>
+    <string name="your_product_s_name">Your product\'s name</string>
+    <string name="add_product_s_main_image">Add product\'s main image</string>
+    <string name="product_information_image">Product information image</string>
+    <string name="upload_photos">Upload photos</string>
+    <string name="product_type">Product type</string>
+    <string name="your_product_type">Your product\'s type</string>
+    <string name="product_description">Product description</string>
+    <string name="your_product_s_description">Your produc\'s description</string>
+    <string name="for_gender">For gender</string>
+    <string name="product_price">Product price</string>
+    <string name="your_product_s_price">Your product\'s price</string>
+    <string name="add_product">Add product</string>
+    <string name="default_item_number">0</string>
+    <string name="product_variant">Product variant</string>
 
 </resources>
