@@ -6,6 +6,9 @@
     android:maxLines="1"
     android:ellipsize="marquee"
     android:paddingHorizontal="16dp"
+    android:textSize="20sp"
+    android:textFontWeight="600"
+    android:textAlignment="center"
     style="@style/spinner_item_style"
     >
 

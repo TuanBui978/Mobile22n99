@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.myapplication.R
+import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentAdminBinding
 import com.example.myapplication.model.InternetResult
 
@@ -89,12 +90,13 @@ class AdminFragment : Fragment() {
                     fragmentAdminBinding.itemError.visibility = View.GONE
                     fragmentAdminBinding.itemLayout.visibility = View.VISIBLE
                     if (status.data!!.isNotEmpty()) {
+                        val adapter = ProductRecycleViewAdapter(status.data)
+                        fragmentAdminBinding.itemRecycleView.adapter = adapter
                         fragmentAdminBinding.itemRecycleView.visibility = View.VISIBLE
                     }
                     else {
                         fragmentAdminBinding.itemRecycleView.visibility = View.GONE
                     }
-
                 }
                 is InternetResult.Failed->{
                     fragmentAdminBinding.itemLoadingLayout.visibility = View.GONE

@@ -1,13 +1,14 @@
 package com.example.myapplication.model
 
 data class Product(
-    var id: String,
+    var id: String? = null,
     var name: String? = null,
-    var type: EnumType? = null,
-    var items: List<Item>? = null,
-    var image: List<String>? = null,
-    var price: Long? = null,
-    var gender: EnumGenderType? = null,
+    var type: EnumType? = EnumType.TShirt,
+    var items: MutableList<Item> = mutableListOf(),
+    var mainImage: String? = null,
+    var images: MutableList<String> = mutableListOf(),
+    var price: Float? = null,
+    var gender: EnumGenderType? = EnumGenderType.MALE,
     var description: String? = null
 ) {
     companion object {

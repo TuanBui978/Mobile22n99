@@ -1,84 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="3dp">
-        <Spinner
-            android:id="@+id/typeSpinner"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/basic_conner"
+        android:layout_margin="18dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:foreground="@drawable/dash_button_conner">
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_weight="3"
-            android:paddingVertical="12dp"/>
-        <LinearLayout
-            android:id="@+id/colorPicker"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
-            <View
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:background="#ff345678"/>
-            <TextView
+            >
+
+            <Spinner
+                android:id="@+id/sizeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                tools:listitem="@layout/simple_spinner_item"
+                android:focusable="true"
+                android:paddingHorizontal="16dp"
+                />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:dividerColor="@color/black"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="#ff345678"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:maxLines="1"
-                android:ellipsize="marquee"
-                android:scrollHorizontally="true"/>
-        </LinearLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
-            <ImageButton
-                android:id="@+id/addButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:src="@drawable/baseline_remove_circle_outline_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@null" />
+                <ImageButton
+                    android:id="@+id/subButton"
+                    android:layout_width="48dp"
+                    android:layout_height="49dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add_count"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_remove_circle_outline_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+
+                <EditText
+                    android:id="@+id/countEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="@string/default_item_number"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/addButton"
+                    app:layout_constraintStart_toEndOf="@id/subButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:autofillHints="@null"
+                    android:paddingVertical="12dp"
+                    tools:ignore="LabelFor" />
+
+                <ImageButton
+                    android:id="@+id/addButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_add_circle_outline_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/sub_count" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                app:dividerColor="@color/black"/>
+            <View
+                android:id="@+id/colorPicker"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:background="#ff345678"
+                android:layout_margin="5dp" />
 
             <EditText
-                android:id="@+id/countEditText"
-                android:layout_width="0dp"
+                android:id="@+id/colorEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
                 android:gravity="center"
-                android:inputType="number"
-                android:text="@string/default_item_number"
-                android:textSize="25sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/removeButton"
-                app:layout_constraintStart_toEndOf="@id/addButton"
-                app:layout_constraintTop_toTopOf="parent"
-                android:autofillHints="@null" />
-
-            <ImageButton
-                android:id="@+id/removeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:paddingVertical="12dp"
+                android:scrollHorizontally="true"
+                android:text="#ff345678"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginEnd="5dp"
+                tools:ignore="HardcodedText,LabelFor"
+                android:autofillHints="@null"
+                android:inputType="text"
                 android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:src="@drawable/baseline_add_circle_outline_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@null" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:hint="Input hex color"
+                android:textColorHint="@color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 
-</LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="end"
+        app:cardCornerRadius="90dp">
+
+        <ImageButton
+            android:id="@+id/removeButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_close_24"
+            android:foreground="@drawable/round_dash_conner"
+            android:background="@color/white"
+            android:contentDescription="@string/remove_this_variant" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</FrameLayout>

@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.R
-import com.example.myapplication.adapter.ItemRecycleViewAdapter
+import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentAdAllOrderBinding
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.admin.AdminFragment

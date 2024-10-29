@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.arthenica.mobileffmpeg.FFmpeg
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Item
@@ -40,7 +41,6 @@ class AdminViewModel(private val application: MyApplication, private val product
             _productStatus.postValue(productRepository.getProductWithLimit(limit))
         }
     }
-
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")

@@ -113,5 +113,11 @@
     <string name="add_product">Add product</string>
     <string name="default_item_number">0</string>
     <string name="product_variant">Product variant</string>
+    <string name="add_variant">Add variant</string>
+    <string name="add_count">Add count</string>
+    <string name="sub_count">Sub count</string>
+    <string name="remove_this_variant">Remove this variant</string>
+    <string name="you_need_to_fill_in_all_the_information_about_the_product">You need to fill in all the information about the product.</string>
+    <string name="color">color</string>
 
 </resources>

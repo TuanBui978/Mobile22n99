@@ -22,6 +22,7 @@ import androidx.navigation.navOptions
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.helper.checkAndRequestPermission
 import com.example.myapplication.model.User
 import com.example.myapplication.presentation.home.HomeFragment
 import com.google.android.material.navigation.NavigationView
@@ -41,6 +42,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private var navHostFragment: NavHostFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkAndRequestPermission(this)
         if (arguments != null) {
             userUid = requireArguments().getString(USER_PARAM)
             mParam2 = requireArguments().getString(ARG_PARAM2)
