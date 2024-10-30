@@ -22,11 +22,22 @@ class AdminViewModel(private val application: MyApplication, private val product
 
     private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
     private var _orderStatus = MutableLiveData<InternetResult<List<Order>>>()
+    private var _deleteProductStatus = MutableLiveData<InternetResult<Void>>()
 
     val productStatus
         get() = _productStatus
     val orderStatus
         get() = _orderStatus
+    val deleteProductStatus
+        get() = _deleteProductStatus
+
+
+    fun deleteItemWithId(id: String) {
+        _deleteProductStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            _deleteProductStatus.postValue(productRepository.deleteProduct(id))
+        }
+    }
 
     fun getOrderWithLimit(limit: Long) {
         _orderStatus.postValue(InternetResult.Loading)

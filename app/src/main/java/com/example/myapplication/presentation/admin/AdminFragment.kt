@@ -5,13 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.myapplication.R
 import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentAdminBinding
+import com.example.myapplication.decoreration.CustomDecoration
 import com.example.myapplication.model.InternetResult
+import com.example.myapplication.presentation.admin.additem.AdItemDetailFragment
+import com.example.myapplication.presentation.admin.additem.AdItemDetailViewModel
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +41,8 @@ class AdminFragment : Fragment() {
     private val adminViewModel by viewModels<AdminViewModel> { AdminViewModel.Factory }
 
     private lateinit var fragmentAdminBinding: FragmentAdminBinding
+
+    private var position = -1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,18 +102,50 @@ class AdminFragment : Fragment() {
                     fragmentAdminBinding.itemError.visibility = View.GONE
                     fragmentAdminBinding.itemLayout.visibility = View.VISIBLE
                     if (status.data!!.isNotEmpty()) {
-                        val adapter = ProductRecycleViewAdapter(status.data)
+                        val adapter = ProductRecycleViewAdapter(status.data.toMutableList(), requireContext(), R.string.remove)
+                        adapter.onButtonClickListener {
+                            product, pos ->
+                            adminViewModel.deleteItemWithId(product.id!!)
+                            position = pos
+                        }
+                        adapter.onItemClickListener {
+                            val arg = bundleOf(AdItemDetailFragment.PRODUCT_ID to it.id)
+                            findNavController().navigate(R.id.action_adminFragment_to_addItemFragment, arg)
+                        }
                         fragmentAdminBinding.itemRecycleView.adapter = adapter
                         fragmentAdminBinding.itemRecycleView.visibility = View.VISIBLE
                     }
                     else {
                         fragmentAdminBinding.itemRecycleView.visibility = View.GONE
                     }
+
                 }
                 is InternetResult.Failed->{
                     fragmentAdminBinding.itemLoadingLayout.visibility = View.GONE
                     fragmentAdminBinding.itemError.visibility = View.VISIBLE
                     fragmentAdminBinding.itemLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        val loadingDialog = LoadingDialog(requireContext())
+        val errorDialog = ErrorDialog(requireContext())
+        adminViewModel.deleteProductStatus.observe(viewLifecycleOwner) {
+            status->
+            when (status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                    val adapter = fragmentAdminBinding.itemRecycleView.adapter as ProductRecycleViewAdapter
+                    if (position != -1) adapter.deleteItem(position)
+                    position = -1
+                }
+                is InternetResult.Failed->{
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                    position = -1
                 }
             }
         }

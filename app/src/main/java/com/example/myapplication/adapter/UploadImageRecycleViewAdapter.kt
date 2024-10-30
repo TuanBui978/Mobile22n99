@@ -7,10 +7,16 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
+import com.example.myapplication.R
 import com.example.myapplication.databinding.SimpleImageRecyclerViewItemBinding
 
 class UploadImageRecycleViewAdapter(private var images: MutableList<String> = mutableListOf()): Adapter<UploadImageRecycleViewAdapter.UploadImageViewHolder>() {
 
+    fun getImages() : MutableList<String> {
+        return this.images
+    }
 
     class UploadImageViewHolder(val simpleImageRecyclerViewItemBinding: SimpleImageRecyclerViewItemBinding): ViewHolder(simpleImageRecyclerViewItemBinding.root)
 
@@ -24,7 +30,11 @@ class UploadImageRecycleViewAdapter(private var images: MutableList<String> = mu
     }
 
     override fun onBindViewHolder(holder: UploadImageViewHolder, position: Int) {
-        holder.simpleImageRecyclerViewItemBinding.imageView.setImageURI(images[holder.adapterPosition].toUri())
+
+        val loadingDrawable = CircularProgressDrawable(holder.itemView.context)
+        loadingDrawable.start()
+        Glide.with(holder.itemView.context).load(images[holder.adapterPosition]).centerCrop().error(R.drawable.error_image_photo_icon).placeholder(loadingDrawable).into(holder.simpleImageRecyclerViewItemBinding.imageView)
+
         holder.simpleImageRecyclerViewItemBinding.closeButton.setOnClickListener{
             removeImage(holder.adapterPosition)
         }
@@ -38,5 +48,9 @@ class UploadImageRecycleViewAdapter(private var images: MutableList<String> = mu
     private fun removeImage(position: Int) {
         images.removeAt(position)
         notifyItemRemoved(position)
+    }
+    companion object {
+        const val LOCAL = 0
+        const val API = 1
     }
 }

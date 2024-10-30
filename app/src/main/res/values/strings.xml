@@ -119,5 +119,9 @@
     <string name="remove_this_variant">Remove this variant</string>
     <string name="you_need_to_fill_in_all_the_information_about_the_product">You need to fill in all the information about the product.</string>
     <string name="color">color</string>
+    <string name="custom">custom</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="remove">Remove</string>
+    <string name="update_product">UPDATE PRODUCT</string>
 
 </resources>

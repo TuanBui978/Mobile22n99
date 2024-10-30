@@ -47,7 +47,14 @@
             />
         <action
             android:id="@+id/action_adminFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/adItemDetailFragment" >
+            <argument
+                android:name="productId"
+                android:defaultValue="@null"
+                app:nullable="true"
+                app:argType="string"
+                />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/adAllItemFragment"
@@ -56,7 +63,7 @@
         tools:layout="@layout/fragment_ad_all_item" >
         <action
             android:id="@+id/action_adAllItemFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/adItemDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/adAllOrderFragment"
@@ -64,8 +71,8 @@
         android:label="fragment_ad_all_order"
         tools:layout="@layout/fragment_ad_all_order" />
     <fragment
-        android:id="@+id/addItemFragment"
-        android:name="com.example.myapplication.presentation.admin.additem.AddItemFragment"
+        android:id="@+id/adItemDetailFragment"
+        android:name="com.example.myapplication.presentation.admin.additem.AdItemDetailFragment"
         android:label="fragment_add_item"
-        tools:layout="@layout/fragment_add_item" />
+        tools:layout="@layout/fragment_ad_item_detail" />
 </navigation>

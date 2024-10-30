@@ -10,6 +10,8 @@ import androidx.viewbinding.ViewBinding
 import com.example.myapplication.databinding.ColorItemBinding
 
 class ColorRecycleViewAdapter(private var colors: MutableList<String> = mutableListOf()): Adapter<ColorRecycleViewAdapter.ColorViewHolder>() {
+
+    private val setColor = colors.toSet().toList()
     class ColorViewHolder(val viewBinding: ColorItemBinding): ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
@@ -17,9 +19,9 @@ class ColorRecycleViewAdapter(private var colors: MutableList<String> = mutableL
         return ColorViewHolder(viewBinding)
     }
     override fun getItemCount(): Int {
-        return colors.size
+        return setColor.size
     }
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
-        holder.viewBinding.color.setColorFilter(Color.parseColor(colors[holder.adapterPosition]))
+        holder.viewBinding.color.setColorFilter(Color.parseColor(setColor[holder.adapterPosition]))
     }
 }

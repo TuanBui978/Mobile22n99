@@ -11,6 +11,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.tasks.await
 
 
@@ -94,10 +99,47 @@ import kotlinx.coroutines.tasks.await
 
 
         override suspend fun updateProduct(product: Product): InternetResult<Void> {
+            val uploadedRefs = mutableListOf<StorageReference>()
             return try {
+                val mainImage = product.mainImage?.toUri()
+                if (mainImage != null) {
+                    val mainRef = storage.reference.child("images/${mainImage.lastPathSegment}")
+                    try {
+                        mainRef.putFile(mainImage).await()
+                        uploadedRefs.add(mainRef)
+                        product.mainImage = mainRef.downloadUrl.await().toString()
+                    } catch (e: Exception) {
+                        Log.e("Upload Main Image", "Failed to upload main image: ${mainImage.lastPathSegment}", e)
+                    }
+                }
+
+                val images: List<Deferred<String>> = product.images.map { uriString ->
+                    val file = uriString.toUri()
+                    val ref = storage.reference.child("images/${file.lastPathSegment}")
+                    CoroutineScope(Dispatchers.IO).async {
+                        try {
+                            ref.putFile(file).await()
+                            uploadedRefs.add(ref)
+                            ref.downloadUrl.await().toString()
+                        } catch (e: Exception) {
+                            Log.e("Upload Image", "Failed to upload image: ${file.lastPathSegment}", e)
+                            uriString // Nếu thất bại, giữ lại URL cũ
+                        }
+                    }
+                }
+
+                product.images = images.awaitAll().toMutableList()
                 database.collection(Product.COLLECTION_PATH).document(product.id!!).set(product, SetOptions.merge()).await()
                 InternetResult.Success(null)
             } catch (e: Exception) {
+                // Xóa tất cả ảnh đã upload nếu gặp lỗi
+                uploadedRefs.forEach { ref ->
+                    try {
+                        ref.delete().await()
+                    } catch (deleteException: Exception) {
+                        Log.e("Delete Image Error", "Failed to delete uploaded image: ${ref.path}", deleteException)
+                    }
+                }
                 InternetResult.Failed(e)
             }
         }
