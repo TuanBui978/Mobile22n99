@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:maxLines="1"
     android:ellipsize="marquee"
+    android:paddingHorizontal="16dp"
     style="@style/spinner_item_style"
     >
 

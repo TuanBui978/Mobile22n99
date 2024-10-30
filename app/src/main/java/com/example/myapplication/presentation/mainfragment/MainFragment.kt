@@ -6,18 +6,23 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.helper.checkAndRequestPermission
 import com.example.myapplication.model.User
 import com.example.myapplication.presentation.home.HomeFragment
 import com.google.android.material.navigation.NavigationView
@@ -37,6 +42,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private var navHostFragment: NavHostFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkAndRequestPermission(this)
         if (arguments != null) {
             userUid = requireArguments().getString(USER_PARAM)
             mParam2 = requireArguments().getString(ARG_PARAM2)
@@ -49,19 +55,42 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     ): View {
         // Inflate the layout for this fragment
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
+        requireActivity().onBackPressedDispatcher.addCallback {
+            navController!!.popBackStack()
+            if (navController!!.currentDestination?.id == R.id.homeFragment) {
+                isEnabled = false
+            }
+        }
         val fragmentTransaction = childFragmentManager.beginTransaction()
         val bundle = bundleOf(USER_PARAM to userUid)
-        navHostFragment = NavHostFragment.create(R.navigation.nav_main_graph, bundle)
-        fragmentTransaction.replace(R.id.nav_host_fragment_in_fragment, navHostFragment!!)
-        fragmentTransaction.setPrimaryNavigationFragment(navHostFragment)
-        fragmentTransaction.commit()
+        if (savedInstanceState == null) {
+            navHostFragment = NavHostFragment.create(R.navigation.nav_main_graph, bundle)
+            fragmentTransaction.replace(R.id.nav_host_fragment_in_fragment, navHostFragment!!)
+            fragmentTransaction.setPrimaryNavigationFragment(navHostFragment)
+            fragmentTransaction.commit()
+        }
+        else {
+            navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment_in_fragment) as? NavHostFragment
+        }
         val navigationView = fragmentMainBinding!!.navigationView
         navigationView.setNavigationItemSelectedListener(this)
         fragmentMainBinding!!.cartButton.setOnClickListener {
-                navController!!.navigate(R.id.cartFragment)
+                navController!!.navigate(R.id.cartFragment, null,navOptions = navOptions {
+                    popUpTo(R.id.homeFragment) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                })
         }
         fragmentMainBinding!!.appLabel.setOnClickListener {
-            navController!!.navigate(R.id.homeFragment)
+            navController!!.navigate(R.id.homeFragment, null,navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            })
         }
         fragmentMainBinding!!.menuButton.setOnClickListener {
             fragmentMainBinding!!.drawerLayout.openDrawer(GravityCompat.START)
@@ -73,14 +102,32 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         val id = item.itemId
         if (id == R.id.log_out) {
             mainFragmentViewModel.signOut()
-            NavHostFragment.findNavController(this).navigate(R.id.sign_out)
+            NavHostFragment.findNavController(this).navigate(R.id.sign_out, null,navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            })
         }
         if (id == R.id.my_account) {
             val bundle = bundleOf(USER_PARAM to userUid)
-            navController!!.navigate(R.id.myAccountFragment, bundle)
+            navController!!.navigate(R.id.myAccountFragment, bundle, navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            })
         }
         if (id == R.id.admin) {
-            navController!!.navigate(R.id.adminFragment)
+            navController!!.navigate(R.id.adminFragment, null,navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            })
         }
         fragmentMainBinding!!.drawerLayout.closeDrawer(GravityCompat.START)
         return false
@@ -89,8 +136,8 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     override fun onStart() {
         super.onStart()
         navController = navHostFragment!!.navController
-//        navHostFragment!!.host
     }
+
 
     companion object {
         // TODO: Rename parameter arguments, choose names that match

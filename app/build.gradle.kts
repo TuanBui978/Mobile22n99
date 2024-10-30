@@ -18,7 +18,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -92,4 +91,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    implementation ("com.arthenica:mobile-ffmpeg-full:4.4")
+
+    implementation ("com.github.skydoves:colorpickerview:2.3.0")
+
+    implementation("com.google.firebase:firebase-storage")
 }
