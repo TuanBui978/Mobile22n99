@@ -1,15 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.cart.CartFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.cart.CartFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/your_cart"
+            android:textSize="40sp"
+            android:textFontWeight="600"
+            android:layout_marginHorizontal="86dp"
+            android:layout_marginVertical="31dp"/>
+
+        <LinearLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/please_wait_this_may_take_a_moment"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/emptyItem"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/your_store_currently_has_no_products_available_we_will_notify_you_as_soon_as_new_products_become_available"
+            android:layout_gravity="center"
+            app:drawableLeftCompat="@drawable/baseline_info_outline_24"
+            android:drawablePadding="10dp"
+            android:visibility="gone"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/itemError"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center"
+            app:drawableLeftCompat="@drawable/baseline_warning_24"
+            android:drawablePadding="10dp"
+            android:visibility="gone"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="20dp"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product"
+                    android:textColor="#7C7C7C"
+                    android:layout_weight="5"
+                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:textColor="#7C7C7C"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quantity"
+                        android:textColor="#7C7C7C"
+                        android:layout_marginHorizontal="20dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:textColor="#7C7C7C"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="5"
+                tools:listitem="@layout/cart_product_item"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="6dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:layout_marginTop="35dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:background="#F4D6D5"
+                    android:layout_gravity="bottom"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    >
+                    <TextView
+                        android:id="@+id/yourOrderTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/your_order_summary"
+                        android:layout_gravity="center_horizontal"
+                        android:textFontWeight="600"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/text1"
+                        android:layout_marginTop="6dp" />
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subtotal_tax_included"
+                        android:textFontWeight="600"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/yourOrderTextView"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintEnd_toStartOf="@id/subtotalTextView" />
+
+                    <TextView
+                        android:id="@+id/subtotalTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price_display"
+                        app:layout_constraintStart_toEndOf="@id/text1"
+                        app:layout_constraintTop_toBottomOf="@id/yourOrderTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="30dp"/>
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shipping"
+                        android:textFontWeight="600"
+                        app:layout_constraintStart_toStartOf="@id/text1"
+                        app:layout_constraintTop_toBottomOf="@id/text1"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintBottom_toTopOf="@id/text3"
+                        />
+
+                    <TextView
+                        android:id="@+id/shippingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price_display"
+                        app:layout_constraintTop_toBottomOf="@id/subtotalTextView"
+                        app:layout_constraintStart_toStartOf="@id/subtotalTextView"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintBottom_toTopOf="@id/totalPrice"/>
+
+
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:textSize="20sp"
+                        android:textFontWeight="700"
+                        android:textColor="#A0615F"
+                        app:layout_constraintStart_toStartOf="@id/text2"
+                        app:layout_constraintTop_toBottomOf="@id/text2"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/totalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price_display"
+                        android:textSize="20sp"
+                        android:textFontWeight="700"
+                        android:textColor="#A0615F"
+                        app:layout_constraintStart_toStartOf="@id/shippingTextView"
+                        app:layout_constraintTop_toBottomOf="@id/shippingTextView"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </FrameLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/checkOutButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#753532"
+                android:layout_gravity="center"
+                android:text="@string/check_out"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textFontWeight="700"
+                android:layout_margin="46dp"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

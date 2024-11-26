@@ -1,11 +1,10 @@
 package com.example.myapplication.model
 
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.serialization.Serializable
 
 data class User (var uid: String? = null,
                  var email: String? = null,
-                 var cartItems: List<CartItem>? = null,
+                 var cartProducts: List<CartProduct>? = null,
                  var address: String? = null,
                  var phoneNumber: String? = null,
                  var gender: String? = null,

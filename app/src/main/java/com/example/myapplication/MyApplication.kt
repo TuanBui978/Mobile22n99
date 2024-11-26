@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import android.app.Application
 import android.content.Context
+import com.example.myapplication.repository.CartProductRepository
+import com.example.myapplication.repository.CartProductRepositoryImp
 import com.example.myapplication.repository.ItemRepository
 //import com.example.myapplication.repository.ItemRepositoryImp
 import com.example.myapplication.repository.OrderRepository
@@ -18,6 +20,7 @@ class MyApplication : Application() {
     private var _shopRepository: ShopRepository? = null
     private var _productRepository: ProductRepository? = null
     private var _orderRepository: OrderRepository? = null
+    private var _cartProductRepository: CartProductRepository? = null
     val userRepository
         get() = _userRepository!!
 
@@ -27,12 +30,14 @@ class MyApplication : Application() {
         get() = _productRepository!!
     val orderRepository
         get() = _orderRepository!!
+    val cartProductRepository
+        get() = _cartProductRepository!!
     override fun onCreate() {
         super.onCreate()
         _userRepository = UserRepositoryImp.getInstance()
         _shopRepository = ShopRepositoryImp.getInstance()
         _orderRepository = OrderRepositoryImp.getInstance()
-//        _itemRepository = ItemRepositoryImp.getInstance()
         _productRepository = ProductRepositoryImp.getInstance()
+        _cartProductRepository = CartProductRepositoryImp.getInstance()
     }
 }

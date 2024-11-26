@@ -217,11 +217,11 @@ class AdItemDetailFragment : Fragment() {
     private fun onAddItemClick() {
         val adapter = fragmentAdItemDetailBinding.variantRecycleView.adapter as VariantRecycleViewAdapter
         val variants = adapter.variant
-        product.items = variants
+        product.variants = variants
         val name = fragmentAdItemDetailBinding.nameTextView.text.toString()
         val price = fragmentAdItemDetailBinding.priceTextView.text.toString().toFloatOrNull()
         val description = fragmentAdItemDetailBinding.descriptonTextView.text.toString()
-        if (name.isBlank() || product.mainImage == null || product.images.isEmpty() || product.items.isEmpty() || description.isBlank() || price == null) {
+        if (name.isBlank() || product.mainImage == null || product.images.isEmpty() || product.variants.isEmpty() || description.isBlank() || price == null) {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage(getString(R.string.you_need_to_fill_in_all_the_information_about_the_product))
             builder.setNegativeButton("OK") {
@@ -256,7 +256,7 @@ class AdItemDetailFragment : Fragment() {
                 fragmentAdItemDetailBinding.genderSpinner.setSelection(i)
             }
         }
-        val variantAdapter = VariantRecycleViewAdapter(product.items)
+        val variantAdapter = VariantRecycleViewAdapter(product.variants)
         fragmentAdItemDetailBinding.variantRecycleView.adapter = variantAdapter
         fragmentAdItemDetailBinding.descriptonTextView.setText(product.description)
         fragmentAdItemDetailBinding.priceTextView.setText(product.price.toString())
@@ -268,11 +268,11 @@ class AdItemDetailFragment : Fragment() {
     private fun onUpdateItemClick() {
         val adapter = fragmentAdItemDetailBinding.variantRecycleView.adapter as VariantRecycleViewAdapter
         val variants = adapter.variant
-        product.items = variants
+        product.variants = variants
         val name = fragmentAdItemDetailBinding.nameTextView.text.toString()
         val price = fragmentAdItemDetailBinding.priceTextView.text.toString().toFloatOrNull()
         val description = fragmentAdItemDetailBinding.descriptonTextView.text.toString()
-        if (name.isBlank() || product.mainImage == null || product.images.isEmpty() || product.items.isEmpty() || description.isBlank() || price == null) {
+        if (name.isBlank() || product.mainImage == null || product.images.isEmpty() || product.variants.isEmpty() || description.isBlank() || price == null) {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage(getString(R.string.you_need_to_fill_in_all_the_information_about_the_product))
             builder.setNegativeButton("OK") {

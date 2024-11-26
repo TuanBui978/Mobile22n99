@@ -1,9 +1,12 @@
 package com.example.myapplication.helper
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -13,7 +16,25 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
+import com.example.myapplication.R
+import java.net.URL
+
+fun loadImageIntoImageView(context: Context, imageView: ImageView, uri: Uri) {
+    val loadingDrawable = CircularProgressDrawable(context).apply {
+        strokeWidth = 5f
+        centerRadius = 30f
+        start()
+    }
+    Glide.with(context).load(uri).centerCrop().placeholder(loadingDrawable).error(
+        R.drawable.error_image_photo_icon).into(imageView)
+}
+
+
+
 fun getSingleImageBuilder(fragment: Fragment, onImageSelected: (Uri?) -> Unit): ActivityResultLauncher<PickVisualMediaRequest> {
     val pickMedia = fragment.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         onImageSelected(uri) // Gọi callback với URI đã chọn

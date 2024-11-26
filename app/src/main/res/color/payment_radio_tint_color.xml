@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/white" android:state_checked="true" android:state_enabled="true"/>
+    <item android:color="@color/black" android:state_checked="false" android:state_enabled="true"/>
+    <item android:color="#7C7C7C" android:state_enabled="false"/>
+
+<!--    <item android:color="@color/white" android:state_checked="true" android:state_enabled="true"/>-->
+
+<!--    &lt;!&ndash; Nếu unchecked và enabled, màu sẽ là đen &ndash;&gt;-->
+<!--    <item android:color="@color/black" android:state_checked="false" android:state_enabled="true"/>-->
+
+<!--    &lt;!&ndash; Nếu disabled (không kích hoạt), màu sẽ là xám &ndash;&gt;-->
+<!--    <item android:color="#7C7C7C" android:state_enabled="false"/>-->
+</selector>

@@ -7,20 +7,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
-import com.example.myapplication.model.Item
 import com.example.myapplication.model.Order
-import com.example.myapplication.presentation.admin.allitem.AdAllItemViewModel
 import com.example.myapplication.repository.OrderRepository
 import kotlinx.coroutines.launch
 
 class AdAllOrderViewModel(private val application: MyApplication, private val orderRepository: OrderRepository): ViewModel() {
-    private var _orderStatus = MutableLiveData<InternetResult<List<Order>>>()
+    private var _Post_orderStatus = MutableLiveData<InternetResult<List<Order>>>()
     val orderStatus
-        get() = _orderStatus
+        get() = _Post_orderStatus
     fun getAllOrder() {
-        _orderStatus.postValue(InternetResult.Loading)
+        _Post_orderStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _orderStatus.postValue(orderRepository.getAllOrder())
+            _Post_orderStatus.postValue(orderRepository.getAllOrder())
         }
     }
     companion object {

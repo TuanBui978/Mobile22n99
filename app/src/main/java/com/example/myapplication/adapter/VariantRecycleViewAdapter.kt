@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.myapplication.R
 import com.example.myapplication.databinding.VariantRecycleViewItemBinding
 import com.example.myapplication.model.EnumSize
-import com.example.myapplication.model.Item
+import com.example.myapplication.model.Variant
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 
-class VariantRecycleViewAdapter(private var _variants: MutableList<Item> = mutableListOf()): Adapter<VariantRecycleViewAdapter.VariantViewHolder>() {
+class VariantRecycleViewAdapter(private var _variants: MutableList<Variant> = mutableListOf()): Adapter<VariantRecycleViewAdapter.VariantViewHolder>() {
     val variant
         get() = _variants
+    private var maxId = 0;
     class VariantViewHolder(val viewBinding: VariantRecycleViewItemBinding) : ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariantViewHolder {
@@ -118,8 +119,9 @@ class VariantRecycleViewAdapter(private var _variants: MutableList<Item> = mutab
     }
 
     fun addVariant() {
-        _variants.add(Item())
+        _variants.add(Variant(id = maxId, count = 1))
         notifyItemInserted(_variants.size - 1)
+        maxId++
     }
 
     private fun removeVariant(position: Int) { // Kiểm tra vị trí hợp lệ

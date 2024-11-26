@@ -9,7 +9,7 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
-class ShopRepositoryImp: ShopRepository {
+class ShopRepositoryImp private constructor(): ShopRepository {
     private val database = Firebase.firestore
     override suspend fun createShop(shop: Shop): InternetResult<Void> {
         return try {

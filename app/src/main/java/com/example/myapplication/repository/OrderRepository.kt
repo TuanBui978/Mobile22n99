@@ -20,6 +20,8 @@ interface OrderRepository {
     // Thêm đơn hàng mới
     suspend fun addOrder(order: Order): InternetResult<Void>
 
+    suspend fun addOrders(orders: List<Order>): InternetResult<Void>
+
     // Cập nhật đơn hàng
     suspend fun updateOrder(order: Order): InternetResult<Void>
 

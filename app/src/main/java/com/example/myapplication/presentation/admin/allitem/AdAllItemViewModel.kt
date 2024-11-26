@@ -8,10 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
-import com.example.myapplication.model.Item
 import com.example.myapplication.model.Product
-import com.example.myapplication.presentation.admin.allorder.AdAllOrderViewModel
-import com.example.myapplication.repository.ItemRepository
 import com.example.myapplication.repository.ProductRepository
 import kotlinx.coroutines.launch
 
