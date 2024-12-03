@@ -86,7 +86,7 @@ class CartProductRecycleViewAdapter(private var cartProducts: MutableList<CartPr
     fun getTotalPrice(): MutableLiveData<Float> {
         return  mTotalPrice
     }
-    fun getProductIds(): List<String> {
-        return cartProducts.map { it.id!! }
+    fun getProducts(): Array<CartProduct> {
+        return cartProducts.toTypedArray()
     }
 }

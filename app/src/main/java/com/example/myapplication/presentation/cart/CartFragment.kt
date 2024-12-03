@@ -97,8 +97,10 @@ class CartFragment : Fragment() {
         fragmentCartBinding = FragmentCartBinding.inflate(layoutInflater, container, false)
         fragmentCartBinding.checkOutButton.setOnClickListener {
             val adapter = fragmentCartBinding.itemRecycleView.adapter as CartProductRecycleViewAdapter
-            val bundle = cartViewModel.createCartProductIdsBundle(adapter.getProductIds())
-            findNavController().navigate(R.id.action_cartFragment_to_paymentFragment, bundle)
+            val products = adapter.getProducts()
+            val action = CartFragmentDirections.actionCartFragmentToPaymentFragment(products)
+            findNavController().navigate(action)
+
         }
 
 

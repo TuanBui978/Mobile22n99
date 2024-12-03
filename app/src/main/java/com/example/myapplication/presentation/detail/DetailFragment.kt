@@ -183,6 +183,7 @@ class DetailFragment : Fragment() {
                 is InternetResult.Success->{
                     loadingDialog.dismiss()
                     Toast.makeText(requireContext(), "Add to cart success", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
                 }
                 is InternetResult.Failed->{
                     loadingDialog.dismiss()
@@ -207,9 +208,8 @@ class DetailFragment : Fragment() {
                 }
                 is InternetResult.Success->{
                     loadingDialog.dismiss()
-                    val list = mutableListOf<CartProduct>()
-                    list.add(status.data!!)
-                    val action = DetailFragmentDirections.actionDetailFragmentToPaymentFragment(list)
+                    val list = listOf(status.data!!)
+                    val action = DetailFragmentDirections.actionDetailFragmentToPaymentFragment(list.toTypedArray())
                     findNavController().navigate(action)
                 }
                 is InternetResult.Failed->{

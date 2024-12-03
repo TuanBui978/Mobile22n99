@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.profile
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,9 +31,9 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
     val shopStatus
         get() = _shopStatus
 
-    fun getCurrentUser() {
+    fun getCurrentUser(context: Context) {
         viewModelScope.launch {
-            _currentUserStatus.postValue(userRepository.getCurrentUser())
+            _currentUserStatus.postValue(userRepository.getCurrentUser(context))
         }
     }
 

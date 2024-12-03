@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.myapplication.R
+import com.example.myapplication.adapter.OrderRecycleViewAdapter
 import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentAdminBinding
 import com.example.myapplication.decoreration.CustomDecoration
@@ -74,6 +75,12 @@ class AdminFragment : Fragment() {
                     if (status.data!!.isNotEmpty()) {
                         fragmentAdminBinding.orderRecycleView.visibility = View.VISIBLE
                         fragmentAdminBinding.emptyOrder.visibility = View.GONE
+                        val orders = status.data
+                        val adapter = OrderRecycleViewAdapter(orders)
+                        adapter.setOnStatusSelection { order ->
+                            adminViewModel.updateOrder(order)
+                        }
+                        fragmentAdminBinding.orderRecycleView.adapter = adapter
                     }
                     else {
                         fragmentAdminBinding.orderRecycleView.visibility = View.GONE
@@ -150,6 +157,22 @@ class AdminFragment : Fragment() {
             }
         }
 
+        adminViewModel.updateOrderStatus.observe(viewLifecycleOwner) {
+            status->
+            when (status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                }
+                is InternetResult.Failed->{
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                }
+            }
+        }
+
         val navController = findNavController()
 
         fragmentAdminBinding.shopItemTextView.setOnClickListener {
@@ -163,6 +186,7 @@ class AdminFragment : Fragment() {
         fragmentAdminBinding.addItemButton.setOnClickListener {
             navController.navigate(R.id.action_adminFragment_to_addItemFragment)
         }
+
 
         return fragmentAdminBinding.root
     }

@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         viewModel.status.observe(this, observer)
-        viewModel.getCurrentUser()
+        viewModel.getCurrentUser(applicationContext)
         setContentView(activityMainBinding!!.root)
     }
 

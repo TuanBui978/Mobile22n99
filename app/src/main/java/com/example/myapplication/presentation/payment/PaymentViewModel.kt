@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
+import com.example.myapplication.manager.Session
+import com.example.myapplication.model.CartProduct
 import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Order
+import com.example.myapplication.model.User
 import com.example.myapplication.repository.CartProductRepository
 import com.example.myapplication.repository.OrderRepository
 import com.google.firebase.Timestamp
@@ -25,18 +28,19 @@ class PaymentViewModel(private val application: MyApplication,private val cartPr
         get() = _createOrderStatus
     val deleteCartProductStatus
         get() = mDeleteCartProductStatus
-    fun createOrder(cartProducts: List<String>) {
-//        _createOrderStatus.postValue(InternetResult.Loading)
-//        viewModelScope.launch {
-//            val order = Order(cartProductIds = cartProducts, status = EnumStatus.Confirming, createAt = Timestamp.now())
-//            _createOrderStatus.postValue(orderRepository.addOrder(order = order))
-//        }
+    fun createOrder(cartProducts: List<CartProduct>, user: User) {
+        _createOrderStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            val order = Order(cartProducts = cartProducts, user = user, status = EnumStatus.Confirming, createAt = Timestamp.now())
+            _createOrderStatus.postValue(orderRepository.addOrder(order = order))
+        }
     }
 
-    fun deleteCartProducts(cartProducts: List<String>) {
+    fun deleteCartProducts(cartProducts: List<CartProduct>) {
         mDeleteCartProductStatus.postValue(InternetResult.Loading)
+        val list = cartProducts.map { it.id!! }
         viewModelScope.launch {
-            mDeleteCartProductStatus.postValue(cartProductRepository.removeProductsFromCart(cartProducts))
+            mDeleteCartProductStatus.postValue(cartProductRepository.removeProductsFromCart(list))
         }
     }
 

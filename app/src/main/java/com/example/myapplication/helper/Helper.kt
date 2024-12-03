@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,14 +24,24 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import java.net.URL
 
-fun loadImageIntoImageView(context: Context, imageView: ImageView, uri: Uri) {
+
+// load a image from uri to image view with loading drawable in placeholder and set it ti=o default drawable if uri is null
+fun loadImageIntoImageView(context: Context, imageView: ImageView, uri: Uri? = null,@DrawableRes default: Int = R.drawable.avatar_default ) {
+
     val loadingDrawable = CircularProgressDrawable(context).apply {
         strokeWidth = 5f
         centerRadius = 30f
         start()
     }
-    Glide.with(context).load(uri).centerCrop().placeholder(loadingDrawable).error(
-        R.drawable.error_image_photo_icon).into(imageView)
+    if (uri != null) {
+        Glide.with(context).load(uri).centerCrop().placeholder(loadingDrawable).error(
+            R.drawable.error_image_photo_icon).into(imageView)
+    }
+    else {
+        Glide.with(context).load(default).centerCrop().placeholder(loadingDrawable).error(
+            R.drawable.error_image_photo_icon).into(imageView)
+    }
+
 }
 
 

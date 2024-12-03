@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.myapplication.model.Product
 
 class ProductRecycleViewAdapter(private var products: MutableList<Product> = mutableListOf(), private val buttonLabel: String = "Add to cart", private val buttonVisibility: Int = View.VISIBLE): Adapter<ProductRecycleViewAdapter.ViewHolder>() {
 
+    private val oldList = listOf<Product>() + products
     constructor(products: MutableList<Product> = mutableListOf(), context: Context, @StringRes stringRes: Int): this(products, context.getString(stringRes))
 
     private var onClickListener: (Product)->Unit = {}
@@ -69,5 +71,18 @@ class ProductRecycleViewAdapter(private var products: MutableList<Product> = mut
     }
     fun onButtonClickListener(onClickListener: (Product, pos: Int)->Unit) {
         this.onButtonClickListener = onClickListener
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(query: String) {
+        products = when (query.isBlank()) {
+            true->{
+                oldList.toMutableList()
+            }
+            false->{
+                products.filter { it.name!!.contains(query, true) }.toMutableList()
+            }
+        }
+        notifyDataSetChanged()
     }
 }

@@ -1,7 +1,9 @@
 package com.example.myapplication.repository
 
+import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Order
+import com.google.firebase.Timestamp
 
 interface OrderRepository {
 
@@ -28,6 +30,7 @@ interface OrderRepository {
     // Xóa đơn hàng theo ID
     suspend fun deleteOrder(orderId: String): InternetResult<Void>
 
+    suspend fun getOrder(from: Timestamp? = null, to: Timestamp? = null, status: EnumStatus ?= null): InternetResult<List<Order>>
 
 
 

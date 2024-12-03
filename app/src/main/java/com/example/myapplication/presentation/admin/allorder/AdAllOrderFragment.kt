@@ -1,23 +1,38 @@
 package com.example.myapplication.presentation.admin.allorder
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.R
+import com.example.myapplication.adapter.OrderRecycleViewAdapter
 import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentAdAllOrderBinding
+import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.admin.AdminFragment
+import com.example.myapplication.presentation.dialog.datetime.DateTimePickerDialog
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
 import com.example.myapplication.presentation.mainfragment.MainFragment
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,26 +80,154 @@ class AdAllOrderFragment : Fragment() {
                     fragmentAdAllOrderBinding.orderLoadingLayout.visibility = View.GONE
                     fragmentAdAllOrderBinding.emptyOrder.visibility = View.GONE
                     fragmentAdAllOrderBinding.orderError.visibility = View.VISIBLE
-                    fragmentAdAllOrderBinding.orderLayout.visibility = View.GONE
+
                 }
                 is InternetResult.Success->{
                     fragmentAdAllOrderBinding.orderLoadingLayout.visibility = View.GONE
                     fragmentAdAllOrderBinding.orderError.visibility = View.GONE
                     if (status.data!!.isNotEmpty()) {
-                        fragmentAdAllOrderBinding.orderLayout.visibility = View.VISIBLE
                         fragmentAdAllOrderBinding.emptyOrder.visibility = View.GONE
+                        fragmentAdAllOrderBinding.itemRecycleView.visibility = View.VISIBLE
+                        val adapter = OrderRecycleViewAdapter(status.data)
+                        adapter.setOnStatusSelection {
+                            adAllOrderViewModel.updateOrder(it)
+                        }
+                        fragmentAdAllOrderBinding.itemRecycleView.adapter = adapter
                     }
                     else {
                         fragmentAdAllOrderBinding.emptyOrder.visibility = View.VISIBLE
-                        fragmentAdAllOrderBinding.orderLayout.visibility = View.GONE
                     }
                 }
             }
         }
+        val loadingDialog = LoadingDialog(requireContext())
+        val errorDialog = ErrorDialog(requireContext())
+        adAllOrderViewModel.updateOrderStatus.observe(viewLifecycleOwner) {
+            status->
+            when (status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                }
+                is InternetResult.Failed->{
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                }
+            }
+        }
+
+        fromSetup()
+        toSetUp()
+        statusSpinnerSetUp()
         adAllOrderViewModel.getAllOrder()
         return fragmentAdAllOrderBinding.root
     }
 
+    private fun fromSetup() {
+        fragmentAdAllOrderBinding.fromDateTextView.setOnClickListener {
+            val datetimeDialog = if (fragmentAdAllOrderBinding.fromDateTextView.text.isBlank()) {
+                DateTimePickerDialog()
+            }
+            else {
+                val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val dateString = fragmentAdAllOrderBinding.fromDateTextView.text
+                val date = LocalDate.parse(dateString, format)
+                DateTimePickerDialog(date.dayOfMonth, date.monthValue - 1, date.year)
+            }
+            datetimeDialog.setOnDateSetListener { day, month, year ->
+                fragmentAdAllOrderBinding.fromDateTextView.text =
+                    getString(R.string.date_display, day, month + 1, year)
+                orderFilter()
+            }
+            datetimeDialog.show(childFragmentManager, "datePicker")
+        }
+    }
+
+    private fun toSetUp() {
+        fragmentAdAllOrderBinding.toDateTextView.setOnClickListener {
+            val datetimeDialog = if (fragmentAdAllOrderBinding.toDateTextView.text.isBlank()) {
+                DateTimePickerDialog()
+            }
+            else {
+                val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val dateString = fragmentAdAllOrderBinding.toDateTextView.text
+                val date = LocalDate.parse(dateString, format)
+                DateTimePickerDialog(date.dayOfMonth, date.monthValue - 1, date.year)
+            }
+            datetimeDialog.setOnDateSetListener { day, month, year ->
+                fragmentAdAllOrderBinding.toDateTextView.text =
+                    getString(R.string.date_display, day, month + 1, year)
+                orderFilter()
+            }
+            datetimeDialog.show(childFragmentManager, "datePicker")
+        }
+    }
+
+    private fun orderFilter() {
+        val from = if (fragmentAdAllOrderBinding.fromDateTextView.text.isBlank()) {
+            null
+        }
+        else {
+            val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val dateString = fragmentAdAllOrderBinding.fromDateTextView.text
+            val localDate = LocalDate.parse(dateString, format)
+            val date = Date.from(localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+            Timestamp(date)
+        }
+
+        val to = if (fragmentAdAllOrderBinding.toDateTextView.text.isBlank()) {
+            null
+        }
+        else {
+            val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val dateString = fragmentAdAllOrderBinding.toDateTextView.text
+            val localDate = LocalDate.parse(dateString, format)
+            val date = Date.from(localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+            Timestamp(date)
+        }
+        val status = if (fragmentAdAllOrderBinding.statusSpinner.selectedItemPosition == 0) {
+            null
+        }
+        else {
+            EnumStatus.entries[fragmentAdAllOrderBinding.statusSpinner.selectedItemPosition]
+        }
+        from?.let {
+            Log.d("orderFilter: ", "$from")
+        }
+        to?.let {
+            Log.d("orderFilter: ", "$to")
+        }
+        adAllOrderViewModel.filterOrder(from, to, status)
+    }
+
+    private fun statusSpinnerSetUp() {
+        val status = listOf("None") + EnumStatus.entries.map { it.name }
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, status)
+        arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_drop_down_item)
+        var isInit = true
+        fragmentAdAllOrderBinding.statusSpinner.adapter = arrayAdapter
+        fragmentAdAllOrderBinding.statusSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (isInit) {
+                    isInit = false
+                }
+                else {
+                    orderFilter()
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+    }
 
     companion object {
         /**

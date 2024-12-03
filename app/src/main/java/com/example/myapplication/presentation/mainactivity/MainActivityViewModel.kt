@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.mainactivity
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,20 +18,24 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel(private val application: MyApplication, private val userRepository: UserRepository): ViewModel() {
 
 
+    private var mFilterQuery = MutableLiveData<String>()
+    val filterQuery
+        get() = mFilterQuery
 
-    private var _currentUser = MutableLiveData<User>()
-    val currentUser
-        get() = _currentUser
+    fun search(query: String) {
+        mFilterQuery.postValue(query)
+    }
+
 
     private var _status = MutableLiveData<InternetResult<User>>()
     val status
         get() = _status
 
-    fun getCurrentUser() {
+    fun getCurrentUser(context: Context) {
         _status.postValue(InternetResult.Loading)
         viewModelScope.launch {
             delay(2000)
-            _status.postValue(userRepository.getCurrentUser())
+            _status.postValue(userRepository.getCurrentUser(context))
         }
     }
 

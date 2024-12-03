@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentPaymentBinding
+import com.example.myapplication.manager.Session
+import com.example.myapplication.model.CartProduct
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.dialog.error.ErrorDialog
 import com.example.myapplication.presentation.dialog.loading.LoadingDialog
@@ -24,7 +27,7 @@ import com.example.myapplication.presentation.dialog.loading.LoadingDialog
  */
 class PaymentFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var cartProductIds: List<String>? = null
+    private var cartProducts: List<CartProduct>? = null
     private var param2: String? = null
 
     private val paymentViewModel: PaymentViewModel by viewModels { PaymentViewModel.Factory }
@@ -34,9 +37,11 @@ class PaymentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            cartProductIds = it.getStringArrayList(ARG_PARAM1)
+
             param2 = it.getString(ARG_PARAM2)
         }
+        val args : PaymentFragmentArgs by navArgs()
+        cartProducts = args.cartProducts.toMutableList()
     }
 
     override fun onCreateView(
@@ -57,7 +62,13 @@ class PaymentFragment : Fragment() {
         }
 
         fragmentPaymentBinding.completeButton.setOnClickListener {
-            paymentViewModel.createOrder(cartProductIds!!)
+            val user = Session.get.currentLogin!!
+            val dialog = ErrorDialog(requireContext(), "Your account information is currently incomplete. Please update and try again.")
+            if (user.address == null || user.email == null || user.gender == null || user.phoneNumber == null) {
+                dialog.show()
+                return@setOnClickListener
+            }
+            paymentViewModel.createOrder(cartProducts!!, user)
         }
         val loadingDialog = LoadingDialog(requireContext())
         paymentViewModel.createOrderStatus.observe(viewLifecycleOwner) {
@@ -67,7 +78,7 @@ class PaymentFragment : Fragment() {
                     loadingDialog.show()
                 }
                 is InternetResult.Success->{
-                    paymentViewModel.deleteCartProducts(cartProductIds!!)
+                    paymentViewModel.deleteCartProducts(cartProducts!!)
                     paymentViewModel.deleteCartProductStatus.observe(viewLifecycleOwner) {
                         it->
                         when (it) {

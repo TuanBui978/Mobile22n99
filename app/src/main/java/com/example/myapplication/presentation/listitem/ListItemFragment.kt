@@ -6,14 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.example.myapplication.R
 import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentListItemBinding
+import com.example.myapplication.manager.Session
+import com.example.myapplication.model.CartProduct
+import com.example.myapplication.model.EnumGenderType
+import com.example.myapplication.model.EnumType
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.detail.DetailFragment
 import com.example.myapplication.presentation.dialog.loading.LoadingDialog
+import com.example.myapplication.presentation.mainactivity.MainActivityViewModel
+import com.example.myapplication.presentation.mainfragment.MainFragment
+import com.example.myapplication.presentation.mainfragment.MainFragmentViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +40,7 @@ class ListItemFragment : Fragment() {
     private var param2: String? = null
 
     private val listItemViewModel: ListItemViewModel by viewModels { ListItemViewModel.Factory }
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var fragmentListItemBinding: FragmentListItemBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +56,18 @@ class ListItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        fragmentListItemBinding = FragmentListItemBinding.inflate(layoutInflater)
-        listItemViewModel.getAllProduct()
+        fragmentListItemBinding = FragmentListItemBinding.inflate(layoutInflater, container, false)
+        val args = ListItemFragmentArgs.fromBundle(requireArguments())
+        if (args.type == null && args.gender == null) {
+            listItemViewModel.getAllProduct()
+        }
+        else {
+            val gender = EnumGenderType.entries.first {it.name == args.gender}
+            val type = EnumType.entries.first { it.name == args.type }
+            listItemViewModel.getProductBy(type, gender)
+        }
+
+
         listItemViewModel.productStatus.observe(viewLifecycleOwner) {
             status->
             when (status) {
@@ -66,14 +86,24 @@ class ListItemFragment : Fragment() {
                 is InternetResult.Success->{
                     fragmentListItemBinding.itemLoadingLayout.visibility = View.GONE
                     fragmentListItemBinding.itemError.visibility = View.GONE
+
                     if (status.data!!.isNotEmpty()) {
                         val adapter = ProductRecycleViewAdapter(status.data.toMutableList())
+                        fragmentListItemBinding.emptyItem.visibility = View.GONE
                         adapter.onItemClickListener {
                             val arg = bundleOf(DetailFragment.PRODUCT_ID to it.id)
                             findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg)
                         }
+                        adapter.onButtonClickListener { product, pos ->
+                            val arg = bundleOf(DetailFragment.PRODUCT_ID to product.id)
+                            findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg)
+                        }
                         fragmentListItemBinding.itemRecycleView.adapter = adapter
                         fragmentListItemBinding.itemLayout.visibility = View.VISIBLE
+                        mainActivityViewModel.filterQuery.observe(viewLifecycleOwner) {
+                            adapter.filter(it)
+                        }
+
                     }
                     else {
                         fragmentListItemBinding.emptyItem.visibility = View.VISIBLE

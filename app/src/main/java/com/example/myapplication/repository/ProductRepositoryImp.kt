@@ -2,6 +2,8 @@ package com.example.myapplication.repository
 
 import android.util.Log
 import androidx.core.net.toUri
+import com.example.myapplication.model.EnumGenderType
+import com.example.myapplication.model.EnumType
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Product
 import com.google.firebase.firestore.SetOptions
@@ -30,6 +32,7 @@ class ProductRepositoryImp private constructor() : ProductRepository {
             mainRef.putFile(mainImage).await()
             uploadedRefs.add(mainRef)
             product.mainImage = mainRef.downloadUrl.await().toString()
+            Log.d("TUAN", "createProduct: 1"  )
             val images = product.images.map { uriString ->
                 val file = uriString.toUri()
                 val ref = storage.reference.child("images/${file.lastPathSegment}")
@@ -37,11 +40,13 @@ class ProductRepositoryImp private constructor() : ProductRepository {
                 uploadedRefs.add(ref) // Thêm vào danh sách đã upload thành công
                 ref.downloadUrl.await().toString() // Lấy URL của ảnh
             }.toList()
-
+            Log.d("TUAN", "createProduct: 2"  )
             product.images = images.toMutableList()
             val productRef = database.collection(Product.COLLECTION_PATH).document()
             product.id = productRef.id
+            Log.d("TUAN", "createProduct: 3"  )
             productRef.set(product).await()
+            Log.d("TUAN", "createProduct: 4"  )
             InternetResult.Success(null)
         } catch (e: Exception) {
             // Xóa tất cả ảnh đã upload nếu gặp lỗi
@@ -57,6 +62,7 @@ class ProductRepositoryImp private constructor() : ProductRepository {
                     )
                 }
             }
+            Log.d("TUAN", "createProduct: ${e.message}"  )
             InternetResult.Failed(e)
         }
     }
@@ -92,6 +98,26 @@ class ProductRepositoryImp private constructor() : ProductRepository {
             InternetResult.Success(products)
         } catch (e: Exception) {
             InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun getProductBy(type: EnumType, gender: EnumGenderType): InternetResult<List<Product>> {
+        return try {
+            var query = database.collection(Product.COLLECTION_PATH)
+                .whereEqualTo("type", type.name)  // Truy vấn theo loại sản phẩm
+
+            // Nếu gender là BOTH, bỏ qua điều kiện gender
+            if (gender != EnumGenderType.BOTH) {
+                // Thêm điều kiện 'in' để tìm cả sản phẩm có giới tính là gender và BOTH
+                query = query.whereIn("gender", listOf(gender.name, EnumGenderType.BOTH.name))
+            }
+
+            val snapshot = query.get().await()  // Thực thi truy vấn
+
+            val products = snapshot.toObjects(Product::class.java)  // Chuyển đổi snapshot thành danh sách đối tượng Product
+            InternetResult.Success(products)
+        } catch (e: Exception) {
+            InternetResult.Failed(e)  // Xử lý lỗi nếu có
         }
     }
 
@@ -146,6 +172,34 @@ class ProductRepositoryImp private constructor() : ProductRepository {
         return try {
             database.collection(Product.COLLECTION_PATH).document(productId).delete().await()
             InternetResult.Success(null)
+        } catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun getProductByTypeAndGender(
+        type: EnumType?,
+        genderType: EnumGenderType?
+    ): InternetResult<List<Product>> {
+        return try {
+            val collection = database.collection("products")
+            val query = when {
+                type != null && genderType != null -> {
+                    collection.whereEqualTo("type", type.name)
+                        .whereEqualTo("gender", genderType.name)
+                }
+                type != null -> {
+                    collection.whereEqualTo("type", type.name)
+                }
+                genderType != null -> {
+                    collection.whereEqualTo("gender", genderType.name)
+                }
+                else -> {
+                    collection
+                }
+            }
+            val products = query.get().await().toObjects(Product::class.java)
+            InternetResult.Success(products)
         } catch (e: Exception) {
             InternetResult.Failed(e)
         }

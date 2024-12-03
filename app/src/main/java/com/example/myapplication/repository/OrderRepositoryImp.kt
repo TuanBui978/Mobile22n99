@@ -2,14 +2,17 @@ package com.example.myapplication.repository
 
 import android.util.Log
 import com.example.myapplication.model.CartProduct
+import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Order
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class OrderRepositoryImp private constructor(): OrderRepository {
+class OrderRepositoryImp private constructor():     OrderRepository {
     private val database = Firebase.firestore
     override suspend fun getAllOrder(): InternetResult<List<Order>> {
         return try {
@@ -93,6 +96,31 @@ class OrderRepositoryImp private constructor(): OrderRepository {
         }
         catch (e: Exception) {
             Log.e("OrderRepository", "Xoá đơn hàng thất bại", e)
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun getOrder(
+        from: Timestamp?,
+        to: Timestamp?,
+        status: EnumStatus?
+    ): InternetResult<List<Order>> {
+        return try {
+            var query = database.collection(Order.COLLECTION_PATH) as Query
+            if (from != null) {
+                query = query.whereGreaterThanOrEqualTo("createAt", from)
+            }
+            if (to != null) {
+                query = query.whereLessThanOrEqualTo("createAt", to)
+            }
+            if (status != null) {
+                query = query.whereEqualTo("status", status.name)
+            }
+            val snapshot = query.get().await()
+            val orders = snapshot.toObjects(Order::class.java)
+            InternetResult.Success(orders)
+        } catch (e: Exception) {
+            Log.e("OrderRepository", "Lấy đơn hàng thất bại", e)
             InternetResult.Failed(e)
         }
     }

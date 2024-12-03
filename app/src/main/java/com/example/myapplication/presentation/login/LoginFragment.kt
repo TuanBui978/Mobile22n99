@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentLoginBinding
+import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
 import com.example.myapplication.presentation.mainfragment.MainFragment
@@ -123,8 +124,6 @@ class LoginFragment : Fragment() {
             val email = fragmentLoginBinding.emailEditText.text.toString()
             val password = fragmentLoginBinding.passwordEditText.text.toString()
             loginViewModel.signIn(email, password)
-
-
         }
         val builder = AlertDialog.Builder(context)
         builder.setView(R.layout.loading_dialog)
@@ -152,6 +151,7 @@ class LoginFragment : Fragment() {
                         edit.commit()
                     }
                     val bundle = bundleOf(MainFragment.USER_PARAM to status.data!!.uid)
+                    Session.get.login(status.data)
                     navController.navigate(R.id.login_to_home, bundle)
                     progress.dismiss()
 

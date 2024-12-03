@@ -166,6 +166,12 @@
     <string name="bank_transaction">Bank Transaction</string>
     <string name="complete_the_order">Complete the order</string>
     <string name="color_">Color:</string>
+    <string name="gender_">Gender:</string>
+    <string name="product_image">product image</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="dateHint">dd/mm/yyyy</string>
+    <string name="date_display">%1$02d/%2$02d/%3$d</string>
 
 
 </resources>

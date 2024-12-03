@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.EditProfileDialogBinding
 import com.example.myapplication.databinding.FragmentProfilesBinding
+import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
 
@@ -60,7 +61,7 @@ class ProfileFragment : Fragment() {
     ): View {
         fragmentProfilesBinding = FragmentProfilesBinding.inflate(inflater, container, false)
         val navController = findNavController()
-        profileViewModel.getCurrentUser()
+        profileViewModel.getCurrentUser(requireContext())
         profileViewModel.currentUserStatus.observe(this.viewLifecycleOwner) {
             status->
             if (status is InternetResult.Success) {
@@ -181,6 +182,10 @@ class ProfileFragment : Fragment() {
             }
             val gender = dialogBinding.genderSpinner.selectedItem.toString()
             val user = User(uid = userUid!!, phoneNumber = phoneNumber, address = address, gender = gender, email = currentUser!!.email)
+            Session.get.currentLogin!!.phoneNumber = phoneNumber
+            Session.get.currentLogin!!.address = address
+            Session.get.currentLogin!!.gender = gender
+            Session.get.currentLogin!!.email = currentUser!!.email
             profileViewModel.createOrUpdateProfile(user)
         }
         dialogBinding.cancelButton.setOnClickListener {

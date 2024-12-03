@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSignUpBinding
+import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
 import com.example.myapplication.presentation.mainfragment.MainFragment
@@ -72,6 +73,7 @@ class SignUpFragment : Fragment() {
                 is InternetResult.Success -> {
                     val bundle = bundleOf(MainFragment.USER_PARAM to status.data!!.uid)
                     navController.navigate(R.id.sign_up_to_home, bundle)
+                    Session.get.login(status.data)
                     progress.dismiss()
                 }
                 is InternetResult.Failed -> {

@@ -6,23 +6,44 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
+import com.example.myapplication.model.CartProduct
+import com.example.myapplication.model.EnumGenderType
+import com.example.myapplication.model.EnumType
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Product
 import com.example.myapplication.presentation.admin.AdminViewModel
+import com.example.myapplication.repository.CartProductRepository
 import com.example.myapplication.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class ListItemViewModel(private val application: MyApplication,private val productRepository: ProductRepository): ViewModel() {
+class ListItemViewModel(private val application: MyApplication,private val productRepository: ProductRepository, private val cartProductRepository: CartProductRepository): ViewModel() {
 
     private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
+    private var mUpdateStatus = MutableLiveData<InternetResult<CartProduct>>()
 
     val productStatus
         get() = _productStatus
+
+    val updateStatus
+        get() = mUpdateStatus
 
     fun getAllProduct() {
         _productStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
             _productStatus.postValue(productRepository.getAllProducts())
+        }
+    }
+    fun getProductBy(type: EnumType, gender: EnumGenderType) {
+        _productStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            _productStatus.postValue(productRepository.getProductBy(type, gender))
+        }
+    }
+
+    fun addToCart(cartProduct: CartProduct) {
+        mUpdateStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            mUpdateStatus.postValue(cartProductRepository.addProductToCart(cartProduct))
         }
     }
     companion object {
@@ -31,7 +52,8 @@ class ListItemViewModel(private val application: MyApplication,private val produ
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]) as MyApplication
                 val itemRepository = application.productRepository
-                return ListItemViewModel(application, itemRepository) as T
+                val cartProductRepository = application.cartProductRepository
+                return ListItemViewModel(application, itemRepository, cartProductRepository) as T
             }
         }
     }

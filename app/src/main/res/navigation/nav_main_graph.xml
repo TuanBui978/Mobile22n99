@@ -90,24 +90,24 @@
             app:destination="@id/detailFragment"
             />
         <argument
-            android:name="productId"
+            android:name="gender"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.myapplication.presentation.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        tools:layout="@layout/fragment_detail">
         <action
             android:id="@+id/action_detailFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" >
-            <argument
-                android:name="cartProducts"
-                app:argType="com.example.myapplication.model.CartProduct[]"
-                app:nullable="true"
-                android:defaultValue="@null" />
-        </action>
+            app:destination="@id/paymentFragment" />
         <action
             android:id="@+id/action_detailFragment_self"
             app:destination="@id/detailFragment" />
@@ -123,7 +123,6 @@
         <argument
             android:name="cartProducts"
             app:argType="com.example.myapplication.model.CartProduct[]"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            />
     </fragment>
 </navigation>
