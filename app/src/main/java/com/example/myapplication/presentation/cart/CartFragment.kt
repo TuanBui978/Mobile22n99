@@ -8,11 +8,16 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication.R
 import com.example.myapplication.adapter.CartProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentCartBinding
 import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
+import com.example.myapplication.touchhelper.CustomItemTouchHelper
+import com.example.myapplication.touchhelper.ItemTouchHelperAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +33,8 @@ class CartFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var position : Int = -1
 
     private lateinit var fragmentCartBinding: FragmentCartBinding
 
@@ -47,6 +54,28 @@ class CartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         cartViewModel.getListCartProduct(Session.get.currentLogin!!.uid!!)
+        val loadingDialog = LoadingDialog(requireContext())
+        cartViewModel.deleteStatus.observe(viewLifecycleOwner){
+            val adapter = fragmentCartBinding.itemRecycleView.adapter as CartProductRecycleViewAdapter
+            when(it) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success -> {
+                    loadingDialog.dismiss()
+                    if (position!=-1) {
+                        adapter.deleteItem(position)
+                    }
+                }
+                is InternetResult.Failed-> {
+                    ErrorDialog(requireContext(), "Something wrong when we try to remove this product to your cart, please try again late.").show()
+                    if (position!=-1) {
+                        adapter.notifyItemChanged(position)
+                    }
+                }
+            }
+        }
+
         cartViewModel.cartProductStatus.observe(viewLifecycleOwner) {
             status->
             when(status) {
@@ -74,9 +103,17 @@ class CartFragment : Fragment() {
                         fragmentCartBinding.emptyItem.visibility = View.GONE
                         fragmentCartBinding.mainLayout.visibility = View.VISIBLE
                         val adapter = CartProductRecycleViewAdapter(list.toMutableList())
+                        val customItemTouchHelper = CustomItemTouchHelper(adapter)
+                        val itemTouchHelper = ItemTouchHelper(customItemTouchHelper)
+                        adapter.itemTouchHelper = itemTouchHelper
+                        adapter.setOnDelete { cartProduct, i ->
+                            position = i
+                            cartViewModel.deleteCartProduct(cartProduct.id!!)
+                        }
+                        itemTouchHelper.attachToRecyclerView(fragmentCartBinding.itemRecycleView)
                         fragmentCartBinding.itemRecycleView.adapter = adapter
-                        val totalPriceLiveData = adapter.getTotalPrice()
 
+                        val totalPriceLiveData = adapter.getTotalPrice()
                         totalPriceLiveData.observe(viewLifecycleOwner) {
                             totalPrice->
                             val shipPrice = if (totalPrice == 0f) {
@@ -84,6 +121,9 @@ class CartFragment : Fragment() {
                             }
                             else {
                                 20f
+                            }
+                            if (shipPrice == 0f) {
+                                fragmentCartBinding.checkOutButton.isEnabled = false
                             }
                             fragmentCartBinding.subtotalTextView.text = getString(R.string.price_display, totalPrice)
                             fragmentCartBinding.shippingTextView.text = getString(R.string.price_display, shipPrice)
@@ -100,11 +140,7 @@ class CartFragment : Fragment() {
             val products = adapter.getProducts()
             val action = CartFragmentDirections.actionCartFragmentToPaymentFragment(products)
             findNavController().navigate(action)
-
         }
-
-
-
         return fragmentCartBinding.root
     }
 

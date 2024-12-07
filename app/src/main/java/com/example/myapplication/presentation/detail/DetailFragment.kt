@@ -56,81 +56,85 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentDetailBinding = FragmentDetailBinding.inflate(layoutInflater, container, false)
-        detailViewModel.productStatus.observe(viewLifecycleOwner) {
-            status->
-            when (status) {
-                is InternetResult.Loading->{
-                    fragmentDetailBinding.mainLayout.visibility = View.GONE
-                    fragmentDetailBinding.loadingLayout.visibility = View.VISIBLE
-                    fragmentDetailBinding.Error.visibility = View.GONE
-                }
-                is InternetResult.Success->{
-                    fragmentDetailBinding.mainLayout.visibility = View.VISIBLE
-                    fragmentDetailBinding.loadingLayout.visibility = View.GONE
-                    fragmentDetailBinding.Error.visibility = View.GONE
-                    val product = status.data!!
-                    //ảnh chính và adapter
-                    val images:MutableList<String> = mutableListOf()
-                    images.add(product.mainImage!!)
-                    images.addAll(product.images)
-                    val imageView = fragmentDetailBinding.imageView
-                    val circularProgressDrawable = CircularProgressDrawable(imageView.context).apply {
-                        strokeWidth = 5f
-                        centerRadius = 30f
-                        start()
+        if (savedInstanceState == null) {
+            detailViewModel.productStatus.observe(viewLifecycleOwner) {
+                status->
+                when (status) {
+                    is InternetResult.Loading->{
+                        fragmentDetailBinding.mainLayout.visibility = View.GONE
+                        fragmentDetailBinding.loadingLayout.visibility = View.VISIBLE
+                        fragmentDetailBinding.Error.visibility = View.GONE
                     }
-                    Glide.with(this).load(product.mainImage).error(R.drawable.error_image_photo_icon).placeholder(circularProgressDrawable).into(imageView)
-                    val adapter = InfoImageRecycleViewAdapter(images)
-                    fragmentDetailBinding.imageRecycleView.adapter = adapter
-                    adapter.setOnImageClickListener {
-                        image ->
-                        Glide.with(this).load(image).error(R.drawable.error_image_photo_icon).placeholder(circularProgressDrawable).into(imageView)
-                    }
-
-                    //recycle view chứa màu và xử lí  logic
-                    val color = product.variants.map { it.color!! }.distinct().toMutableList()
-                    val colorAdapter = DetailColorAdapter(color)
-                    getSizeByColor(product, color[0])
-                    fragmentDetailBinding.colorRecycleView.adapter = colorAdapter
-                    colorAdapter.setOnColorClickListener {
-                        selectColor->
-                        getSizeByColor(product, selectColor)
-                    }
-
-                    //amount container
-                    fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, 0.00)
-                    fragmentDetailBinding.countTextView.text = getText(R.string._0)
-                    fragmentDetailBinding.removeButton.setOnClickListener {
-                        var count = fragmentDetailBinding.countTextView.text.toString().toInt()
-                        count--
-                        count = if (count < 0) {
-                            0
+                    is InternetResult.Success->{
+                        fragmentDetailBinding.mainLayout.visibility = View.VISIBLE
+                        fragmentDetailBinding.loadingLayout.visibility = View.GONE
+                        fragmentDetailBinding.Error.visibility = View.GONE
+                        val product = status.data!!
+                        //tên
+                        fragmentDetailBinding.productNameTextView.text = status.data.name
+                        //ảnh chính và adapter
+                        val images:MutableList<String> = mutableListOf()
+                        images.add(product.mainImage!!)
+                        images.addAll(product.images)
+                        val imageView = fragmentDetailBinding.imageView
+                        val circularProgressDrawable = CircularProgressDrawable(imageView.context).apply {
+                            strokeWidth = 5f
+                            centerRadius = 30f
+                            start()
                         }
-                        else {
-                            count
+                        Glide.with(this).load(product.mainImage).error(R.drawable.error_image_photo_icon).placeholder(circularProgressDrawable).into(imageView)
+                        val adapter = InfoImageRecycleViewAdapter(images)
+                        fragmentDetailBinding.imageRecycleView.adapter = adapter
+                        adapter.setOnImageClickListener {
+                                image ->
+                            Glide.with(this).load(image).error(R.drawable.error_image_photo_icon).placeholder(circularProgressDrawable).into(imageView)
                         }
-                        val price =  product.price!! * count
-                        fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, price)
-                        fragmentDetailBinding.countTextView.text = count.toString()
+
+                        //recycle view chứa màu và xử lí  logic
+                        val color = product.variants.map { it.color!! }.distinct().toMutableList()
+                        val colorAdapter = DetailColorAdapter(color)
+                        getSizeByColor(product, color[0])
+                        fragmentDetailBinding.colorRecycleView.adapter = colorAdapter
+                        colorAdapter.setOnColorClickListener {
+                                selectColor->
+                            getSizeByColor(product, selectColor)
+                        }
+
+                        //amount container
+                        fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, 0.00)
+                        fragmentDetailBinding.countTextView.text = getText(R.string._0)
+                        fragmentDetailBinding.removeButton.setOnClickListener {
+                            var count = fragmentDetailBinding.countTextView.text.toString().toInt()
+                            count--
+                            count = if (count < 0) {
+                                0
+                            }
+                            else {
+                                count
+                            }
+                            val price =  product.price!! * count
+                            fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, price)
+                            fragmentDetailBinding.countTextView.text = count.toString()
+                        }
+                        fragmentDetailBinding.addButton.setOnClickListener {
+                            var count = fragmentDetailBinding.countTextView.text.toString().toInt()
+                            count++
+                            val price =  product.price!! * count
+                            fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, price)
+                            fragmentDetailBinding.countTextView.text = count.toString()
+                        }
+                        fragmentDetailBinding.buyNowButton.setOnClickListener {
+                            onBuyButtonClick(product)
+                        }
+                        fragmentDetailBinding.addToCartButton.setOnClickListener {
+                            onAddToCartClick(product)
+                        }
                     }
-                    fragmentDetailBinding.addButton.setOnClickListener {
-                        var count = fragmentDetailBinding.countTextView.text.toString().toInt()
-                        count++
-                        val price =  product.price!! * count
-                        fragmentDetailBinding.priceTextView.text = getString(R.string.price_display, price)
-                        fragmentDetailBinding.countTextView.text = count.toString()
+                    is InternetResult.Failed->{
+                        fragmentDetailBinding.mainLayout.visibility = View.GONE
+                        fragmentDetailBinding.loadingLayout.visibility = View.GONE
+                        fragmentDetailBinding.Error.visibility = View.VISIBLE
                     }
-                    fragmentDetailBinding.buyNowButton.setOnClickListener {
-                        onBuyButtonClick(product)
-                    }
-                    fragmentDetailBinding.addToCartButton.setOnClickListener {
-                        onAddToCartClick(product)
-                    }
-                }
-                is InternetResult.Failed->{
-                    fragmentDetailBinding.mainLayout.visibility = View.GONE
-                    fragmentDetailBinding.loadingLayout.visibility = View.GONE
-                    fragmentDetailBinding.Error.visibility = View.VISIBLE
                 }
             }
         }
@@ -174,6 +178,7 @@ class DetailFragment : Fragment() {
 
     private fun onAddToCartClick(product: Product) {
         val loadingDialog = LoadingDialog(requireContext())
+        detailViewModel.createCartProductStatus.removeObservers(viewLifecycleOwner)
         detailViewModel.createCartProductStatus.observe(viewLifecycleOwner) {
             status->
             when(status) {
@@ -191,7 +196,6 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
         val cartProduct = createCartProduct(product)
         cartProduct?.let {
             detailViewModel.createCartProduct(cartProduct)
@@ -200,6 +204,7 @@ class DetailFragment : Fragment() {
 
     private fun onBuyButtonClick(product: Product) {
         val loadingDialog = LoadingDialog(requireContext())
+        detailViewModel.createCartProductStatus.removeObservers(viewLifecycleOwner)
         detailViewModel.createCartProductStatus.observe(viewLifecycleOwner) {
             status->
             when(status) {
@@ -218,7 +223,6 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
         val cartProduct = createCartProduct(product)
         cartProduct?.let {
             detailViewModel.createCartProduct(cartProduct)

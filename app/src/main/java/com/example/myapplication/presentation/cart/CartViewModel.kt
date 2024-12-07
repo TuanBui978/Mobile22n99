@@ -18,15 +18,23 @@ import kotlinx.coroutines.launch
 class CartViewModel(private val application: MyApplication, private val cartProductRepository: CartProductRepository, private val productRepository: ProductRepository): ViewModel() {
 
     private var _cartProductStatus = MutableLiveData<InternetResult<List<CartProduct>>>()
+    private var mDeleteStatus = MutableLiveData<InternetResult<Void>>()
     val cartProductStatus
         get() = _cartProductStatus
+    val deleteStatus
+        get() = mDeleteStatus
     fun getListCartProduct(userId: String) {
         _cartProductStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
             _cartProductStatus.postValue(cartProductRepository.getAllProductsInCart(userId))
         }
     }
-
+    fun deleteCartProduct(id: String) {
+        mDeleteStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            mDeleteStatus.postValue(cartProductRepository.removeProductFromCart(id))
+        }
+    }
     fun createCartProductIdsBundle(list: List<String>) : Bundle {
         return bundleOf("cartProductIds" to list)
     }
