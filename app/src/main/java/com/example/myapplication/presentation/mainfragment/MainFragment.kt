@@ -77,10 +77,8 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         // Inflate the layout for this fragment
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
         requireActivity().onBackPressedDispatcher.addCallback {
+            isEnabled = navController!!.currentDestination?.id != R.id.homeFragment
             navController!!.popBackStack()
-            if (navController!!.currentDestination?.id == R.id.homeFragment) {
-                isEnabled = false
-            }
         }
         val fragmentTransaction = childFragmentManager.beginTransaction()
         val bundle = bundleOf(USER_PARAM to userUid)
@@ -137,7 +135,8 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                     }
                     launchSingleTop = true
                 }
-                if (reload) {
+                val currentDestination = navController!!.currentDestination!!.id
+                if (currentDestination != R.id.listItemFragment || reload) {
                     navController!!.navigate(R.id.listItemFragment, null, navOptions)
                     reload = false
                 }
