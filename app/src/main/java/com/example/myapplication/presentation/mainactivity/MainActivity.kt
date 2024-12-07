@@ -23,24 +23,19 @@ import com.example.myapplication.presentation.mainfragment.MainFragment
 
 
 class MainActivity : AppCompatActivity() {
-
-
     private var activityMainBinding: ActivityMainBinding? = null
-
     private val viewModel: MainActivityViewModel by viewModels { MainActivityViewModel.Factory }
-
     private var navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
-        val observer = Observer<InternetResult<User>>{
+        viewModel.getCurrentUser(applicationContext)
+        viewModel.status.observe(this){
             status->
             when (status) {
                 is InternetResult.Loading-> {
-
                 }
                 is InternetResult.Success-> {
                     val user = status.data!!
@@ -64,8 +59,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.status.observe(this, observer)
-        viewModel.getCurrentUser(applicationContext)
         setContentView(activityMainBinding!!.root)
     }
 

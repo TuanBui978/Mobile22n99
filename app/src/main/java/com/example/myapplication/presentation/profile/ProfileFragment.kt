@@ -61,13 +61,10 @@ class ProfileFragment : Fragment() {
     ): View {
         fragmentProfilesBinding = FragmentProfilesBinding.inflate(inflater, container, false)
         val navController = findNavController()
-        profileViewModel.getCurrentUser(requireContext())
-        profileViewModel.currentUserStatus.observe(this.viewLifecycleOwner) {
-            status->
-            if (status is InternetResult.Success) {
-                currentUser = status.data
-            }
-        }
+
+
+        currentUser = Session.get.currentLogin
+
 
         val observer = Observer<InternetResult<User>>{
             status->
@@ -110,51 +107,10 @@ class ProfileFragment : Fragment() {
             showEditProfileDialog()
         }
 
-//        profileViewModel.shopStatus.observe(this.viewLifecycleOwner) {
-//            status->
-//            when(status) {
-//                is InternetResult.Loading-> {
-//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.VISIBLE
-//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
-//                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
-//                }
-//                is InternetResult.Success-> {
-//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
-//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.GONE
-//                    fragmentProfilesBinding.shopListLayout.visibility = View.VISIBLE
-//                    val shops = status.data!!
-//                    val recyclerViewAdapter = ShopRecycleViewAdapter(shops)
-//                    val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//                    fragmentProfilesBinding.shopList.adapter = recyclerViewAdapter
-//                    fragmentProfilesBinding.shopList.layoutManager = layoutManager
-//                    val param = fragmentProfilesBinding.shopList.layoutParams as ViewGroup.MarginLayoutParams
-//                    if (shops.isEmpty()) {
-//                        param.bottomMargin = 0
-//                    }
-//                    else {
-//                        param.bottomMargin = 20
-//                    }
-//                    recyclerViewAdapter.onItemClickListener {
-//                        Toast.makeText(requireContext(), "Click", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//                is InternetResult.Failed->{
-//                    fragmentProfilesBinding.shopLoadingLayout.visibility = View.GONE
-//                    fragmentProfilesBinding.shopWarningTextView.visibility = View.VISIBLE
-//                    fragmentProfilesBinding.shopListLayout.visibility = View.GONE
-//                }
-//            }
-//        }
-//
-//        fragmentProfilesBinding.addShopButton.setOnClickListener {
-//            navController.navigate(R.id.add_shop)
-//        }
-
         return fragmentProfilesBinding.root
     }
 
     private fun showEditProfileDialog() {
-
         val builder = AlertDialog.Builder(this.requireContext())
         val dialogBinding = EditProfileDialogBinding.inflate(LayoutInflater.from(builder.context))
         builder.setView(dialogBinding.root)
@@ -171,7 +127,6 @@ class ProfileFragment : Fragment() {
         dialogBinding.phoneNumberEditText.setText(phoneNumber)
         builder.setCancelable(false)
         val dialog = builder.create()
-
         dialogBinding.okButton.setOnClickListener {
             phoneNumber = dialogBinding.phoneNumberEditText.text.toString()
             address = dialogBinding.addressEditText.text.toString()
@@ -181,7 +136,13 @@ class ProfileFragment : Fragment() {
                 return@setOnClickListener
             }
             val gender = dialogBinding.genderSpinner.selectedItem.toString()
-            val user = User(uid = userUid!!, phoneNumber = phoneNumber, address = address, gender = gender, email = currentUser!!.email)
+            val user = User(
+                uid = userUid!!,
+                phoneNumber = phoneNumber,
+                address = address,
+                gender = gender,
+                email = currentUser!!.email
+            )
             Session.get.currentLogin!!.phoneNumber = phoneNumber
             Session.get.currentLogin!!.address = address
             Session.get.currentLogin!!.gender = gender

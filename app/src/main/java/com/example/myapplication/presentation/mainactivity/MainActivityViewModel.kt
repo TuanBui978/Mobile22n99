@@ -17,16 +17,6 @@ import kotlinx.coroutines.launch
 
 class MainActivityViewModel(private val application: MyApplication, private val userRepository: UserRepository): ViewModel() {
 
-
-    private var mFilterQuery = MutableLiveData<String>()
-    val filterQuery
-        get() = mFilterQuery
-
-    fun search(query: String) {
-        mFilterQuery.postValue(query)
-    }
-
-
     private var _status = MutableLiveData<InternetResult<User>>()
     val status
         get() = _status
@@ -37,6 +27,19 @@ class MainActivityViewModel(private val application: MyApplication, private val 
             delay(2000)
             _status.postValue(userRepository.getCurrentUser(context))
         }
+    }
+
+
+
+
+
+
+    private var mFilterQuery = MutableLiveData<String>()
+    val filterQuery
+        get() = mFilterQuery
+
+    fun search(query: String) {
+        mFilterQuery.postValue(query)
     }
 
     companion object {

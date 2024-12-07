@@ -21,9 +21,18 @@ class UserRepositoryImp private constructor(): UserRepository{
     private val auth = Firebase.auth
     private val dataBase = Firebase.firestore
     override suspend fun getCurrentUser(context: Context): InternetResult<User> {
-        return when (val result = auth.currentUser) {
+        return when (val user = auth.currentUser) {
             null -> InternetResult.Failed(Exception())
-            else -> getUser(context, result.uid)
+            else -> {
+                when (val mUser = getUser(context, user.uid)) {
+                    is InternetResult.Success->{
+                        InternetResult.Success(mUser.data)
+                    }
+                    else->{
+                        InternetResult.Success(User(user))
+                    }
+                }
+            }
         }
     }
 
@@ -34,7 +43,14 @@ class UserRepositoryImp private constructor(): UserRepository{
             if (user == null) {
                 InternetResult.Failed(Exception(context.getString(R.string.sign_in_false)))
             } else {
-                InternetResult.Success(User(user))
+                when (val myUser = getUser(context, user.uid)) {
+                    is InternetResult.Success -> {
+                        InternetResult.Success(myUser.data)
+                    }
+                    else ->{
+                        InternetResult.Success(User(user))
+                    }
+                }
             }
         }
         catch (e: FirebaseAuthWeakPasswordException) {
@@ -45,6 +61,22 @@ class UserRepositoryImp private constructor(): UserRepository{
         }
         catch (e: FirebaseAuthInvalidCredentialsException) {
             InternetResult.Failed(Exception(context.getString(R.string.email_or_password_is_wrong)))
+        }
+        catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun getUser(context: Context, uid: String): InternetResult<User> {
+        return try {
+            val result = dataBase.collection("users").document(uid).get().await()
+            if (result.exists()) {
+                val data = result.toObject(User::class.java)
+                return InternetResult.Success(data)
+            }
+            else {
+                return InternetResult.Failed(Exception(context.getString(R.string.empty_user_info)))
+            }
         }
         catch (e: Exception) {
             InternetResult.Failed(e)
@@ -104,21 +136,7 @@ class UserRepositoryImp private constructor(): UserRepository{
         }
     }
 
-    override suspend fun getUser(context: Context, uid: String): InternetResult<User> {
-        return try {
-            val result = dataBase.collection("users").document(uid).get().await()
-            if (result.exists()) {
-                val data = result.toObject(User::class.java)
-                return InternetResult.Success(data)
-            }
-            else {
-                return InternetResult.Failed(Exception(context.getString(R.string.empty_user_info)))
-            }
-        }
-        catch (e: Exception) {
-            InternetResult.Failed(e)
-        }
-    }
+
 
 
 

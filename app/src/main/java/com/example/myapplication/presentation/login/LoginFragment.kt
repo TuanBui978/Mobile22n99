@@ -88,6 +88,7 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.registerTextView.setOnClickListener {
             navController.navigate(R.id.login_to_sign_up)
         }
+
         fragmentLoginBinding.emailEditText.addTextChangedListener {
             if (it.isNullOrBlank() ) {
                 fragmentLoginBinding.signInButton.setBackgroundColor(Color.parseColor("#D9D9D9"))
@@ -129,7 +130,7 @@ class LoginFragment : Fragment() {
         builder.setView(R.layout.loading_dialog)
         builder.setCancelable(false)
         val progress = builder.create()
-        val statusObserver = Observer<InternetResult<User>> {
+        loginViewModel.status.observe(viewLifecycleOwner) {
             status->
             val isChecked = fragmentLoginBinding.rememberChecked.isChecked
             val edit = requireContext().getSharedPreferences("APP_SHARED_PREF", Context.MODE_PRIVATE).edit()
@@ -154,7 +155,6 @@ class LoginFragment : Fragment() {
                     Session.get.login(status.data)
                     navController.navigate(R.id.login_to_home, bundle)
                     progress.dismiss()
-
                 }
                 is InternetResult.Failed -> {
                     progress.dismiss()
@@ -162,7 +162,6 @@ class LoginFragment : Fragment() {
                 }
             }
         }
-        loginViewModel.status.observe(viewLifecycleOwner, statusObserver)
         return fragmentLoginBinding.root
     }
 
