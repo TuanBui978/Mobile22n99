@@ -7,6 +7,7 @@ enum class EnumType(val displayString: String) {
     Sweater("Sweater"),
     Shorts("Shorts"),
     Pants("Pans"),
+    Skirt("Skirt"),
     Hat("Hat"),
     Socks("Socks")
 }

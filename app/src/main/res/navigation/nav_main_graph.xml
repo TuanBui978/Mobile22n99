@@ -10,7 +10,6 @@
         android:name="com.example.myapplication.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home"
-
         >
     </fragment>
 
@@ -18,7 +17,11 @@
         android:id="@+id/cartFragment"
         android:name="com.example.myapplication.presentation.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart"/>
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/myAccountFragment"
@@ -75,4 +78,51 @@
         android:name="com.example.myapplication.presentation.admin.additem.AdItemDetailFragment"
         android:label="fragment_add_item"
         tools:layout="@layout/fragment_ad_item_detail" />
+
+
+    <fragment
+        android:id="@+id/listItemFragment"
+        android:name="com.example.myapplication.presentation.listitem.ListItemFragment"
+        android:label="fragment_list_item"
+        tools:layout="@layout/fragment_list_item" >
+        <action
+            android:id="@+id/action_listItemFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            />
+        <argument
+            android:name="gender"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.myapplication.presentation.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.myapplication.presentation.payment.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <argument
+            android:name="cartProducts"
+            app:argType="com.example.myapplication.model.CartProduct[]"
+            />
+    </fragment>
 </navigation>

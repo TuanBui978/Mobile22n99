@@ -11,31 +11,25 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="6dp">
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="6dp">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/all_order"
-                android:textFontWeight="600"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_order"
-                app:drawableLeftCompat="@drawable/baseline_add_circle_outline_12"
-                android:drawablePadding="5dp"
-                />
-        </LinearLayout>
+            android:text="@string/all_order"
+            android:textFontWeight="600"
+            android:layout_weight="1"
+            />
 
-    <FrameLayout
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
@@ -43,62 +37,8 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:background="#F4D6D5"
+        android:orientation="vertical"
         >
-
-        <TextView
-            android:id="@+id/emptyOrder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/your_store_currently_has_no_orders_we_ll_update_the_list_as_soon_as_products_are_purchased"
-            android:layout_gravity="center"
-            app:drawableLeftCompat="@drawable/baseline_info_outline_24"
-            android:drawablePadding="10dp"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:id="@+id/orderLoadingLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:visibility="gone">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/please_wait_this_may_take_a_moment"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/orderError"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            app:drawableLeftCompat="@drawable/baseline_warning_24"
-            android:drawablePadding="10dp"
-            android:visibility="gone"
-            />
-
-        <LinearLayout
-            android:id="@+id/orderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,54 +49,137 @@
                     tools:viewBindingIgnore = "true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/time_span"
+                    android:text="@string/from"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/timeSpanSpinner"
+                    app:layout_constraintBottom_toTopOf="@id/fromDateTextView"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginBottom="6dp"/>
-                <Spinner
-                    android:id="@+id/timeSpanSpinner"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/fromDateTextView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/timeSpanTextView"
+                    app:layout_constraintEnd_toStartOf="@id/toDateTextView"
+                    android:paddingVertical="10dp"
+                    android:hint="@string/dateHint"
+                    android:inputType="none"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     />
                 <TextView
-                    android:id="@+id/statusTextView"
+                    android:id="@+id/toTextView"
                     tools:viewBindingIgnore = "true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/status"
-                    app:layout_constraintLeft_toLeftOf="@id/statusSpinner"
+                    android:text="@string/to"
+                    app:layout_constraintLeft_toLeftOf="@id/toDateTextView"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/statusSpinner"
+                    app:layout_constraintBottom_toTopOf="@id/toDateTextView"
                     android:layout_marginBottom="6dp"/>
-                <Spinner
-                    android:id="@+id/statusSpinner"
+                <TextView
+                    android:id="@+id/toDateTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/toTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fromDateTextView"
+                    android:paddingVertical="10dp"
+                    android:hint="@string/dateHint"
+                    android:inputType="none"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    />
+
+                <TextView
+                    android:id="@+id/statusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/status"
+                    app:layout_constraintTop_toBottomOf="@id/fromDateTextView"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/statusTextView"
-                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginVertical="5dp"
                     />
+                <Spinner
+                    android:id="@+id/statusSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/toTextView"
+                    app:layout_constraintTop_toBottomOf="@id/fromDateTextView"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:itemCount="3"
+                tools:listitem="@layout/order_item"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+            <TextView
+                android:id="@+id/emptyOrder"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/your_store_currently_has_no_orders_we_ll_update_the_list_as_soon_as_products_are_purchased"
+                android:layout_gravity="center"
+                app:drawableLeftCompat="@drawable/baseline_info_outline_24"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/orderLoadingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="500dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:visibility="gone">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/please_wait_this_may_take_a_moment"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/orderError"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                app:drawableLeftCompat="@drawable/baseline_warning_24"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
                 />
 
         </LinearLayout>
 
-    </FrameLayout>
-
-
-
-
-
-
-
-
 </LinearLayout>
+
+
+
+
+
+

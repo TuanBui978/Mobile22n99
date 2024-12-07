@@ -34,7 +34,7 @@
             />
     </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
@@ -42,62 +42,13 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:background="#F4D6D5"
+        android:orientation="vertical"
         >
 
-        <TextView
-            android:id="@+id/emptyItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/your_store_currently_has_no_products_available_we_will_notify_you_as_soon_as_new_products_become_available"
-            android:layout_gravity="center"
-            app:drawableLeftCompat="@drawable/baseline_info_outline_24"
-            android:drawablePadding="10dp"
-            android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/itemError"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            app:drawableLeftCompat="@drawable/baseline_warning_24"
-            android:drawablePadding="10dp"
-            android:visibility="gone"
-            />
 
-        <LinearLayout
-            android:id="@+id/itemLoadingLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:visibility="gone">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/please_wait_this_may_take_a_moment"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/itemLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -122,16 +73,84 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/typeTextView"
                     />
+
+                <TextView
+                    android:id="@+id/genderTextView"
+                    tools:viewBindingIgnore = "true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender_"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/genderSpinner"
+                    app:layout_constraintStart_toStartOf="@id/genderSpinner"
+                    android:layout_marginBottom="6dp"
+                    />
+                <Spinner
+                    android:id="@+id/genderSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/genderTextView"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
                 />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/emptyItem"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/your_store_currently_has_no_products_available_we_will_notify_you_as_soon_as_new_products_become_available"
+                android:layout_gravity="center"
+                app:drawableLeftCompat="@drawable/baseline_info_outline_24"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:gravity="center"/>
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/itemError"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                app:drawableLeftCompat="@drawable/baseline_warning_24"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:gravity="center"
+                />
 
+            <LinearLayout
+                android:id="@+id/itemLoadingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="500dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:visibility="gone">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/please_wait_this_may_take_a_moment"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    />
+            </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -37,8 +37,6 @@
                 />
         </LinearLayout>
 
-
-        <!-- TODO: Update blank fragment layout -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,11 +48,12 @@
             <TextView
                 android:id="@+id/itemError"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
                 android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_gravity="center"
+                android:gravity="center"
                 app:drawableLeftCompat="@drawable/baseline_warning_24"
                 android:drawablePadding="10dp"
                 android:visibility="gone"
@@ -64,9 +63,10 @@
             <LinearLayout
                 android:id="@+id/itemLoadingLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:visibility="gone">
                 <ProgressBar
                     android:layout_width="wrap_content"
@@ -143,7 +143,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F4D6D5"
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
@@ -151,24 +150,27 @@
             <TextView
                 android:id="@+id/orderError"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
                 android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:paddingHorizontal="20dp"
                 android:layout_gravity="center"
+                android:gravity="center"
                 app:drawableLeftCompat="@drawable/baseline_warning_24"
                 android:drawablePadding="10dp"
                 android:visibility="gone"
+                android:background="#F4D6D5"
                 />
 
 
             <LinearLayout
                 android:id="@+id/orderLoadingLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
                 android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:visibility="gone">
+                android:gravity="center"
+                android:visibility="gone"
+                android:background="#F4D6D5"
+                >
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -187,21 +189,24 @@
             <TextView
                 android:id="@+id/emptyOrder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_height="400dp"
+                android:paddingHorizontal="20dp"
                 android:text="@string/your_store_currently_has_no_orders_we_ll_update_the_list_as_soon_as_products_are_purchased"
                 android:layout_gravity="center"
+                android:gravity="center"
                 app:drawableLeftCompat="@drawable/baseline_info_outline_24"
                 android:drawablePadding="10dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:background="#F4D6D5"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/orderRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                tools:listitem="@layout/order_item"
+                tools:itemCount="3"
                 />
 
 

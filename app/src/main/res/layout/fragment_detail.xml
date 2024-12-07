@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.detail.DetailFragment"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/Error"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:text="@string/something_was_wrong_when_we_try_to_loading_your_data_please_try_again_now_or_some_time_late"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        app:drawableLeftCompat="@drawable/baseline_warning_24"
+        android:drawablePadding="10dp"
+        android:visibility="gone"
+
+        />
+
+
+    <LinearLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_wait_this_maybe_take_a_momennt"
+            />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/productNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_name"
+                android:textSize="40sp"
+                android:textFontWeight="600"
+                android:layout_marginHorizontal="42dp"
+                android:layout_marginVertical="21dp"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="334dp"
+                android:layout_height="334dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imageRecycleView"
+                android:layout_width="wrap_content"
+                android:layout_height="51dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/info_image_item"
+                tools:itemCount="5"
+                android:layout_marginHorizontal="36dp"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="30dp"
+                android:layout_marginTop="20dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/colorTextView"
+                    tools:viewBindingIgnore ="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/color"
+                    android:textSize="20sp"
+                    android:textFontWeight="600"
+                    app:layout_constraintStart_toStartOf="@id/colorRecycleView"
+                    app:layout_constraintEnd_toEndOf="@id/colorRecycleView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/colorRecycleView"
+                    android:layout_width="82dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/colorTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toStartOf="@id/sizeContainer"
+                    tools:listitem="@layout/detail_color_item"
+                    />
+
+                <TextView
+                    android:id="@+id/sizeTextView"
+                    tools:viewBindingIgnore = "true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/size"
+                    android:textSize="20sp"
+                    android:textFontWeight="600"
+                    app:layout_constraintStart_toEndOf="@id/colorRecycleView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/sizeContainer"
+                    app:layout_constraintEnd_toEndOf="@id/sizeContainer"
+
+                    />
+
+                <RadioGroup
+                    android:id="@+id/sizeContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="7dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/colorRecycleView"
+                    app:layout_constraintTop_toBottomOf="@id/sizeTextView"
+                    tools:viewBindingIgnore="true"
+                    >
+
+
+                    <RadioButton
+                        android:id="@+id/SSizeButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/s"
+                        android:textFontWeight="600"
+                        android:textSize="20sp"
+                        android:background="@drawable/selection_conner"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/MSizeButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginHorizontal="14dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/m"
+                        android:textFontWeight="600"
+                        android:textSize="20sp"
+                        android:background="@drawable/selection_conner"/>
+
+                    <RadioButton
+                        android:id="@+id/LSizeButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/l"
+                        android:textFontWeight="600"
+                        android:textSize="20sp"
+                        android:background="@drawable/selection_conner"/>
+
+                    <RadioButton
+                        android:id="@+id/XLSizeButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginHorizontal="14dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/xl"
+                        android:textFontWeight="600"
+                        android:textSize="20sp"
+                        android:background="@drawable/selection_conner"/>
+
+                    <RadioButton
+                        android:id="@+id/XXLSizeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/xxl"
+                        android:textFontWeight="600"
+                        android:textSize="20sp"
+                        android:background="@drawable/selection_conner"
+                        android:padding="0dp"
+                        />
+                </RadioGroup>
+
+
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="20dp"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/inTotalTextView"
+                    tools:viewBindingIgnore="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/in_total"
+                    android:textSize="14sp"
+                    android:textFontWeight="600"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/priceTextView"
+                    />
+
+                <TextView
+                    android:id="@+id/priceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/_39"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toEndOf="@id/inTotalTextView"
+                    app:layout_constraintEnd_toStartOf="@id/amountContainer"
+                    android:textSize="20sp"
+                    android:textFontWeight="600"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="26dp"
+                    android:textAlignment="viewEnd"
+                    />
+
+                <TextView
+                    android:id="@+id/amountTextView"
+                    tools:viewBindingIgnore="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount"
+                    android:textFontWeight="600"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/amountContainer"
+                    app:layout_constraintStart_toStartOf="@id/amountContainer"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/amountContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amountTextView"
+                    app:layout_constraintStart_toEndOf="@id/priceTextView"
+                    android:background="#F4D6D5"
+                    android:layout_marginTop="8dp"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/removeButton"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/baseline_remove_24"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/countTextView"
+                        android:layout_width="26dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_1"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/addButton"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/baseline_add_24"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buyNowButton"
+                    android:layout_width="110dp"
+                    android:layout_height="47dp"
+                    android:text="@string/buy_now"
+                    android:background="#753532"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textFontWeight="700"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addToCartButton"
+                    android:layout_width="197dp"
+                    android:layout_height="47dp"
+                    android:background="@drawable/line_conner"
+                    android:text="@string/add_to_cart"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/baseline_cart_20"
+                    android:textSize="24sp"
+                    android:textFontWeight="700"
+                    android:paddingHorizontal="11dp"
+                    android:layout_marginStart="8dp"
+                    />
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F4D6D5"
+                android:layout_marginTop="35dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="13dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:layout_marginBottom="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textFontWeight="700"
+                    />
+
+                <TextView
+                    android:id="@+id/descriptonTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tsuki_market_studio_unisex_clothing_ethically_made_created_and_designed_by_felix_and_marzia_kjellberg_tsuki_sweater_screen_printed_100_cotton_made_in_the_u_s_a"
+                    android:paddingHorizontal="20.5dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other_products"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:textFontWeight="600"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/product_item"
+                tools:itemCount="5"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+    
+</LinearLayout>

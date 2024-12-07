@@ -31,8 +31,11 @@ class UploadImageRecycleViewAdapter(private var images: MutableList<String> = mu
 
     override fun onBindViewHolder(holder: UploadImageViewHolder, position: Int) {
 
-        val loadingDrawable = CircularProgressDrawable(holder.itemView.context)
-        loadingDrawable.start()
+        val loadingDrawable = CircularProgressDrawable(holder.itemView.context).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
         Glide.with(holder.itemView.context).load(images[holder.adapterPosition]).centerCrop().error(R.drawable.error_image_photo_icon).placeholder(loadingDrawable).into(holder.simpleImageRecyclerViewItemBinding.imageView)
 
         holder.simpleImageRecyclerViewItemBinding.closeButton.setOnClickListener{

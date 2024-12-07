@@ -17,13 +17,13 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
-class UserRepositoryImp: UserRepository {
+class UserRepositoryImp private constructor(): UserRepository{
     private val auth = Firebase.auth
     private val dataBase = Firebase.firestore
-    override suspend fun getCurrentUser(): InternetResult<User> {
+    override suspend fun getCurrentUser(context: Context): InternetResult<User> {
         return when (val result = auth.currentUser) {
             null -> InternetResult.Failed(Exception())
-            else -> InternetResult.Success(User(result))
+            else -> getUser(context, result.uid)
         }
     }
 
@@ -119,6 +119,8 @@ class UserRepositoryImp: UserRepository {
             InternetResult.Failed(e)
         }
     }
+
+
 
     companion object {
         private var userRepository: UserRepositoryImp? = null

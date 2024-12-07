@@ -62,12 +62,16 @@
         </menu>
     </item>
 
+    <item android:id="@+id/all_product"
+        android:title="@string/all_product"/>
+
 
     <item
         android:id="@+id/my_account"
         android:title="@string/my_account"
         android:icon="@drawable/person"
-        android:iconTint="#753532"/>
+        android:iconTint="#753532"
+        />
     <item android:title="@string/admin"
         android:id="@+id/admin"
         />

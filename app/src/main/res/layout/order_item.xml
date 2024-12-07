@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#F4D6D5"
+    android:paddingHorizontal="10dp"
+    android:layout_marginVertical="5dp"
+    android:paddingVertical="5dp">
+
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userAvatar"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/test__avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="@string/test_text"
+        android:textFontWeight="600"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideLine"
+        app:layout_constraintStart_toEndOf="@id/userAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="@string/test_text"
+        app:layout_constraintBottom_toTopOf="@id/userPhoneNumber"
+        app:layout_constraintEnd_toStartOf="@+id/guideLine"
+        app:layout_constraintStart_toEndOf="@id/userAvatar"
+        app:layout_constraintTop_toBottomOf="@id/userName" />
+
+
+    <TextView
+        android:id="@+id/userPhoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="@string/test_text"
+        app:layout_constraintBottom_toBottomOf="@id/userAvatar"
+        app:layout_constraintEnd_toStartOf="@+id/guideLine"
+        app:layout_constraintStart_toEndOf="@id/userAvatar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7"/>
+
+    <Spinner
+        android:id="@+id/statusSpinner"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toEndOf="@id/guideLine"
+        app:layout_constraintTop_toTopOf="@id/userAvatar"
+        app:layout_constraintBottom_toBottomOf="@id/userAvatar"
+        tools:listitem="@layout/order_status_spinner_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/transparent"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/productRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/userAvatar"
+        android:layout_marginVertical="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/item_of_order"
+        android:maxHeight="296dp"
+        tools:itemCount="3"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

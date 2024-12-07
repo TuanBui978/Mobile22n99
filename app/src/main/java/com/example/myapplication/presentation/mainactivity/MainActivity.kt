@@ -1,6 +1,12 @@
 package com.example.myapplication.presentation.mainactivity
 
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -10,10 +16,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.helper.checkAndRequestPermission
+import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
-import com.example.myapplication.presentation.home.HomeFragment
 import com.example.myapplication.presentation.mainfragment.MainFragment
 
 
@@ -38,8 +43,9 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 is InternetResult.Success-> {
-                    val user = status.data
-                    val bundle = bundleOf(MainFragment.USER_PARAM to user!!.uid)
+                    val user = status.data!!
+                    Session.get.login(user)
+                    val bundle = bundleOf(MainFragment.USER_PARAM to user.uid)
                     try {
                         navController!!.navigate(R.id.loading_to_home, bundle)
                     }
@@ -59,12 +65,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
         viewModel.status.observe(this, observer)
-        viewModel.getCurrentUser()
+        viewModel.getCurrentUser(applicationContext)
         setContentView(activityMainBinding!!.root)
     }
 
-    override fun onStart() {
-        super.onStart()
+
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_UP) {
+            val v: View? = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
 }

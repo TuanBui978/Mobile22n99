@@ -22,14 +22,13 @@
             android:orientation="horizontal"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             >
             <ImageButton
                 android:id="@+id/menuButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/menu_icon"
                 android:contentDescription="@null"
                 android:background="@null"
@@ -40,7 +39,6 @@
                 />
             
             <TextView
-
                 tools:ignore="true"
                 android:id="@+id/appLabel"
                 android:layout_width="wrap_content"
@@ -60,10 +58,9 @@
             <EditText
                 android:id="@+id/search_bar"
                 android:layout_width="160dp"
-                android:layout_height="22dp"
+                android:layout_height="30dp"
                 android:background="@drawable/search_box"
-                android:layout_marginStart="22dp"
-                android:layout_marginEnd="22dp"
+                android:layout_marginHorizontal="10dp"
                 android:hint="@string/search_anything"
                 android:textSize="14sp"
                 android:textColorHint="#7C7C7C"
@@ -76,17 +73,21 @@
                 app:layout_constraintEnd_toStartOf="@id/cartButton"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:cursorVisible="true"
+                android:imeOptions="actionDone"
                 />
 
             <ImageButton
                 android:id="@+id/cartButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/cart"
                 android:contentDescription="@null"
                 android:background="@null"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         
