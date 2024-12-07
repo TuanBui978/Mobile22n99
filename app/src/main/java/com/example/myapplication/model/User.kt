@@ -8,7 +8,8 @@ data class User (var uid: String? = null,
                  var address: String? = null,
                  var phoneNumber: String? = null,
                  var gender: String? = null,
-                 var avatar: String? = null
+                 var avatar: String? = null,
+                 var permission: Int = 1,
     ) {
     constructor(user: FirebaseUser): this(user.uid, user.email)
     override fun toString(): String {

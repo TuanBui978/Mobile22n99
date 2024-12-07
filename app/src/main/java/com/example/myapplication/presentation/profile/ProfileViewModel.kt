@@ -31,9 +31,9 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
     val shopStatus
         get() = _shopStatus
 
-    fun getCurrentUser(context: Context) {
+    fun getCurrentUser(context: Context, uid: String) {
         viewModelScope.launch {
-            _currentUserStatus.postValue(userRepository.getCurrentUser(context))
+            _currentUserStatus.postValue(userRepository.getUser(context, uid))
         }
     }
 

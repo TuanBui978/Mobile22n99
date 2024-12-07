@@ -89,6 +89,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             fragmentTransaction.replace(R.id.nav_host_fragment_in_fragment, navHostFragment!!)
             fragmentTransaction.setPrimaryNavigationFragment(navHostFragment)
             fragmentTransaction.commit()
+
         }
         else {
             navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment_in_fragment) as? NavHostFragment
@@ -173,6 +174,11 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         }
         fragmentMainBinding!!.searchBar.doOnTextChanged { text, _, _, _ ->
             mainActivityViewModel.search(text.toString())
+        }
+        if (Session.get.currentLogin!!.permission != 0) {
+            val menu = fragmentMainBinding!!.navigationView.menu
+            val admin = menu.findItem(R.id.admin)
+            admin.isVisible = false
         }
         return fragmentMainBinding!!.root
     }

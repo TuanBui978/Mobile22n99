@@ -5,7 +5,6 @@ plugins {
     kotlin("plugin.serialization")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
-
 }
 
 

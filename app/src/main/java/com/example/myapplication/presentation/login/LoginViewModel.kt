@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
+import com.example.myapplication.manager.Session
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
 import com.example.myapplication.repository.UserRepository
@@ -15,8 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val application: MyApplication, private val userRepository: UserRepository): ViewModel() {
-
-
     private var _status = MutableLiveData<InternetResult<User>>()
     val status
         get() = _status
@@ -27,6 +26,9 @@ class LoginViewModel(private val application: MyApplication, private val userRep
         viewModelScope.launch(Dispatchers.IO) {
             _status.postValue(userRepository.signIn(context, email, password))
         }
+    }
+    fun updateSession() {
+
     }
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
