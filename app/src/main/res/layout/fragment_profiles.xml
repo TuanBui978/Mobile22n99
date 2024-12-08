@@ -52,13 +52,50 @@
             android:background="#F4D6D5"
             android:layout_marginBottom="36dp"
             >
-            <TextView
-                android:id="@+id/confirmingButton"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/confirm_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirming"
-                app:drawableTopCompat="@drawable/confirming"
-                />
+                >
+                <ImageButton
+                    android:id="@+id/confirmView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/confirming"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@null"
+                    android:background="@android:color/transparent"
+                    android:layout_marginVertical="7dp"
+                    app:tint="@color/black" />
+                <TextView
+                    android:id="@+id/confirmCount"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    android:text="1"
+                    android:textColor="#A0615F"
+                    android:background="@drawable/group_876"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginHorizontal="17dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/confirming"
+                    app:layout_constraintTop_toBottomOf="@id/confirmView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -66,25 +103,98 @@
                 android:contentDescription="@null"
                 android:layout_margin="9dp"/>
 
-            <TextView
-                android:id="@+id/packingButton"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/packing_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/packing"
-                app:drawableTopCompat="@drawable/packing"
-                android:paddingTop="5dp"/>
+                >
+
+                <ImageButton
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/packing"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@null"
+                    android:background="@android:color/transparent"
+                    />
+                <TextView
+                    android:id="@+id/packingCount"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    android:text="1"
+                    android:textColor="#A0615F"
+                    android:background="@drawable/group_876"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginHorizontal="2dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/packing"
+                    app:layout_constraintTop_toBottomOf="@id/imageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="4dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow"
                 android:contentDescription="@null"
                 android:layout_margin="9dp"/>
-            <TextView
-                android:id="@+id/deliveringButton"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/delivering_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:drawableTopCompat="@drawable/delivering"
-                android:text="@string/delivering"/>
+                >
+
+                <ImageButton
+                    android:id="@+id/deliveringView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/delivering"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@null"
+                    android:background="@android:color/transparent"
+                    app:tint="@color/black" />
+                <TextView
+                    android:id="@+id/deliveringCount"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    android:text="1"
+                    android:textColor="#A0615F"
+                    android:background="@drawable/group_876"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginHorizontal="11dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivering"
+                    app:layout_constraintTop_toBottomOf="@id/deliveringView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="0dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
