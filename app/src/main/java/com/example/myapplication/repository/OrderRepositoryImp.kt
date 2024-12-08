@@ -12,7 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class OrderRepositoryImp private constructor():     OrderRepository {
+class OrderRepositoryImp private constructor(): OrderRepository {
     private val database = Firebase.firestore
     override suspend fun getAllOrder(): InternetResult<List<Order>> {
         return try {
@@ -52,9 +52,12 @@ class OrderRepositoryImp private constructor():     OrderRepository {
 
     override suspend fun getOrderByUid(uid: String): InternetResult<List<Order>> {
         return try {
-            val snapshot = database.collection(Order.COLLECTION_PATH).whereEqualTo("uid", uid).get().await()
+            val snapshot = database.collection(Order.COLLECTION_PATH).get().await()
             val orders = snapshot.toObjects(Order::class.java)
-            InternetResult.Success(orders)
+            val result = orders.filter {
+                it.user!!.uid == uid
+            }
+            InternetResult.Success(result)
         } catch (e: Exception) {
             Log.e("OrderRepository", "Lấy đơn hàng theo UID thất bại", e)
             InternetResult.Failed(e)

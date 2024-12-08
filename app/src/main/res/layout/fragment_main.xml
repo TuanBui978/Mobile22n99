@@ -8,7 +8,7 @@
     android:orientation="vertical"
     >
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F4D6D5"
@@ -57,7 +57,7 @@
             
             <EditText
                 android:id="@+id/search_bar"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:background="@drawable/search_box"
                 android:layout_marginHorizontal="10dp"
@@ -91,7 +91,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         
-    </Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.drawerlayout.widget.DrawerLayout
