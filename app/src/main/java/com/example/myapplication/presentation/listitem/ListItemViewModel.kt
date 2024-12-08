@@ -21,6 +21,7 @@ class ListItemViewModel(private val application: MyApplication,private val produ
     private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
     private var mUpdateStatus = MutableLiveData<InternetResult<CartProduct>>()
 
+
     val productStatus
         get() = _productStatus
 
@@ -30,13 +31,19 @@ class ListItemViewModel(private val application: MyApplication,private val produ
     fun getAllProduct() {
         _productStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _productStatus.postValue(productRepository.getAllProducts())
+            val status = productRepository.getAllProducts()
+            if (status != _productStatus) {
+                _productStatus.postValue(status)
+            }
         }
     }
     fun getProductBy(type: EnumType, gender: EnumGenderType) {
         _productStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _productStatus.postValue(productRepository.getProductBy(type, gender))
+            val status = productRepository.getProductBy(type, gender)
+            if (status != _productStatus) {
+                _productStatus.postValue(status)
+            }
         }
     }
 
