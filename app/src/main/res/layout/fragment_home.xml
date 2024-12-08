@@ -72,6 +72,7 @@
             </FrameLayout>
         </FrameLayout>
         <ImageButton
+            android:id="@+id/check_out_button_1"
             android:layout_width="185dp"
             android:layout_height="55dp"
             android:layout_marginTop="340dp"
@@ -178,6 +179,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="20dp"/>
                     <ImageButton
+                        android:id="@+id/check_out_button_2"
                         android:layout_width="150dp"
                         android:layout_height="55dp"
                         android:layout_marginTop="340dp"

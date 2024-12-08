@@ -66,6 +66,8 @@ class ProfileFragment : Fragment() {
         currentUser = Session.get.currentLogin
 
 
+
+
         val observer = Observer<InternetResult<User>>{
             status->
             when (status) {
@@ -106,6 +108,7 @@ class ProfileFragment : Fragment() {
         fragmentProfilesBinding.editProfileTextView.setOnClickListener{
             showEditProfileDialog()
         }
+
 
         return fragmentProfilesBinding.root
     }
@@ -188,13 +191,13 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         profileViewModel.getProfile(userUid!!)
-        profileViewModel.getShopListByUserId(userUid!!)
+        profileViewModel.getListOrderById(userUid!!)
     }
 
     override fun onStart() {
         super.onStart()
         profileViewModel.getProfile(userUid!!)
-        profileViewModel.getShopListByUserId(userUid!!)
+        profileViewModel.getListOrderById(userUid!!)
     }
 
     companion object {

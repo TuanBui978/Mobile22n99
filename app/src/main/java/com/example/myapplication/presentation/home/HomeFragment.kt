@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.myapplication.R
+import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.databinding.FragmentListItemBinding
 
 
 /**
@@ -17,6 +21,7 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var userUid: String? = null
     private var param2: String? = null
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +36,28 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        fragmentHomeBinding.checkOutButton1.setOnClickListener {
+            val navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+            }
+            findNavController().navigate(R.id.listItemFragment, null, navOptions)
+        }
+
+        fragmentHomeBinding.checkOutButton2.setOnClickListener {
+            val navOptions = navOptions {
+                popUpTo(R.id.homeFragment) {
+                    saveState = true
+                }
+                launchSingleTop = true
+            }
+            findNavController().navigate(R.id.listItemFragment, null, navOptions)
+        }
+        return  fragmentHomeBinding.root
     }
 
     companion object {

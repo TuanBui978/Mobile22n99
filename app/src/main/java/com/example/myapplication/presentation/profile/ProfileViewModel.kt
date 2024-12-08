@@ -10,26 +10,27 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.InternetResult
+import com.example.myapplication.model.Order
 import com.example.myapplication.model.Shop
 import com.example.myapplication.model.User
+import com.example.myapplication.repository.OrderRepository
 import com.example.myapplication.repository.ShopRepository
 import com.example.myapplication.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val application: MyApplication,private val userRepository: UserRepository, private val shopRepository: ShopRepository): ViewModel() {
-
+class ProfileViewModel(private val application: MyApplication,private val userRepository: UserRepository, private val orderRepository: OrderRepository): ViewModel() {
     private var _profileStatus = MutableLiveData<InternetResult<User>>()
     private var _updateStatus = MutableLiveData<InternetResult<Void>>()
     private var _currentUserStatus = MutableLiveData<InternetResult<User>>()
-    private var _shopStatus = MutableLiveData<InternetResult<List<Shop>>>()
+    private var mOrderStatus = MutableLiveData<InternetResult<List<Order>>>()
     val profileStatus
         get() = _profileStatus
     val updateStatus
         get() = _updateStatus
     val currentUserStatus
         get() = _currentUserStatus
-    val shopStatus
-        get() = _shopStatus
+    val orderStatus
+        get() = mOrderStatus
 
     fun getCurrentUser(context: Context, uid: String) {
         viewModelScope.launch {
@@ -44,6 +45,10 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
         }
     }
 
+    fun getNumOfConfirmingItem(uid: String) {
+        getListOrderById(uid)
+    }
+
     fun createOrUpdateProfile(user: User) {
         _updateStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
@@ -51,10 +56,10 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
         }
     }
 
-    fun getShopListByUserId(uid: String) {
-        _shopStatus.postValue(InternetResult.Loading)
+    fun getListOrderById(uid: String) {
+        mOrderStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
-            _shopStatus.postValue(shopRepository.getShopsByAccountId(uid))
+            mOrderStatus.postValue(orderRepository.getOrderByUid(uid))
         }
     }
 
@@ -64,8 +69,8 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
                 val userRepository = checkNotNull(application.userRepository)
-                val shopRepository = checkNotNull(application.shopRepository)
-                return ProfileViewModel(application, userRepository, shopRepository) as T
+                val orderRepository = checkNotNull(application.orderRepository)
+                return ProfileViewModel(application, userRepository, orderRepository) as T
             }
         }
     }
