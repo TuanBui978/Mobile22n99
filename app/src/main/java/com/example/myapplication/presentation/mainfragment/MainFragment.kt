@@ -95,7 +95,8 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         navigationView.setNavigationItemSelectedListener(this)
         fragmentMainBinding!!.cartButton.setOnClickListener {
                 navController!!.navigate(R.id.cartFragment, null,navOptions = navOptions {
-                    popUpTo(R.id.homeFragment) {
+                    val id = navController!!.currentDestination!!.id
+                    popUpTo(id) {
                         saveState = true
                     }
                     launchSingleTop = true
@@ -115,15 +116,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         }
         fragmentMainBinding!!.searchBar.setOnFocusChangeListener { textView, isFocus ->
             val text = "Tsuki"
-            val defaultWidth = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 160f, resources.displayMetrics
-            ).toInt()
-            val expandedWidth = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 225f, resources.displayMetrics
-            ).toInt()
-
             // Xác định chiều rộng mục tiêu và cách cập nhật chuỗi
-            val targetWidth = if (isFocus) expandedWidth else defaultWidth
             val startIndex = if (isFocus) text.length else 0
             val endIndex = if (isFocus) 0 else text.length
 
@@ -142,20 +135,13 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
 
             // Tạo ValueAnimator
-            ValueAnimator.ofInt(textView.width, targetWidth).apply {
-                duration = 300 // Thời gian chạy animation
+            ValueAnimator.ofInt(startIndex, endIndex).apply {
+                duration = 200 // Thời gian chạy animation
                 addUpdateListener { animation ->
                     // Cập nhật chiều rộng
                     val animatedValue = animation.animatedValue as Int
-                    textView.layoutParams = textView.layoutParams.apply {
-                        width = animatedValue
-                    }
-
                     // Cập nhật text dần dần
-                    val fraction = animation.animatedFraction
-                    val currentIndex = (startIndex + fraction * (endIndex - startIndex)).toInt()
-                        .coerceIn(0, text.length)
-                    fragmentMainBinding!!.appLabel.text = text.subSequence(0, currentIndex)
+                    fragmentMainBinding!!.appLabel.text = text.subSequence(0, animatedValue)
                 }
                 start()
             }
@@ -179,6 +165,10 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             admin.isVisible = false
         }
         return fragmentMainBinding!!.root
+    }
+
+    public fun clearSearchTF() {
+        fragmentMainBinding?.searchBar?.setText("")
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
