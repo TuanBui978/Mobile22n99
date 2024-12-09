@@ -8,17 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.EditProfileDialogBinding
 import com.example.myapplication.databinding.FragmentProfilesBinding
+import com.example.myapplication.helper.getSingleImageBuilder
+import com.example.myapplication.helper.loadImageIntoImageView
 import com.example.myapplication.manager.Session
 import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,17 +43,14 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var userUid: String? = null
     private var param2: String? = null
-
     private var phoneNumber = ""
     private var address = ""
     private var position = 0
     private var gender = ""
-
     private lateinit var fragmentProfilesBinding: FragmentProfilesBinding
-
     private val profileViewModel: ProfileViewModel by viewModels { ProfileViewModel.Factory }
-
     private var currentUser: User? = null
+    private lateinit var getSingleImage: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +58,10 @@ class ProfileFragment : Fragment() {
             userUid = it.getString(USER_PARAM)
             param2 = it.getString(ARG_PARAM2)
         }
-
+        getSingleImage = getSingleImageBuilder(this) {
+            val user = Session.get.currentLogin!!
+            profileViewModel.updateAvatar(user, it.toString())
+        }
     }
 
     override fun onCreateView(
@@ -63,6 +71,31 @@ class ProfileFragment : Fragment() {
         fragmentProfilesBinding = FragmentProfilesBinding.inflate(inflater, container, false)
         val navController = findNavController()
         currentUser = Session.get.currentLogin
+
+        fragmentProfilesBinding.userAvatar.setOnClickListener {
+            getSingleImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        val loadingDialog = LoadingDialog(requireContext())
+        val errorDialog = ErrorDialog(requireContext(), "Something was wrong when we try to update your avatar, please try again late.")
+        profileViewModel.avatarStatus.observe(viewLifecycleOwner) {
+            status->
+            when(status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Failed->{
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                    Session.get.currentLogin!!.avatar?.let {
+                        loadImageIntoImageView(requireContext(),fragmentProfilesBinding.userAvatar, it.toUri(), R.drawable.avatar_default)
+                    }
+
+                }
+            }
+        }
 
         profileViewModel.orderStatus.observe(viewLifecycleOwner) {
             status->
@@ -110,6 +143,12 @@ class ProfileFragment : Fragment() {
                     fragmentProfilesBinding.phoneNumberTextView.text = status.data.phoneNumber
                     fragmentProfilesBinding.addressTextView.text = status.data.address
                     fragmentProfilesBinding.genderTextView.text = status.data.gender
+                    if (Session.get.currentLogin!!.avatar != null) {
+                        loadImageIntoImageView(requireContext(),fragmentProfilesBinding.userAvatar, Session.get.currentLogin!!.avatar!!.toUri(), R.drawable.avatar_default)
+                    }
+                    else {
+                        fragmentProfilesBinding.userAvatar.setImageResource(R.drawable.avatar_default)
+                    }
                     phoneNumber = status.data.phoneNumber!!
                     address = status.data.address!!
                     gender = status.data.gender!!
