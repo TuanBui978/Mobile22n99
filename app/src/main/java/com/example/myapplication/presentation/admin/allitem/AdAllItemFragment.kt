@@ -18,6 +18,8 @@ import com.example.myapplication.model.EnumGenderType
 import com.example.myapplication.model.EnumType
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.admin.additem.AdItemDetailFragment
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +42,8 @@ class AdAllItemFragment : Fragment() {
     private var gender: Int = 0
     private var type: Int = 0
 
+    var position: Int = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -52,6 +56,31 @@ class AdAllItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        val loadingDialog = LoadingDialog(requireContext())
+        val errorDialog = ErrorDialog(requireContext())
+        adAllItemViewModel.deleteProductStatus.observe(viewLifecycleOwner) {
+            status->
+            when (status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                    if (position != -1) {
+                        val adapter = fragmentAdAllItemBinding.itemRecycleView.adapter as ProductRecycleViewAdapter
+                        adapter.deleteItem(position)
+                    }
+                    position = -1
+                }
+                is InternetResult.Failed->{
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                    position = -1
+                }
+            }
+        }
+
         fragmentAdAllItemBinding = FragmentAdAllItemBinding.inflate(layoutInflater, container, false)
 //        adAllItemViewModel.getAllItem()
         //gender spinner và logic
@@ -111,7 +140,6 @@ class AdAllItemFragment : Fragment() {
                         EnumGenderType.entries[pos]
                     }
                 }
-
                 when (position) {
                     0 -> {
                         adAllItemViewModel.getProductByTypeAndGender(null, mGender)
@@ -150,12 +178,13 @@ class AdAllItemFragment : Fragment() {
                         //recycle view và logic
                         val products = status.data.toMutableList()
                         val productAdapter = ProductRecycleViewAdapter(products, requireContext(), R.string.remove)
+                        productAdapter.onButtonClickListener { product, pos ->
+                            adAllItemViewModel.deleteItemWithId(product.id!!)
+                            position = pos
+                        }
                         productAdapter.onItemClickListener {
                             val arg = bundleOf(AdItemDetailFragment.PRODUCT_ID to it.id)
                             findNavController().navigate(R.id.action_adAllItemFragment_to_addItemFragment, arg)
-                        }
-                        productAdapter.onButtonClickListener { _, pos ->
-
                         }
                         fragmentAdAllItemBinding.itemRecycleView.adapter = productAdapter
                     }

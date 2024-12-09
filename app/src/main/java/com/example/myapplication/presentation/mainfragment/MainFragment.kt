@@ -87,7 +87,6 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             fragmentTransaction.replace(R.id.nav_host_fragment_in_fragment, navHostFragment!!)
             fragmentTransaction.setPrimaryNavigationFragment(navHostFragment)
             fragmentTransaction.commit()
-
         }
         else {
             navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment_in_fragment) as? NavHostFragment
@@ -314,6 +313,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
         fragmentMainBinding!!.drawerLayout.closeDrawer(GravityCompat.START)
+        fragmentMainBinding!!.searchBar.setText("")
         return false
     }
 

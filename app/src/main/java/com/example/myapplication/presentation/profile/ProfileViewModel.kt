@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
+import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Order
 import com.example.myapplication.model.Shop
@@ -61,7 +62,7 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
                 if (result is InternetResult.Success) {
                     val orders = result.data as? List<Order>
                     orders?.forEach { order ->
-                        if (order.status?.toString() == "Confirming") {
+                        if (order.status == EnumStatus.Confirming) {
                             count++
                         }
                     }

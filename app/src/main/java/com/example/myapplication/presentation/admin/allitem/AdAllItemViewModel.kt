@@ -19,6 +19,17 @@ import kotlinx.coroutines.launch
 class AdAllItemViewModel(private val application: MyApplication, private val productRepository: ProductRepository): ViewModel() {
     private var _productStatus = MutableLiveData<InternetResult<List<Product>>>()
     private var job: Job? = null
+    private var _deleteProductStatus = MutableLiveData<InternetResult<Void>>()
+
+    val deleteProductStatus
+        get() = _deleteProductStatus
+
+    fun deleteItemWithId(id: String) {
+        _deleteProductStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            _deleteProductStatus.postValue(productRepository.deleteProduct(id))
+        }
+    }
     val productStatus
         get() = _productStatus
     private var mProducts = MutableLiveData<List<Product>>()

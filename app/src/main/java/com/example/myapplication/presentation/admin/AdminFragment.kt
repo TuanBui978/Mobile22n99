@@ -145,8 +145,10 @@ class AdminFragment : Fragment() {
                 }
                 is InternetResult.Success->{
                     loadingDialog.dismiss()
-                    val adapter = fragmentAdminBinding.itemRecycleView.adapter as ProductRecycleViewAdapter
-                    if (position != -1) adapter.deleteItem(position)
+                    if (position != -1){
+                        val adapter = fragmentAdminBinding.itemRecycleView.adapter as ProductRecycleViewAdapter
+                         adapter.deleteItem(position)
+                    }
                     position = -1
                 }
                 is InternetResult.Failed->{

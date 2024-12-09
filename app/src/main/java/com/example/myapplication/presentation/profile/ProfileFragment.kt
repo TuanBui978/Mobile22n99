@@ -16,6 +16,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.EditProfileDialogBinding
 import com.example.myapplication.databinding.FragmentProfilesBinding
 import com.example.myapplication.manager.Session
+import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
 
@@ -61,12 +62,34 @@ class ProfileFragment : Fragment() {
     ): View {
         fragmentProfilesBinding = FragmentProfilesBinding.inflate(inflater, container, false)
         val navController = findNavController()
-
-
         currentUser = Session.get.currentLogin
 
+        profileViewModel.orderStatus.observe(viewLifecycleOwner) {
+            status->
+            when (status) {
+                is InternetResult.Success->{
+                    val list = status.data
+                    val confirming = list?.count {
+                        it.status == EnumStatus.Confirming
+                    }
+                    val packing = list?.count {
+                        it.status == EnumStatus.Packing
+                    }
+                    val delivering = list?.count {
+                        it.status == EnumStatus.Delivering
+                    }
+                    fragmentProfilesBinding.confirmCount.text = confirming.toString()
+                    fragmentProfilesBinding.packingCount.text = packing.toString()
+                    fragmentProfilesBinding.deliveringCount.text = delivering.toString()
+                }
+                is InternetResult.Failed->{
 
+                }
+                is InternetResult.Loading->{
 
+                }
+            }
+        }
 
         val observer = Observer<InternetResult<User>>{
             status->
@@ -102,14 +125,10 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
         profileViewModel.profileStatus.observe(this.viewLifecycleOwner, observer)
-
         fragmentProfilesBinding.editProfileTextView.setOnClickListener{
             showEditProfileDialog()
         }
-
-
         return fragmentProfilesBinding.root
     }
 
@@ -155,13 +174,10 @@ class ProfileFragment : Fragment() {
         dialogBinding.cancelButton.setOnClickListener {
             dialog.dismiss()
         }
-
-
         val loadingBuilder = AlertDialog.Builder(this.requireContext())
         loadingBuilder.setView(R.layout.loading_dialog)
         loadingBuilder.setCancelable(false)
         val loading = loadingBuilder.create()
-
         profileViewModel.updateStatus.observe(this.viewLifecycleOwner) {
             status->
             when(status) {
@@ -184,35 +200,28 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-        profileViewModel.updateConfirmingItemCount.observe(viewLifecycleOwner) { status ->
-            Log.d("updateCF", "LiveData status: $status")
-            when (status) {
-                is InternetResult.Loading -> {
-                    Log.d("updateCF", "Loading state")
-                    fragmentProfilesBinding.profileProgressBar.visibility = View.VISIBLE
-                }
-                is InternetResult.Success -> {
-                    Log.d("updateCF", "Success state with count: ${status.data}")
-                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
-                    fragmentProfilesBinding.confirmCount.text = status.data.toString()
-                }
-                is InternetResult.Failed -> {
-                    Log.e("updateCF", "Failed state: ${status.exception.message}")
-                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
-                    fragmentProfilesBinding.confirmCount.text = "0"
-                }
-            }
-        }
+//        profileViewModel.updateConfirmingItemCount.observe(viewLifecycleOwner) { status ->
+//            Log.d("updateCF", "LiveData status: $status")
+//            when (status) {
+//                is InternetResult.Loading -> {
+//                    Log.d("updateCF", "Loading state")
+//                    fragmentProfilesBinding.profileProgressBar.visibility = View.VISIBLE
+//                }
+//                is InternetResult.Success -> {
+//                    Log.d("updateCF", "Success state with count: ${status.data}")
+//                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
+//                    fragmentProfilesBinding.confirmCount.text = status.data.toString()
+//                }
+//                is InternetResult.Failed -> {
+//                    Log.e("updateCF", "Failed state: ${status.exception.message}")
+//                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
+//                    fragmentProfilesBinding.confirmCount.text = "0"
+//                }
+//            }
+//        }
 
         dialog.show()
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        profileViewModel.getProfile(userUid!!)
-        profileViewModel.getListOrderById(userUid!!)
-        profileViewModel.getNumOfConfirmingItem(userUid!!)
     }
 
     override fun onStart() {
