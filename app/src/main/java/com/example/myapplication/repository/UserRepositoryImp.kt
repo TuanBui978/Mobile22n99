@@ -2,6 +2,7 @@ package com.example.myapplication.repository
 
 import android.content.Context
 import android.content.res.Resources
+import androidx.core.net.toUri
 import com.example.myapplication.R
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.User
@@ -15,10 +16,12 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImp private constructor(): UserRepository{
     private val auth = Firebase.auth
+    private val storage = Firebase.storage
     private val dataBase = Firebase.firestore
     override suspend fun getCurrentUser(context: Context): InternetResult<User> {
         return when (val user = auth.currentUser) {
@@ -77,6 +80,20 @@ class UserRepositoryImp private constructor(): UserRepository{
             else {
                 return InternetResult.Failed(Exception(context.getString(R.string.empty_user_info)))
             }
+        }
+        catch (e: Exception) {
+            InternetResult.Failed(e)
+        }
+    }
+
+    override suspend fun updateAvatar(user: User, avatar: String): InternetResult<User> {
+        return try {
+            val mainImage = avatar.toUri()
+            val mainRef = storage.reference.child("images/${mainImage.lastPathSegment}")
+            mainRef.putFile(mainImage).await()
+            val url = mainRef.downloadUrl.await()
+            user.avatar = url.toString()
+            InternetResult.Success(user)
         }
         catch (e: Exception) {
             InternetResult.Failed(e)

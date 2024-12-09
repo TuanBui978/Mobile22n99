@@ -13,4 +13,6 @@ interface UserRepository {
     suspend fun removeUser(context: Context, uid: String): InternetResult<Void>
     suspend fun updateUser(context: Context, user: User): InternetResult<Void>
     suspend fun getUser(context: Context, uid: String): InternetResult<User>
+
+    suspend fun updateAvatar(user: User, avatar: String): InternetResult<User>
 }

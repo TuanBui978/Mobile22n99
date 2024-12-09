@@ -2,25 +2,20 @@ package com.example.myapplication.presentation.profile
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
 import com.example.myapplication.model.EnumStatus
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.model.Order
-import com.example.myapplication.model.Shop
 import com.example.myapplication.model.User
 import com.example.myapplication.repository.OrderRepository
-import com.example.myapplication.repository.ShopRepository
 import com.example.myapplication.repository.UserRepository
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 class ProfileViewModel(private val application: MyApplication,private val userRepository: UserRepository, private val orderRepository: OrderRepository): ViewModel() {
     private var _profileStatus = MutableLiveData<InternetResult<User>>()
@@ -28,6 +23,11 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
     private var _currentUserStatus = MutableLiveData<InternetResult<User>>()
     private var _confirmedItemCount = MutableLiveData<InternetResult<Int>>()
     private var mOrderStatus = MutableLiveData<InternetResult<List<Order>>>()
+    private var mAvatarStatus = MutableLiveData<InternetResult<User>>()
+
+
+    val avatarStatus
+        get() = mAvatarStatus
 
     val updateConfirmingItemCount
         get() = _confirmedItemCount
@@ -39,6 +39,13 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
         get() = _currentUserStatus
     val orderStatus
         get() = mOrderStatus
+
+    fun updateAvatar(user: User, avatar: String) {
+        mAvatarStatus.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            mAvatarStatus.postValue(userRepository.updateAvatar(user, avatar))
+        }
+    }
 
     fun getCurrentUser(context: Context, uid: String) {
         viewModelScope.launch {
@@ -146,6 +153,8 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
             Log.d("count", "get order by uid ${orderRepository.getOrderByUid(uid)}")
         }
     }
+
+
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
