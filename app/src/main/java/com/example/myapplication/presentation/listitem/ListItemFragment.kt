@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import androidx.navigation.navOptions
 import com.example.myapplication.R
 import com.example.myapplication.adapter.ProductRecycleViewAdapter
 import com.example.myapplication.databinding.FragmentListItemBinding
@@ -49,25 +52,31 @@ class ListItemFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        if (savedInstanceState == null) {
+            val args = ListItemFragmentArgs.fromBundle(requireArguments())
+            if (args.type == null && args.gender == null) {
+                listItemViewModel.getAllProduct()
+            }
+            else {
+                val gender = EnumGenderType.entries.first {it.name == args.gender}
+                val type = EnumType.entries.first { it.name == args.type }
+                listItemViewModel.getProductBy(type, gender)
+            }
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         fragmentListItemBinding = FragmentListItemBinding.inflate(layoutInflater, container, false)
-        val args = ListItemFragmentArgs.fromBundle(requireArguments())
-        if (args.type == null && args.gender == null) {
-            listItemViewModel.getAllProduct()
+        val navOptions = navOptions {
+            popUpTo(R.id.listItemFragment) {
+                saveState = true
+            }
+            restoreState = true
+            launchSingleTop = true
         }
-        else {
-            val gender = EnumGenderType.entries.first {it.name == args.gender}
-            val type = EnumType.entries.first { it.name == args.type }
-            listItemViewModel.getProductBy(type, gender)
-        }
-
-
         listItemViewModel.productStatus.observe(viewLifecycleOwner) {
             status->
             when (status) {
@@ -86,24 +95,22 @@ class ListItemFragment : Fragment() {
                 is InternetResult.Success->{
                     fragmentListItemBinding.itemLoadingLayout.visibility = View.GONE
                     fragmentListItemBinding.itemError.visibility = View.GONE
-
                     if (status.data!!.isNotEmpty()) {
                         val adapter = ProductRecycleViewAdapter(status.data.toMutableList())
                         fragmentListItemBinding.emptyItem.visibility = View.GONE
                         adapter.onItemClickListener {
                             val arg = bundleOf(DetailFragment.PRODUCT_ID to it.id)
-                            findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg)
+                            findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg, navOptions)
                         }
                         adapter.onButtonClickListener { product, pos ->
                             val arg = bundleOf(DetailFragment.PRODUCT_ID to product.id)
-                            findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg)
+                            findNavController().navigate(R.id.action_listItemFragment_to_detailFragment, arg, navOptions)
                         }
                         fragmentListItemBinding.itemRecycleView.adapter = adapter
                         fragmentListItemBinding.itemLayout.visibility = View.VISIBLE
                         mainActivityViewModel.filterQuery.observe(viewLifecycleOwner) {
                             adapter.filter(it)
                         }
-
                     }
                     else {
                         fragmentListItemBinding.emptyItem.visibility = View.VISIBLE
@@ -112,7 +119,6 @@ class ListItemFragment : Fragment() {
                 }
             }
         }
-
         return fragmentListItemBinding.root
     }
 
