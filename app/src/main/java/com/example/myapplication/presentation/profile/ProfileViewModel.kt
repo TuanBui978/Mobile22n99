@@ -1,11 +1,13 @@
 package com.example.myapplication.presentation.profile
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.MyApplication
@@ -17,12 +19,17 @@ import com.example.myapplication.repository.OrderRepository
 import com.example.myapplication.repository.ShopRepository
 import com.example.myapplication.repository.UserRepository
 import kotlinx.coroutines.launch
+import kotlin.reflect.typeOf
 
 class ProfileViewModel(private val application: MyApplication,private val userRepository: UserRepository, private val orderRepository: OrderRepository): ViewModel() {
     private var _profileStatus = MutableLiveData<InternetResult<User>>()
     private var _updateStatus = MutableLiveData<InternetResult<Void>>()
     private var _currentUserStatus = MutableLiveData<InternetResult<User>>()
+    private var _confirmedItemCount = MutableLiveData<InternetResult<Int>>()
     private var mOrderStatus = MutableLiveData<InternetResult<List<Order>>>()
+
+    val updateConfirmingItemCount
+        get() = _confirmedItemCount
     val profileStatus
         get() = _profileStatus
     val updateStatus
@@ -46,7 +53,81 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
     }
 
     fun getNumOfConfirmingItem(uid: String) {
-        getListOrderById(uid)
+        _confirmedItemCount.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            try {
+                var count = 0
+                val result = orderRepository.getOrderByUid(uid)
+                if (result is InternetResult.Success) {
+                    val orders = result.data as? List<Order>
+                    orders?.forEach { order ->
+                        if (order.status?.toString() == "Confirming") {
+                            count++
+                        }
+                    }
+                    Log.d("ProfileViewModel", "Total confirming items: $count")
+                    _confirmedItemCount.postValue(InternetResult.Success(count))
+                } else if (result is InternetResult.Failed) {
+                    Log.e("ProfileViewModel", "Failed to fetch orders: ${result.exception}")
+                    _confirmedItemCount.postValue(result)
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error in getNumOfConfirmingItem", e)
+                _confirmedItemCount.postValue(InternetResult.Failed(e))
+            }
+        }
+    }
+
+    fun getNumOfPackingItem(uid: String) {
+        _confirmedItemCount.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            try {
+                var count = 0
+                val result = orderRepository.getOrderByUid(uid)
+                if (result is InternetResult.Success) {
+                    val orders = result.data as? List<Order>
+                    orders?.forEach { order ->
+                        if (order.status?.toString() == "Packing") {
+                            count++
+                        }
+                    }
+                    Log.d("ProfileViewModel", "Total confirming items: $count")
+                    _confirmedItemCount.postValue(InternetResult.Success(count))
+                } else if (result is InternetResult.Failed) {
+                    Log.e("ProfileViewModel", "Failed to fetch orders: ${result.exception}")
+                    _confirmedItemCount.postValue(result)
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error in getNumOfConfirmingItem", e)
+                _confirmedItemCount.postValue(InternetResult.Failed(e))
+            }
+        }
+    }
+
+    fun getNumOfDeliveringItem(uid: String) {
+        _confirmedItemCount.postValue(InternetResult.Loading)
+        viewModelScope.launch {
+            try {
+                var count = 0
+                val result = orderRepository.getOrderByUid(uid)
+                if (result is InternetResult.Success) {
+                    val orders = result.data as? List<Order>
+                    orders?.forEach { order ->
+                        if (order.status?.toString() == "Delivering") {
+                            count++
+                        }
+                    }
+                    Log.d("ProfileViewModel", "Total confirming items: $count")
+                    _confirmedItemCount.postValue(InternetResult.Success(count))
+                } else if (result is InternetResult.Failed) {
+                    Log.e("ProfileViewModel", "Failed to fetch orders: ${result.exception}")
+                    _confirmedItemCount.postValue(result)
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error in getNumOfConfirmingItem", e)
+                _confirmedItemCount.postValue(InternetResult.Failed(e))
+            }
+        }
     }
 
     fun createOrUpdateProfile(user: User) {
@@ -60,6 +141,8 @@ class ProfileViewModel(private val application: MyApplication,private val userRe
         mOrderStatus.postValue(InternetResult.Loading)
         viewModelScope.launch {
             mOrderStatus.postValue(orderRepository.getOrderByUid(uid))
+            Log.d("count", "uid: ${uid}")
+            Log.d("count", "get order by uid ${orderRepository.getOrderByUid(uid)}")
         }
     }
 

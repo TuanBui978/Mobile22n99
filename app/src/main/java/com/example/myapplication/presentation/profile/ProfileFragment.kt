@@ -166,6 +166,7 @@ class ProfileFragment : Fragment() {
             status->
             when(status) {
                 is InternetResult.Loading->{
+                    Log.d("count", "loading update status")
                     dialog.dismiss()
                     loading.show()
                 }
@@ -183,6 +184,25 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+        profileViewModel.updateConfirmingItemCount.observe(viewLifecycleOwner) { status ->
+            Log.d("updateCF", "LiveData status: $status")
+            when (status) {
+                is InternetResult.Loading -> {
+                    Log.d("updateCF", "Loading state")
+                    fragmentProfilesBinding.profileProgressBar.visibility = View.VISIBLE
+                }
+                is InternetResult.Success -> {
+                    Log.d("updateCF", "Success state with count: ${status.data}")
+                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
+                    fragmentProfilesBinding.confirmCount.text = status.data.toString()
+                }
+                is InternetResult.Failed -> {
+                    Log.e("updateCF", "Failed state: ${status.exception.message}")
+                    fragmentProfilesBinding.profileProgressBar.visibility = View.GONE
+                    fragmentProfilesBinding.confirmCount.text = "0"
+                }
+            }
+        }
 
         dialog.show()
 
@@ -192,6 +212,7 @@ class ProfileFragment : Fragment() {
         super.onResume()
         profileViewModel.getProfile(userUid!!)
         profileViewModel.getListOrderById(userUid!!)
+        profileViewModel.getNumOfConfirmingItem(userUid!!)
     }
 
     override fun onStart() {

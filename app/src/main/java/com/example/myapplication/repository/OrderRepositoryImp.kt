@@ -52,9 +52,12 @@ class OrderRepositoryImp private constructor():     OrderRepository {
 
     override suspend fun getOrderByUid(uid: String): InternetResult<List<Order>> {
         return try {
-            val snapshot = database.collection(Order.COLLECTION_PATH).whereEqualTo("uid", uid).get().await()
+            val snapshot = database.collection(Order.COLLECTION_PATH).get().await()
             val orders = snapshot.toObjects(Order::class.java)
-            InternetResult.Success(orders)
+            val result = orders.filter {
+                it.user!!.uid == uid
+            }
+            InternetResult.Success(result)
         } catch (e: Exception) {
             Log.e("OrderRepository", "Lấy đơn hàng theo UID thất bại", e)
             InternetResult.Failed(e)
