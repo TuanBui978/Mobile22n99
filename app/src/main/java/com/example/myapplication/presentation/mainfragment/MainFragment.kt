@@ -168,6 +168,10 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         return fragmentMainBinding!!.root
     }
 
+    public fun clearSearchTF() {
+        fragmentMainBinding?.searchBar?.setText("")
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val navOptions = navOptions {
             popUpTo(R.id.homeFragment) {
@@ -300,6 +304,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
         fragmentMainBinding!!.drawerLayout.closeDrawer(GravityCompat.START)
+        fragmentMainBinding!!.searchBar.setText("")
         return false
     }
 

@@ -1,6 +1,7 @@
 package com.example.myapplication.presentation.admin.allitem
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.example.myapplication.model.EnumGenderType
 import com.example.myapplication.model.EnumType
 import com.example.myapplication.model.InternetResult
 import com.example.myapplication.presentation.admin.additem.AdItemDetailFragment
+import com.example.myapplication.presentation.dialog.error.ErrorDialog
+import com.example.myapplication.presentation.dialog.loading.LoadingDialog
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +42,8 @@ class AdAllItemFragment : Fragment() {
 
     private var gender: Int = 0
     private var type: Int = 0
+
+    private var position = -1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +131,37 @@ class AdAllItemFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         }
+        val loadingDialog = LoadingDialog(requireContext())
+        val errorDialog = ErrorDialog(requireContext())
+        adAllItemViewModel.deleteProduct.observe(viewLifecycleOwner) {
+                status->
+            when (status) {
+                is InternetResult.Loading->{
+                    loadingDialog.show()
+                }
+                is InternetResult.Success->{
+                    loadingDialog.dismiss()
+                    val adapter = fragmentAdAllItemBinding.itemRecycleView.adapter as ProductRecycleViewAdapter
+                    if (position != -1) adapter.deleteItem(position)
+                    position = -1
+                }
+                is InternetResult.Failed->{
+                    val mGender = when (val pos =this@AdAllItemFragment.gender) {
+                        0->{
+                            null
+                        }
+                        else-> {
+                            EnumGenderType.entries[pos]
+                        }
+                    }
+                    adAllItemViewModel.getProductByTypeAndGender(null, mGender)
+                    loadingDialog.dismiss()
+                    errorDialog.show()
+                    position = -1
+                }
+            }
+        }
+
         adAllItemViewModel.productStatus.observe(viewLifecycleOwner) {
             status->
             when (status) {
@@ -154,8 +190,9 @@ class AdAllItemFragment : Fragment() {
                             val arg = bundleOf(AdItemDetailFragment.PRODUCT_ID to it.id)
                             findNavController().navigate(R.id.action_adAllItemFragment_to_addItemFragment, arg)
                         }
-                        productAdapter.onButtonClickListener { _, pos ->
-
+                        productAdapter.onButtonClickListener { product, pos ->
+                            adAllItemViewModel.deleteItemWithId(product.id!!)
+                            position = pos
                         }
                         fragmentAdAllItemBinding.itemRecycleView.adapter = productAdapter
                     }
