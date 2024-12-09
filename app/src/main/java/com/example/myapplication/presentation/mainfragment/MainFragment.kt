@@ -104,6 +104,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 })
         }
         fragmentMainBinding!!.appLabel.setOnClickListener {
+            fragmentMainBinding?.searchBar?.setText("")
             navController!!.navigate(R.id.homeFragment, null,navOptions = navOptions {
                 popUpTo(R.id.homeFragment) {
                     saveState = true
